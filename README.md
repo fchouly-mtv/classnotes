@@ -1,0 +1,2 @@
+# classnotes
+Some various classnotes
