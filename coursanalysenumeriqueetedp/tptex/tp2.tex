@@ -1,0 +1,49 @@
+Soit une fonction $f$ int\'egrable sur $(a,b)$ ($-\infty \leq a < b \leq +\infty$).
+On veut calculer ici \`a l'aide de m\'ethodes num\'eriques :
+
+\[
+I = \int_a^b f(x) dx.
+\]
+
+En particulier, on va chercher \`a \'evaluer les int\'egrales suivantes :
+
+\begin{align*}
+I_1 =& \int_0^{2\pi} |\cos(x)| dx,\\
+I_2 =& \int_0^1 \frac{dx}{1 + 4x^2}.
+\end{align*}
+
+\begin{enumerate}
+
+\item SAGE est normalement capable de calculer symboliquement ({\it i.e.} analytiquement) des int\'egrales.
+Essayer de calculer $I_1$ et $I_2$ ainsi. Que se passe-t'il pour $I_1$ ?\\
+
+{\it Indication: commande $\verb+integral()+$.}
+
+\item On va \'evaluer $I_1$ et $I_2$ num\'eriquement \`a l'aide d'une formule de quadrature compos\'ee.
+Il faut pour cela d\'efinir une subdivision de l'intervalle $(a,b)$. Soit donc $n \geq 1$ et 
+
+$$a = \alpha_0 < \alpha_1 < \ldots < \alpha_n = b$$
+
+une subdivision de $(a,b)$. Choisir une valeur de $n$ (pas trop \'elev\'ee au d\'ebut) et construire
+sous SAGE la liste des $\alpha_i$ (on pourra choisir une subdivision r\'eguli\`ere).
+
+\item Calculer num\'eriquement $I_1$ \`a l'aide d'une formule de quadrature composée sur la subdivision 
+d\'efinie pr\'ec\'edemment. On utilisera pour les quadratures \'el\'ementaires :
+
+\begin{enumerate}
+ \item la m\'ethode des rectangles \`a gauche.
+ \item la m\'ethode du point milieu.
+ \item la m\'ethode des trap\`ezes.
+ \item la m\'ethode de Simpson.
+\end{enumerate}
+
+Quelle est l'erreur d'int\'egration $\varepsilon(I_1)$ pour chaque m\'ethode ?
+
+\item Faire varier $n$ et tracer le graphique de l'erreur d'int\'egration $\varepsilon(I_1)$
+en fonction de $n$ {\it pour chaque m\'ethode}. Quelle m\'ethode vous semble la meilleure ?
+Pourquoi ?
+
+\item Faire de m\^eme avec $I_2$. Quelles sont vos conclusions ?
+
+\end{enumerate}
+

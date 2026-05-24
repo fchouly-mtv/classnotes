@@ -1,0 +1,49 @@
+Soit une fonction $f$ continue sur $]a,b[$ ($-\infty \leq a < b \leq +\infty$). On s'intéresse ici à la meilleure approximation polynomiale de $f$ selon une norme discrète. Pour cela on prélève $m$ couples de points sur le graphe de $f$ :
+
+\[
+(x_i, y_i)_{1 \leq i \leq m},
+\]
+
+avec $x_i \in ]a,b[$ et $y_i = f(x_i)$. On va chercher le polyn\^ome $p_n$ de degré $n$ qui approche au mieux $f$ en ces $m$ points, autrement dit qui soit le minimum de l'erreur :
+
+\[
+E(q_n) = \sum_{i=1}^m | y_i - q_n(x_i) |^2,
+\]
+
+pour tout $q_n \in \mathcal{P}_n$. On supposera que le degré $n$ du polyn\^ome d'approximation est bien inférieur au nombre $m$ de points $(x_i,y_i)$.\\
+
+On va programmer ici la méthode de détermination du meilleur polynôme à l'aide du logiciel SAGE
+({\tt www.sagemath.org}). On va considérer la fonction :
+
+\[
+f : x \rightarrow \sin ( 2\pi \cos(\pi x) ),
+\]
+
+restreinte à l'intervalle $[0,1]$. On choisira les points $x_i$ uniformément.
+
+\begin{enumerate}
+
+\item Définir la fonction $f$ ci-dessus sous SAGE, et tracer $f$ sur l'intervalle $[0,1]$.
+
+\item Pour $m$ donné, stocker dans des listes les $m$ points $(x_i,y_i)$ nécessaires à l'approximation polynomiale.
+
+\item Montrer que minimiser $E(q_n)$ sur l'ensemble des polynômes de degré $n$ revient à
+résoudre un système matriciel de la forme :
+
+\[
+\mathbf{M}^T\mathbf{M}\:\mathbf{a} = \mathbf{M}^T \mathbf{y},
+\]
+
+avec $\mathbf{a}$ vecteur colonne qui contient tous les coefficients du polynôme de meilleure approximation $p_n$.
+
+\item Construire sous SAGE la matrice $\mathbf{M}$.
+
+\item Résoudre le système linéaire ci-dessus pour obtenir les coefficients $(a_j)$ de $p_n$.
+
+\item Tracer le polynôme $p_n$ superposé à $f$.
+
+\item Calculer l'erreur (discrète) quadratique entre $p_n$ et $f$.
+
+\item Augmenter le degré $n$ du polyn\^ome et d\'eterminer la valeur de $n$ \`a partir de laquelle l'erreur vous semble acceptable.
+
+\end{enumerate}
