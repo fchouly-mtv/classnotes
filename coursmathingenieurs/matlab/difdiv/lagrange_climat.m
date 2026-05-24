@@ -1,0 +1,1 @@
+# Interpolation polynomiale en climatologiex = [ -55 -25 5 35 65 ];y = [ -3.25 -3.2 -3.02 -3.32 -3.1 ];format short e;c=polyfit(x,y,4)z = linspace ( x(1) , x(end) , 100 );p = polyval ( c , z );plot(z,p,x,y,'o'); grid on;

@@ -1,0 +1,277 @@
+*** Iteration de Jacobi 1
+Residu
+RIt =  10.050
+Erreur
+ErrIt =  2.4495
+Approximation de la solution
+XJ =
+
+   2.3333
+  -2.0000
+   1.3333
+
+*** Iteration de Jacobi 2
+Residu
+RIt =  4.6308
+Erreur
+ErrIt =  1.1055
+Approximation de la solution
+XJ =
+
+   1.66667
+  -0.77778
+   0.66667
+
+*** Iteration de Jacobi 3
+Residu
+RIt =  2.1830
+Erreur
+ErrIt =  0.52116
+Approximation de la solution
+XJ =
+
+   2.0741
+  -1.2222
+   1.0741
+
+*** Iteration de Jacobi 4
+Residu
+RIt =  1.0291
+Erreur
+ErrIt =  0.24568
+Approximation de la solution
+XJ =
+
+   1.92593
+  -0.95062
+   0.92593
+
+*** Iteration de Jacobi 5
+Residu
+RIt =  0.48511
+Erreur
+ErrIt =  0.11581
+Approximation de la solution
+XJ =
+
+   2.0165
+  -1.0494
+   1.0165
+
+*** Iteration de Jacobi 6
+Residu
+RIt =  0.22868
+Erreur
+ErrIt =  0.054595
+Approximation de la solution
+XJ =
+
+   1.98354
+  -0.98903
+   0.98354
+
+*** Iteration de Jacobi 7
+Residu
+RIt =  0.10780
+Erreur
+ErrIt =  0.025736
+Approximation de la solution
+XJ =
+
+   2.0037
+  -1.0110
+   1.0037
+
+*** Iteration de Jacobi 8
+Residu
+RIt =  0.050818
+Erreur
+ErrIt =  0.012132
+Approximation de la solution
+XJ =
+
+   1.99634
+  -0.99756
+   0.99634
+
+*** Iteration de Jacobi 9
+Residu
+RIt =  0.023956
+Erreur
+ErrIt =  0.0057191
+Approximation de la solution
+XJ =
+
+   2.0008
+  -1.0024
+   1.0008
+
+*** Iteration de Jacobi 10
+Residu
+RIt =  0.011293
+Erreur
+ErrIt =  0.0026960
+Approximation de la solution
+XJ =
+
+   1.99919
+  -0.99946
+   0.99919
+
+----------------------------------------------------
+>> IJacobi = M^(-1)*N
+IJacobi =
+
+   0.00000   0.33333  -0.00000
+   0.33333   0.00000   0.33333
+  -0.00000   0.33333   0.00000
+
+>> eig(IJacobi)
+ans =
+
+  -4.7140e-01
+   2.5587e-17
+   4.7140e-01
+
+>> sqrt(2)/3
+ans =  0.47140
+---------------------------------------------------
+*** Iteration de Gauss-Seidel 1
+Residu
+RIt =  10.050
+Erreur
+ErrIt =  2.4495
+Approximation de la solution
+XJ =
+
+   2.33333
+  -1.22222
+   0.92593
+
+*** Iteration de Gauss-Seidel 2
+Residu
+RIt =  1.5334
+Erreur
+ErrIt =  0.40741
+Approximation de la solution
+XJ =
+
+   1.92593
+  -1.04938
+   0.98354
+
+*** Iteration de Gauss-Seidel 3
+Residu
+RIt =  0.18219
+Erreur
+ErrIt =  0.090535
+Approximation de la solution
+XJ =
+
+   1.98354
+  -1.01097
+   0.99634
+
+*** Iteration de Gauss-Seidel 4
+Residu
+RIt =  0.040486
+Erreur
+ErrIt =  0.020119
+Approximation de la solution
+XJ =
+
+   1.99634
+  -1.00244
+   0.99919
+
+*** Iteration de Gauss-Seidel 5
+Residu
+RIt =  0.0089970
+Erreur
+ErrIt =  0.0044709
+Approximation de la solution
+XJ =
+
+   1.99919
+  -1.00054
+   0.99982
+
+*** Iteration de Gauss-Seidel 6
+Residu
+RIt =  0.0019993
+Erreur
+ErrIt =    9.9353e-04
+Approximation de la solution
+XJ =
+
+   1.99982
+  -1.00012
+   0.99996
+
+*** Iteration de Gauss-Seidel 7
+Residu
+RIt =    4.4430e-04
+Erreur
+ErrIt =    2.2078e-04
+Approximation de la solution
+XJ =
+
+   1.99996
+  -1.00003
+   0.99999
+
+*** Iteration de Gauss-Seidel 8
+Residu
+RIt =    9.8732e-05
+Erreur
+ErrIt =    4.9063e-05
+Approximation de la solution
+XJ =
+
+   1.99999
+  -1.00001
+   1.00000
+
+*** Iteration de Gauss-Seidel 9
+Residu
+RIt =    2.1941e-05
+Erreur
+ErrIt =    1.0903e-05
+Approximation de la solution
+XJ =
+
+   2.00000
+  -1.00000
+   1.00000
+
+*** Iteration de Gauss-Seidel 10
+Residu
+RIt =    4.8757e-06
+Erreur
+ErrIt =    2.4229e-06
+Approximation de la solution
+XJ =
+
+   2.00000
+  -1.00000
+   1.00000
+
+>> IGS = M^(-1)*N
+IGS =
+
+   0.00000   0.33333   0.00000
+   0.00000   0.11111   0.33333
+   0.00000   0.03704   0.11111
+
+>> eig(IGS)
+ans =
+
+   0.00000
+   0.22222
+   0.00000
+
+>> 2/9
+ans =  0.22222
+
+
+
