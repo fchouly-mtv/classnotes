@@ -1,0 +1,44 @@
+\begin{corrige}{4-11}
+
+\begin{enumerate}
+
+\item $f$ est bien une fonction de densit\'e: $f\geq0$ car la fonction indicatrice d'un ensemble est positive, et 
+$$
+\int_{-\infty}^{+\infty} f(s) ds =
+\int_{-\infty}^{+\infty} \frac1{b-a} \mathds{1}_{[a,b]} (s) ds =
+\frac1{b-a} \int_a^b ds = \frac{b-a}{b-a} = 1.
+$$
+
+\item Soit $Z$ une variable al\'eatoire qui suit la loi uniforme $\mathcal{U}(0,1)$ vue en cours. On v\'erifie que:
+$$ 
+X = a + (b-a) Z.
+$$
+On a alors, en utilisant la relation ci-dessus et la d\'efinition des fonctions de r\'epartition:
+$$
+F_X (t) = F_Z \left ( \frac{t-a}{b-a} \right ),
+$$
+et on en d\'eduit que:
+$$
+F_X (t) = \frac{t-a}{b-a}, \quad a\leq t \leq b,
+$$
+avec $F_X(t)=0$ si $t<a$ et $F_X(t)=1$ si $t>b$.
+
+\item On a:
+$$
+P ( c \leq X \leq d ) = F_X(d) - F_X(c) = \frac{d-a}{b-a} - \frac{c-a}{b-a} = \frac{d - c}{b-a}.
+$$
+On peut dire que la loi est uniforme car la probabilit\'e que $X$ soit dans un intervalle donn\'e ne d\'epend que de la longueur de cet intervalle, et non de sa localisation sur la droite r\'eelle.
+
+\item On peut faire le calcul direct en utilisant la d\'efinition du cours. Toutefois, il est plus rapide d'utiliser la relation $X = a + (b-a) Z$. En effet:
+$$
+E[X] = E [ a + (b-a) Z ] = E [ a ] + (b-a) E [ Z ] = a + \frac{b-a}2 = \frac{a+b}2.
+$$
+
+\item De m\^eme, en utilisant $a + (b-a) Z$:
+$$
+V(X) = V ( a + (b-a) Z ) = (b-a)^2 \, V(Z) = \frac{(b-a)^2}{12}.
+$$
+
+\end{enumerate}
+
+\end{corrige}

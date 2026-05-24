@@ -1,0 +1,60 @@
+\begin{exercice}\label{exo4-10} (\coolexo)
+
+Une variable al\'eatoire $X : \Omega \rightarrow \mathbb{R}$ suit la {\it loi exponentielle} $\mathcal{E} (\lambda)$ de param\`etre $\lambda > 0$ si sa densit\'e est donn\'ee par:
+
+\[
+f(x) = \lambda e^{-\lambda x} \mathds{1}_{\mathbb{R}_+} (x),
+\]
+
+% \mathbb{\1} surprenant !!
+
+pour $x \in \mathbb{R}$. 
+
+\begin{quotation}
+$\rightarrow $ {\it C'est le mod\`ele le plus simple pour la dur\'ee de vie d'un mat\'eriel (sans usure).}
+\end{quotation}
+
+\begin{enumerate}
+
+\item V\'erifier que $f$ est bien une densit\'e de probabilit\'e.
+
+\item Calculer la fonction de r\'epartition $F_X (t)$ de $X$ et tracer la courbe correspondante.
+
+\item On appelle transform\'ee de Laplace de la variable la fonction :
+
+\[
+\mathcal{L} (s) = E [ e^{-sX} ] = \int_0^{+ \infty} e^{-sx} f(x) dx.
+\]
+
+Calculer la transform\'ee de Laplace pour $X$, qui suit la loi exponentielle.
+
+\item Montrer que pour toute variable al\'eatoire $X$, on a :
+
+\[
+\mathcal{L}' (0) = - E[X], 
+\]
+
+et
+
+\[
+\mathcal{L}'' (0) = E[X^2]. 
+\]
+
+En d\'eduire la valeur de la moyenne et de la variance pour une variable $X$ qui suit la loi
+exponentielle.
+
+\item Montrer que $X$ est effectivement sans m\'emoire (ou sans usure), c'est \`a dire :
+
+\[
+P ( X \geq s+t | X \geq t) = P ( X \geq s),
+\]
+
+pour $s,t \geq 0$.
+
+\item Calculer $P(X \in (t , t + \delta t) | X \geq t )$ pour $\delta t > 0$ petit. Que conclut-t'on ?
+
+\end{enumerate}
+
+%\corrref{TD1_1}
+
+\end{exercice}

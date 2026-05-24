@@ -1,0 +1,33 @@
+\begin{corrige}{4-13}
+
+On remarque déjà que l'on doit avoir, pour $x=0$, $S(0)=1$ (fonction de survie égale à 1 au temps 0).
+
+\begin{enumerate}
+
+\item Pour $h(x)=\lambda$, on a:
+\begin{eqnarray*}
+( \ln S(x) )' &=& -\lambda,\\
+\ln S(x) &=& k_1 - \lambda x,\\
+S(x) & = & c_1 \exp( -\lambda x ), \quad (c_1 = e^{k_1}),\\
+S(x) & = & \exp( -\lambda x ), \quad (c_1 = S(0) = 1),\\
+F_X(x) & = & 1 - \exp (-\lambda x ),\\
+f(x) & = & \lambda \exp (-\lambda x ).
+\end{eqnarray*}
+
+On reconnait ici la loi exponentielle de paramètre $\lambda$.
+
+\item Pour $h(x)=\lambda k (\lambda x)^{k-1}$, on a:
+\begin{eqnarray*}
+( \ln S(x) )' &=& -\lambda k (\lambda x)^{k-1},\\
+\ln S(x) &=& k_2 - (\lambda x)^k,\\
+S(x) & = & c_2 \exp( - (\lambda x)^k ), \quad (c_2 = e^{k_2}),\\
+S(x) & = & \exp( -(\lambda x)^k ), \quad (c_2 = S(0) = 1),\\
+F_X(x) & = & 1 - \exp (-(\lambda x)^k ),\\
+f(x) & = & \lambda k (\lambda x)^{k-1}\exp (-(\lambda x)^k ).
+\end{eqnarray*}
+
+C'est une loi dite de Weibull, qui est très utilisée pour des modèles de survie.
+
+\end{enumerate}
+
+\end{corrige}

@@ -1,0 +1,31 @@
+\begin{corrige}{3-10}
+
+On définit les évènements suivants:
+\begin{enumerate}
+ \item L'évènement $B$ : ``les recherches dans la Zone 1 n'ont rien donné.''
+ \item L'évènement $A_i$ : ``les lunettes ont été perdues dans la zone $i$.'' ($i=1,2,3$).
+\end{enumerate}
+Faisons tout d'abord l'hypothèse d'équiprobabilité pour les évènements $A_i$: supposons que Nicolas a perdu ses lunettes avec les mêmes chances dans la Zone 1, la Zone 2 ou la Zone 3. On a donc:
+\[
+ P(A_i) = \frac13.
+\]
+L'énoncé nous donne de plus:
+\[
+ P(B | A_1) = \frac12.
+\]
+La formule des probabilités totales nous donne alors la probabilité que les recherches dans la Zone 1 n'aient rien donné:
+\[
+ P(B) = P(B | A_1)P(A_1) + P(B |A_2)P(A_2) + P(B|A_3)P(A_3) = \frac13 ( \frac12 + 1 + 1 ) = \frac56.
+\]
+
+On utilise alors la règle de Bayes pour calculer les probabilités demandées. D'abord:
+\[
+ P ( A_1 | B ) = \frac{P(B|A_1)P(A_1)}{P(B)} = \frac{\frac12 \frac13}{\frac56} = \frac15.
+\]
+Et puis pour $i=2,3$:
+\[
+ P ( A_i | B ) = \frac{P(B|A_i)P(A_i)}{P(B)} = \frac{\frac13}{\frac56} = \frac25.
+\]
+
+
+\end{corrige}

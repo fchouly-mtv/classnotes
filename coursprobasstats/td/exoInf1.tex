@@ -1,0 +1,26 @@
+\begin{exercice}\label{exoInf1} (\minsyndical)
+
+Soit $\{ X_n \}$ un \'echantillon dont la loi m\`ere suit la loi de Bernoulli de param\`etre $p$. Soit $S_n = \sum_{i=1}^n X_i$ la variable al\'eatoire qui compte les succ\`es.
+
+\begin{enumerate}
+
+\item Quelle est la loi de probabilit\'es de la variable $S_n$ ? Rappeler quelles sont les esp\'erance et variance associ\'ees ?
+
+\item Montrer que pour $n$ grand, $S_n$ suit approximativement la loi normale, en pr\'ecisant son esp\'erance et sa variance.
+
+Comme on approche une loi discr\`ete par une loi continue, il faut faire ce qu'on appelle une {\it correction de continuit\'e}. Plus exactement on effectue l'approximation suivante :
+\[
+P(X = k) \simeq P (k - \frac12 \leq U \leq k + \frac12),
+\]
+avec $X$ qui suit une loi discr\`ete d'esp\'erance $m$ et de variance $\sigma^2$, et
+o\`u $U \rightsquigarrow \mathcal{N} (m, \sigma^2)$.
+
+\item On choisit maintenant $p=0.3$. Calculer en utilisant les questions ci-dessus une valeur approch\'ee de $P(S_{20} = 8)$. Comparer \`a la valeur exacte.
+
+\item M\^eme question pour $P(S_{20} \leq 8)$.
+
+\end{enumerate}
+
+%\corrref{TD1_1}
+
+\end{exercice}

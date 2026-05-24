@@ -1,0 +1,49 @@
+\begin{corrige}{4-3}
+
+Soit $X$ une variable aléatoire discrète. On note comme suit les valeurs qu'elle peut prendre (en les ordonnant):
+\[
+ s_1 \leq s_2 \leq \ldots \leq s_k \leq \ldots
+\]
+
+\begin{enumerate}
+
+\item Pour tout $t < s_1$, nous avons:
+\[
+ P ( X \leq t ) = 0.
+\]
+Donc lorsque $t \rightarrow -\infty$, nous obtenons bien:
+\[
+ \lim_{t\rightarrow -\infty} F_X(t) = \lim_{t\rightarrow -\infty} P(X\leq t) = 0.
+\]
+
+Pour $t \rightarrow + \infty$, on ne peut pas faire le m\^eme raisonnement (voyez-vous pourquoi ?). Mais on peut voir que:
+\[
+ \lim_{t\rightarrow + \infty}] -\infty ; t ] = \mathbb{R}.
+\]
+Donc:
+\[
+ \lim_{t\rightarrow +\infty} F_X(t) = \lim_{t\rightarrow +\infty} P(X\leq t) = P(X \in \mathbb{R}) = 1.
+\]
+Le passage à la limite peut être justifié rigoureusement, mais vous ne disposez pas de l'outil qui permet de le faire (théorème de convergence monotone pour l'intégrale de Lebesgue). Il pourra donc être admis.
+
+\item Il suffit de remarquer que:
+\[
+ \mathbb{R} = ] -\infty ; t] \cup ] t ; +\infty [,
+\]
+et que les deux évènements $(X \in ] -\infty ; t])$ et $(X \in ] t ; +\infty [)$ sont incompatibles. Alors:
+\[
+ 1 = P(X \in \mathbb{R}) = P(X \in ] -\infty ; t]) + P(X \in ] t ; +\infty [).
+\]
+Pour conclure, il suffit de remarquer $P(X \in ] -\infty ; t]) = F_X(t)$ et de ré-ordonner les termes.
+
+\item De même qu'à la question précédente, on découpe $] -\infty ; b ]$ en 2 morceaux incompatibles:
+\[
+  ] -\infty ; b ] = ] -\infty ; a] \cup ] a ; b ] .
+\]
+On conclut à nouveau en utilisant la définition de la fonction de répartition.
+
+\end{enumerate}
+
+
+
+\end{corrige}

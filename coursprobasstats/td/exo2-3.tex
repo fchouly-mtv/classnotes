@@ -1,0 +1,48 @@
+\begin{exercice}\label{exo2-3}
+
+Soit l'expression suivante pour l' {\bf erreur quadratique moyenne} $\delta^2$ associée à un problème de moindres carrés :
+
+\[
+\delta^2 = \frac1n \sum_{i=1}^n (y_i - \beta_1 x_i - \beta_0)^2.
+\]
+
+\begin{enumerate}
+
+\item Montrer que :
+
+\begin{align*}
+\begin{aligned}
+\frac{\partial \delta^2}{\partial \beta_1} & = - 2 \left [ c_{xy} + \bar{x}_n \bar{y}_n 
+- \beta_1 ( s_x^2 + \bar{x}_n^2 ) - \beta_0 \bar{x}_n \right ],\\
+\frac{\partial \delta^2}{\partial \beta_0} & = - 2 \left [ \bar{y}_n - \beta_1 \bar{x}_n - \beta_0 \right ]. 
+\end{aligned}
+\end{align*}
+
+avec :
+
+\begin{align*}
+\begin{aligned}
+\bar{x}_n = \frac1n \sum_{i=1}^n x_i \qquad & \bar{y}_n = \frac1n \sum_{i=1}^n y_i\\
+s^2_x = \frac1n \sum_{i=1}^n (x_i - \bar{x}_n)^2 \qquad & s^2_y = \frac1n \sum_{i=1}^n (y_i - \bar{y}_n)^2
+\end{aligned}
+\end{align*}
+
+et
+
+\[
+c_{xy} = \frac1n \sum_{i=1}^n (x_i - \bar{x}_n) (y_i - \bar{y}_n)
+\]
+
+la {\bf covariance empirique} entre les $x_i$ et les $y_i$.
+
+\item En déduire que la {\bf droite des moindres carrés} (i.e. qui minimise $\delta^2$) passe par le barycentre $(\bar{x}_n,\bar{y}_n)$ du nuage de points.
+
+\item Déduire également que cette droite admet pour équation :
+
+\[
+y = \bar{y}_n + \frac{c_{xy}}{s^2_x} ( x - \bar{x}_n ).
+\]
+
+\end{enumerate}
+
+\end{exercice}

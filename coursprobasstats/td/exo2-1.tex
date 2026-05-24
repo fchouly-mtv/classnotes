@@ -1,0 +1,196 @@
+\begin{exercice}\label{exo2-1} (\minsyndical)
+
+Le Professeur Gluckenmuhl effectue des mesures d'\'ecoulements dans les fosses nasales
+de trois patients diff\'erents. Pour cela, il place sur chacun des patients un d\'ebitm\`etre en 
+entr\'ee des narines, qui mesure le d\'ebit d'air $\Phi$, et un capteur de pression dans la gorge 
+qui mesure la diff\'erence de pression entre l'entr\'ee et la sortie des fosses $\Delta P$. Il demande
+ensuite au patient d'inspirer et rel\`eve la valeur de $\Delta P$ (en Pascals, Pa) pour diff\'erentes valeurs du d\'ebit $\Phi$ (en litres par minute, l/min), espac\'ees r\'eguli\`erement. 
+Il remplit ainsi les trois tableaux ci-dessous:\\
+
+\begin{table}[h]
+\center
+\begin{tabular}{|c|cccccccc|}
+\hline
+$\Phi$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+$\Delta P$ & -15  & 24 & 59  & 99 & 105 & 129 & 161 & 179 \\ \hline
+\end{tabular}
+\caption{Relev\'e exp\'erimental. Patient 1.}
+\end{table}
+
+\begin{table}[h]
+\center
+\begin{tabular}{|c|cccccccc|}
+\hline
+$\Phi$ & 0 & 2 & 4 & 6 & 8 & 10 & 12 & 14 \\ \hline
+$\Delta P$ & 13 & 2 & 17 & 29 & 56 & 94 & 152 & 197 \\ \hline
+\end{tabular}
+\caption{Relev\'e exp\'erimental. Patient 2.}
+\end{table}
+
+\begin{table}[h]
+\center
+\begin{tabular}{|c|cccccccc|}
+\hline
+$\Phi$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+$\Delta P$ & -367 & 390 & 181 & -234 & 25 & 167 & -3 & 154 \\ \hline
+\end{tabular}
+\caption{Relev\'e exp\'erimental. Patient 3.}
+\end{table}
+
+Il d\'ecide ensuite de tracer les trois courbes des Fig. \ref{fig:rglin1} et
+\ref{fig:rglin2}, o\`u pour chaque patient, on reporte
+les valeurs de d\'ebit en abscisses, et de pression en ordonn\'ees.
+
+\begin{figure}[h!] 
+   \centering
+   \includegraphics[width=8cm]{matlab/patient1.pdf}
+%   \includegraphics[width=10cm]{matlab/patient2.pdf}
+%  \includegraphics[width=10cm]{matlab/patient3.pdf} 
+   \caption{Mesures d'\'ecoulement effectu\'ees par le Pr. Gluckenmuhl. Patient 1.}
+   \label{fig:rglin1}
+\end{figure}
+
+\begin{figure}[h!] 
+   \centering
+   %\includegraphics[width=10cm]{matlab/patient1.pdf}
+   \includegraphics[width=8cm]{matlab/patient2.pdf}
+   \includegraphics[width=8cm]{matlab/patient3.pdf} 
+   \caption{Mesures d'\'ecoulement effectu\'ees par le Pr. Gluckenmuhl. Patient 2 (\`a gauche) et 3 (\`a droite).}
+   \label{fig:rglin2}
+\end{figure}
+
+
+Le Pr. Gluckenmuhl veut d\'eduire de ces courbes la loi de variation pression / d\'ebit
+et les param\`etres associ\'es \`a cette loi pour chaque patient. Il d\'ecide pour cela
+de faire de la r\'egression lin\'eaire.
+
+\begin{enumerate}
+
+\item Pour le Patient 1, il cherche $\beta_0$ et $\beta_1$ tels que :
+
+\[
+\Delta P_i = \beta_1 \Phi_i + \beta_0 + \varepsilon_i.
+\]
+
+Calculer les indicateurs statistiques $\bar{x}_n$, $\bar{y}_n$, $s^2_x$, $s^2_y$ et $c_{xy}$.
+Calculer les coefficients $\beta_0$ et $\beta_1$ en utilisant la m\'ethode des moindres carr\'es,
+et tracer sur la Fig. \ref{fig:rglin1} la droite associ\'ee.
+D\'eterminer la valeur du coefficient de corr\'elation $r_{xy}$ et de l'erreur quadratique moyenne
+$\delta^2$. Qu'en d\'eduisez-vous sur la pertinence de la r\'egression dans ce cas ?
+
+\item Pour le Patient 2, il propose aussi de chercher $\beta_0$ et $\beta_1$ tels que :
+
+\[
+\Delta P_i = \beta_1 \Phi_i + \beta_0 + \varepsilon_i.
+\]
+
+Ce mod\`ele de r\'egression lin\'eaire vous para\^it-t'il appropri\'e ? Justifiez. Que sugg\'erez-vous
+\`a la place ? En suivant la m\^eme d\'emarche qu'en 1., d\'eterminer la valeur optimale
+des coefficients au sens des moindres carr\'es et tracer la courbe associ\'ee. 
+D\'eterminer la valeur du coefficient de corr\'elation $r_{xy}$ et de l'erreur quadratique moyenne
+$\delta^2$ et comparer \`a ce qu'on aurait obtenu \`a l'aide du mod\`ele 
+$\Delta P_i = \beta_1 \Phi_i + \beta_0 + \varepsilon_i$.
+
+\item Pour le Patient 3, le Pr. Gluckenmuhl utilise aussi le mod\`ele :
+
+\[
+\Delta P_i = \beta_1 \Phi_i + \beta_0 + \varepsilon_i.
+\]
+
+Il d\'etermine la droite aux moindres carr\'es et d\'ecide, dans un exc\`es d'enthousiasme, 
+d'envoyer ses r\'esultats \`a l'Acad\'emie des Sciences. Calculer le coefficient de corr\'elation 
+$r_{xy}$ pour le Patient 3, et en d\'eduire si, suite \`a ses travaux , le Pr. Gluckenmuhl recevra le Prix
+Nobel ou le Prix Ig-Nobel ({\sf www.ignobel.com}).
+
+\end{enumerate}
+
+{\it Remarque d'ordre culturel:} De telles mesures de relation pression-d\'ebit sont utilis\'ees dans la
+pratique pour mieux comprendre certaines pathologies respiratoires, et \'etudier l'impact de dispositifs
+m\'edicaux (respirateurs artificiels...). Si vous avez quelques souvenirs de m\'ecanique des fluides, 
+remarquez que la relation lin\'eaire pour le Patient 1 peut \^etre caus\'ee par un \'ecoulement \`a faible 
+vitesse r\'egi par la loi de Poiseuille (le Patient 1 a certainement le nez bouch\'e). Pour le Patient 2,
+on peut supposer un \'ecoulement r\'egi par la formule de Bernoulli (pourquoi ?).\\
+
+%\corrref{TD1_2}
+
+%rg = 
+
+%        phi1: [0 1 2 3 4 5 6 7]
+%        phi2: [0 2 4 6 8 10 12 14]
+%     deltap1: [0 25 50 75 100 125 150 175]
+%     deltap2: [0 4 16 36 64 100 144 196]
+%     deltap3: [0 25 50 75 100 125 150 175]
+%    deltap1n: [-15 24 59 99 105 129 161 179]
+%    deltap2n: [13 2 17 29 56 94 152 197]
+%    deltap3n: [-367 390 181 -234 25 167 -3 154]
+
+%LS1 = 
+
+%    phimoy: 3.5000
+%     dpmoy: 92.6250
+%    phivar: 5.2500
+%     dpvar: 3.8845e+03
+%    covpdp: 141.1875
+%      rpdp: 0.9887
+%     beta1: 25
+%     beta0: 0
+%    beta1e: 26.8929
+%    beta0e: -1.5000
+%    error2: 87.5491
+%    error1: 9.3568
+%     phiLS: [1x71 double]
+%      dpLS: [1x71 double]
+
+%LS2 = 
+
+%    phimoy: 7
+%     dpmoy: 70
+%    phivar: 21
+%     dpvar: 4.4985e+03
+%    covpdp: 287
+%      rpdp: 0.9338
+%     beta1: 14
+%     beta0: 0
+%    beta1e: 13.6667
+%    beta0e: -25.6667
+%    error1: 576.1667
+%    error2: 24.0035
+%     phiLS: [1x71 double]
+%      dpLS: [1x71 double]
+
+%
+%LS3 = 
+
+%    phimoy: 70
+%     dpmoy: 70
+%    phivar: 4452
+%     dpvar: 4.4985e+03
+%    covpdp: 4451
+%      rpdp: 0.9946
+%     beta1: 1
+%     beta0: 0
+%    beta1e: 0.9998
+%    beta0e: 0.0157
+%    error1: 48.4998
+%    error2: 6.9642
+%     phiLS: [1x71 double]
+%      dpLS: [1x71 double]
+
+%LS4 = 
+
+%    phimoy: 3.5000
+%     dpmoy: 39.1250
+%    phivar: 5.2500
+%     dpvar: 5.1787e+04
+%    covpdp: 118.6875
+%      rpdp: 0.2276
+%     beta1: 25
+%     beta0: 0
+%    beta1e: 22.6071
+%    beta0e: -40
+%    error2: 4.9104e+04
+%    error1: 221.5946
+%     phiLS: [1x71 double]
+%      dpLS: [1x71 double]
+
+\end{exercice}

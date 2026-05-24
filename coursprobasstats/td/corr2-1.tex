@@ -1,0 +1,90 @@
+\begin{corrige}{2-1}
+
+\begin{enumerate}
+ 
+ \item On obtient pour le Patient 1, avec la convention $y_i = \Delta P_i$ et $x_i = \Phi_i$ pour les échantillons:
+ 
+\medskip 
+ 
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+    $\bar{x}_n$ & 3.5000\\
+    $\bar{y}_n$ & 92.6250\\
+    $s^2_x$ & 5.2500 \\
+    $s^2_y$ & 3884.5 \\
+    $c_{xy}$ & 141.1875\\ \hline
+    $r_{xy}$ & 0.9887\\ \hline
+    $\hat{\beta}_1$ & 26.8929\\
+    $\hat{\beta}_0$ & -1.5000\\ \hline
+    $\delta^2_{\mathrm{min}}$ & 87.5491\\
+    $\delta_{\mathrm{min}}$ & 9.3568\\\hline
+\end{tabular}
+\end{center}    
+    
+Si on trace la droite d'équation $y = \hat{\beta}_0 + \hat{\beta}_1 x$ sur la Figure 1, on remarque qu'elle se superpose convenablement aux données. Le coefficient de corrélation linéaire empirique, en valeur absolue, $|r_{xy}|$ est proche de 1 (toutes proportions gardées, mais c'est difficile de faire beaucoup mieux avec des données physiologiques) : le modèle linéaire est donc satisfaisant ici. 
+
+On a une estimation du bruit gaussien $\delta_{\mathrm{min}}$ de l'ordre de 10, et donc une amplitude moyenne du bruit $\delta_{\mathrm{min}} / \bar{y}_n$ de l'ordre de 10 \%, ce qui est (relativement) faible.
+
+\item Pour le patient 2, si on fait la régression avec le modèle
+\[
+\Delta P_i = \beta_1 \Phi_i + \beta_0 + \varepsilon_i,
+\]
+on obtient:
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+    $\bar{x}_n$ & 7\\
+    $\bar{y}_n$ & 70\\
+    $s^2_x$ & 21 \\
+    $s^2_y$ & 4498.5 \\
+    $c_{xy}$ & 287\\ \hline
+    $r_{xy}$ & 0.9338\\ \hline
+    $\hat{\beta}_1$ & 13.6667\\
+    $\hat{\beta}_0$ & -25.6667\\ \hline
+    $\delta^2_{\mathrm{min}}$ & 576.1667\\
+    $\delta_{\mathrm{min}}$ & 24.0035\\\hline
+\end{tabular}
+\end{center}    
+
+Ici $r_{xy}$ est relativement faible, de l'ordre de $0.93$ et le modèle linéaire semble moins adapté. On a plutôt intérêt à ajuster une parabole aux données, ce qui correspond au modèle:
+\[
+\Delta P_i = \beta_1 \Phi^2_i + \beta_0 + \varepsilon_i.
+\]
+Il suffit de faire les mêmes calculs que pour un modèle linéaire. Seulement, au lieu de considérér comme échantillons $x_i = \Phi_i$ et $y_i = \Delta P_i$, on prend: $x_i = \Phi^2_i$ et $y_i = \Delta P_i$ (ce qui revient à faire un changement de variables).
+On obtient alors:
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+    $\bar{x}_n$ & 70\\
+    $\bar{y}_n$ & 70\\
+    $s^2_x$ & 4452 \\
+    $s^2_y$ & 4498.5 \\
+    $c_{xy}$ & 4451\\ \hline
+    $r_{xy}$ & 0.9946\\ \hline
+    $\hat{\beta}_1$ & 0.9998\\
+    $\hat{\beta}_0$ & 0.0157\\ \hline
+    $\delta^2_{\mathrm{min}}$ & 48.4998\\
+    $\delta_{\mathrm{min}}$ & 6.9642\\\hline
+\end{tabular}
+\end{center}    
+On remarque cette fois-ci qu'avec le modèle ``parabolique'', l'adéquation est très bonne. Il fallait donc supposer que la relation était non-linéaire, comme le suggérait de toutes façons le nuage de points représenté Figure 2. Le coefficient de corrélation linéaire empirique, en valeur absolue, est proche de 1. On a de nouveau une amplitude du bruit sur les données correctement estimée, et de l'ordre de 10 \%.
+
+\item Pour le patient 3, nous obtenons pour le modèle linéaire:
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+    $\bar{x}_n$ & 3.5\\
+    $\bar{y}_n$ & 39.1250\\
+    $s^2_x$ & 5.25 \\
+    $s^2_y$ & 51 787 \\
+    $c_{xy}$ & 118.6875\\ \hline
+    $r_{xy}$ & 0.2276\\ \hline
+    $\hat{\beta}_1$ & 22.61\\
+    $\hat{\beta}_0$ & -40\\ \hline
+    $\delta^2_{\mathrm{min}}$ & 49104\\
+    $\delta_{\mathrm{min}}$ & 221.5946\\\hline
+\end{tabular}
+\end{center}    
+Ici la dispersion sur les données est trop importante, et il n'y a plus vraiment de sens à faire de la régression linéaire. On peut le mesurer avec $r_{xy}$ qui est très faible en valeur absolue (environ $0.2$, ce qui est très mauvais).
+
+
+\end{enumerate}
+
+\end{corrige}

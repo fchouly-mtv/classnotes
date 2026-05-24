@@ -1,0 +1,27 @@
+\begin{corrige}{3-8}
+
+D'abord, pour chacun des deux dés à $n$ faces, on suppose qu'il y a équiprobabilité, et donc
+\[
+ P ( N_i = k ) = \frac1n,
+\]
+pour $i=1,2$ et $k=1,\ldots,n$. On utilise ensuite la formule des probabilités totales:
+\begin{eqnarray*}
+ P ( N_1 > N_2 ) & = & \sum_{k=1}^n P(N_1 > N_2 | N_1=k) P(N_2=k)\\
+ & = & \frac1n \sum_{k=1}^n P ( k > N_2 ).
+\end{eqnarray*}
+On calcule ensuite, pour tout $k=1,\ldots,n$:
+\[
+ P ( k > N_2 ) = P ( N_2 = 1 ) + P(N_2 = 2) + \ldots + P(N_2 = k-1) = \frac{k-1}n.
+\]
+Il vient alors:
+\begin{eqnarray*}
+ P ( N_1 > N_2 ) 
+ & = & \frac1{n^2} \sum_{k=1}^n (k-1)\\
+ & = & \frac1{n^2} \sum_{k=0}^{n-1} k\\
+ & = & \frac1{n^2} \frac{n(n-1)}2.
+\end{eqnarray*}
+On obtient finalement:
+  $$P ( N_1 > N_2 )  = \frac{n-1}{2n}.$$
+
+
+\end{corrige}

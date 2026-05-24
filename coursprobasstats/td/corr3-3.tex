@@ -1,0 +1,26 @@
+\begin{corrige}{3-3}
+
+\begin{enumerate}
+ \item $A$ et $\bar{A}$ sont incompatibles, donc 
+ \[
+  1 = P(\Omega) = P(A \cup \bar{A}) = P(A) + P(\bar{A}).
+ \]
+
+ \item Il suffit de voir que
+ \[
+  A \cup B = (A\cap\bar{B}) \cup (A\cap B) \cup (B\cap\bar{A}),
+ \]
+ et que les trois évènements $(A\cap\bar{B})$, $(A\cap B)$ et $(B\cap\bar{A})$ sont mutuellement incompatibles. Alors
+ \begin{eqnarray*}
+  P(A \cup B) & = & P(A\cap\bar{B}) + P(A\cap B) + P(B\cap\bar{A}),\\
+  P(A) & = & P(A\cap\bar{B}) + P(A\cap B),\\
+  P(B) & = & P(A\cap B) + P(B\cap\bar{A}).
+ \end{eqnarray*}
+  Puis on soustrait la deuxième et la troisième équations à la première.
+ 
+ \item On écrit $P(A\cap B) \leq 1$ et on remplace $P(A\cap B)$ en utilisant l'égalité montrée en 2.
+ 
+\end{enumerate}
+
+
+\end{corrige}

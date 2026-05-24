@@ -1,0 +1,22 @@
+\begin{corrige}{3-9}
+
+Pour calculer $P(B_i|A)$ on utilise d'abord la définition d'une probabilité conditionnelle:
+\[
+ P(B_i|A) = \frac{P(B_i \cap A)}{P(A)}.
+\]
+Concernant le numérateur, on utilise à nouveau, différemment, la définition d'une probabilité conditionnelle:
+\[
+ P(B_i \cap A) = P(A|B_i)P(B_i).
+\]
+Pour le dénominateur, on applique la formule des probabilités totales, valable ici compte-tenu des propriétés des évènements $(B_n)_{n\geq1}$:
+\[
+ P(A) = \sum_{n\geq1} P(A|B_n)P(B_n).
+\]
+On obtient en combinant les relations précédentes la règle de Bayes:
+\[
+ P(B_i|A) = \frac{P(A|B_i)P(B_i)}{\sum_{n\geq1} P(A|B_n)P(B_n)}.
+\]
+
+
+
+\end{corrige}
