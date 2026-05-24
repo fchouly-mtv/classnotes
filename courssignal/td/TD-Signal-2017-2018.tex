@@ -1,0 +1,193 @@
+\input{e.tex}
+
+\corrPolitique{0}
+
+\newcommand{\eps}{\varepsilon}
+
+\begin{document}
+
+%\maketitle
+
+\parindent0mm
+
+\section{Séries de Fourier}
+
+% \begin{exercice} 
+% 
+% Montrer qu'il est possible d'écrire la série de Fourier d'une fonction $f$ définie sur $]-\pi;\pi[$ en utilisant la notation complexe:
+% \[
+%  f(t) = \sum_{k\in\eZ} c_k e^{ikt},
+% \]
+% avec $c_k \in \eC$ pour tout $k \in \eZ$ et $i^2 = -1$. Donner l'expression des coefficients $c_k$ à partir des coefficients $a_n$ et $b_n$ qui interviennent dans la définition du cours.
+% 
+% Montrer alors que les coefficients $c_k$ se calculent à l'aide de la formule suivante:
+% \[
+%  c_k = \frac1{2\pi} \int_{-\pi}^{\pi} f(t) e^{-ikt} dt, \quad k \in \eZ.
+% \]
+% 
+% \end{exercice}
+% 
+% \medskip
+
+% \begin{exercice}
+% 
+% Soit $f$ une fonction périodique de période $T$. On introduira
+% $$ \omega = \frac{2\pi}T $$
+% la pulsation associée à T. Montrer que la série de Fourier associée à $f$ s'écrit alors:
+% \[
+%  f(t) = \frac{a_0}{2} + \sum_{n \geq 1} a_n \cos(\omega n t) + \sum_{n \geq 1} b_n \sin(\omega n t),
+% \]
+% avec les coefficients $a_n$ et $b_n$ qui se calculent comme suit:
+% \[
+%  a_n = \frac2T \int_0^T f(t) \cos(\omega n t), \quad b_n = \frac2T \int_0^T f(t) \sin(\omega n t).
+% \]
+% 
+% \end{exercice}
+% 
+% \medskip
+
+\begin{exercice}
+
+Calculer la série de Fourier des fonctions suivantes, définies sur $]-\pi,-\pi[$:
+
+\begin{enumerate}
+ \item Fonction onde carrée (1re version):
+ \[
+  f(t) = \left \{ \begin{array}{llr} 
+  0  & \mbox{si }& -\pi<t<0,\\
+  1  & \mbox{si }& 0<t<\pi.
+  \end{array}\right.
+ \]
+
+
+ \item Fonction onde carrée (2e version):
+ \[
+  f(t) = \left \{ \begin{array}{llr} 
+  -1 & \mbox{si }& -\pi<t<0,\\
+  1  & \mbox{si }& 0<t<\pi.
+  \end{array}\right.
+ \]
+ \item Fonction ``en dents de scie'':
+ \[
+  f(t) = |t|.
+ \]
+ \item Fonction ``coupe parabolique'':
+ \[
+  f(t) = t^2.
+ \]
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Montrer qu'il est possible d'écrire la série de Fourier d'une fonction $f$ définie sur $]-\pi;\pi[$ en utilisant une formulation amplitude/phase de la forme:
+\[
+ f(t) = \sum_{n\geq 0} d_n \cos( n t + \varphi_n).
+\]
+Donner l'expression de $d_n$ et $\varphi_n$ à partir des coefficients $a_n$ et $b_n$ introduits dans la définition du cours.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Rappeler la définition mathématique d'une fonction paire/impaire et son interprétation géométrique (en termes de graphe de la fonction).
+Donner l'expression générale de la série de Fourier pour une fonction paire/impaire.
+ 
+\end{exercice}
+
+\medskip
+
+% \begin{exercice}
+% 
+% Soit $f$ une fonction de carré intégrable sur $]-\pi;\pi[$, et $(a_n)_{n\geq0}$, $(b_n)_{n\geq1}$ les coefficients de Fourier associés. Montrer l' \emph{inégalité de Parseval}:
+% \[
+%  \frac1\pi \int_{-\pi}^{\pi} f(t)^2 dt = \frac{a_0}2 + \sum_{n\geq1} ( a_n^2 + b_n^2).
+% \]
+% Donner une inteprétation physique de cette formule.
+% 
+% \end{exercice}
+% 
+% %\medskip
+% \newpage
+
+\begin{exercice} 
+
+\begin{center}
+{\bf *** L'abominable fonction de Dirichlet ***} 
+\end{center}
+ 
+L'abominable fonction de Dirichlet, notée $\chi_\eQ$, est définie sur $]-\pi,\pi[$ comme suit:
+\[
+  \chi_\eQ(t) = \left \{ \begin{array}{llr} 
+  1 & \mbox{si }& t\in \eQ,\\
+  0 & \mbox{sinon.}
+  \end{array}\right.
+\]
+
+\begin{enumerate}
+ \item Que pouvez-vous dire sur la continuité de cette fonction ?
+ \item Que vaut la série de Fourier de $\chi_\eQ$ ?
+ \item Que pouvez-vous en déduire sur la convergence de la série ?
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Transformée de Fourier}
+
+\begin{exercice}
+
+Calculer la transform\'ee de Fourier $\hat{f}_i$ des fonctions suivantes:
+\begin{enumerate}
+ \item Fonction ``porte'', avec $a \geq 0$:
+ \[
+  f_1 (t) = \left \{ \begin{array}{llr} 
+  1 & \mbox{si }& -a<t<a,\\
+  0 & \mbox{sinon.}
+  \end{array}\right.
+ \]
+ \item Fonction gaussienne:
+ \[
+  f_2(t) = \frac14 e^{-3 t^2}.
+ \]
+ \item Fonction ``zig-zag'':
+ \[
+  f_3 (t) = \left \{ \begin{array}{llr} 
+  -\frac12 & \mbox{si }& -a<t<0,\\
+  \frac12 & \mbox{si }& 0<t<a,\\
+  0 & \mbox{sinon.}
+  \end{array}\right.
+ \]
+ \item Fonction ``exponentielle'':
+ \[
+  f_4 (t) = e^{-|t|/a}.
+ \]
+\end{enumerate}
+
+Représenter graphiquement $f_i$ et $| \hat{f}_i |$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Démontrer les formules suivantes:
+\begin{enumerate}
+ \item Si $g(t) = e^{2\pi i a t} f(t)$ alors $$\hat{g}(\xi) = \hat{f} ( \xi - a).$$
+ \item Si $g(t) = f(t + a)$ alors $$\hat{g}(\xi) = e^{2\pi i a \xi} \hat{f} ( \xi ).$$
+ \item Si $g(t) = f(at)$ alors $$\hat{g}(\xi) = \frac1a \hat{f} \left ( \frac{\xi}{a} \right ).$$
+\end{enumerate}
+
+ 
+\end{exercice}
+
+\end{document}
+

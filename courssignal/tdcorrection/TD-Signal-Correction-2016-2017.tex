@@ -1,0 +1,264 @@
+\input{e.tex}
+
+\corrPolitique{0}
+
+\newcommand{\eps}{\varepsilon}
+
+\begin{document}
+
+%\maketitle
+
+\parindent0mm
+
+\section{Séries de Fourier : corrections}
+
+\begin{exercice} 
+
+En partant de l'expression 
+\[
+ f(t) = \sum_{k\in\eZ} c_k e^{ikt},
+\]
+en scindant la somme en 3 ($k\geq1$, $k=0$ et $k\leq1$) et en utilisant la relation
+\[
+ e^{ikt} = \cos(kt) + i \sin(kt),
+\]
+on retombe sur la définition donnée en cours avec les relations suivantes, pour $k\geq1$:
+\[
+ a_0 = \frac{c_0}2,\quad, a_k = c_k + c_{-k},\quad b_k = i ( c_k - c_{-k}).
+\]
+Ceci donne également, pour $k\geq1$:
+\[
+ c_k = \frac12 ( a_k - i b_k),\quad c_{-k} = \frac12 ( a_k + i b_k).
+\]
+
+L'expression des coefficients complexes $c_k$, $k \in \eZ$, est directement obtenue comme suit:
+\[
+ \int_{-\pi}^{\pi} f(t) e^{-ikt} dt 
+ = \int_{-\pi}^{\pi} \left ( \sum_{l\in\eZ} c_l e^{ilt} \right ) e^{-ikt} dt
+ = \sum_{l \in \eZ} c_l \int_{-\pi}^{\pi} e^{i(l-k)t} dt = 2 \pi c_k.
+\]
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+A partir de la définition du cours, on obtient:
+\[
+ f(t) = \sum_{n\geq 0} d_n \cos( n t + \varphi_n),
+\]
+avec, pour $n\geq1$:
+\[
+ d_n = \left ( a_n^2 + b_n^2 \right )^{\frac12}, \quad \varphi_n = \mbox{arctan} \left( \frac{b_n}{a_n} \right ).
+\]
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Pour $f$ une fonction périodique de période $T$, et avec 
+$ \omega = \frac{2\pi}T $, on pose
+\[
+\tilde{f} ( t ) = f( t / \omega )  = f \left ( \frac{T}{2\pi} t \right ), 
+\]
+qui est une fonction périodique de période $2 \pi$, et on applique la définition du cours à $\tilde{f}$.
+
+On retrouve bien que $f$ s'écrit alors:
+\[
+ f(t) = \tilde{f} (\omega t) = \frac{a_0}{2} + \sum_{n \geq 1} a_n \cos(\omega n t) + \sum_{n \geq 1} b_n \sin(\omega n t),
+\]
+avec pour coefficients $a_n$ et $b_n$:
+\[
+ a_n = \frac2T \int_0^T f(t) \cos(\omega n t), \quad b_n = \frac2T \int_0^T f(t) \sin(\omega n t).
+\]
+Le calcul de ces coefficients peut être fait par changement de variable, ou sinon en adaptant directement la technique du cours.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Voici les séries de Fourier:
+
+\begin{enumerate}
+ \item Fonction onde carrée (2e version):
+ \[
+  f(t) = \frac4{\pi} \sum_{n\geq0} \frac{\sin (2n+1)t}{2n+1}.
+ \]
+ \item Fonction ``en dents de scie'':
+ \[
+  f(t) = \frac{\pi}2 - \frac4{\pi} \sum_{n\geq0} \frac{\cos (2n+1)t}{(2n+1)^2}.
+ \]
+ \item Fonction ``coupe parabolique'':
+ \[
+  f(t) = \frac{\pi^2}3 + 4 \sum_{n\geq1} \frac{(-1)^n}{n^2} \cos(nt).
+ \]
+ 
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Pour une fonction paire ($f(t) = f(-t)$ pour $t\in\eR$):
+\[
+ f(t) = \frac{a_0}{2} + \sum_{n \geq 1} a_n \cos(n t).
+\]
+Pour une fonction impaire ($f(t) = -f(-t)$ pour $t\in\eR$):
+\[
+ f(t) = \sum_{n \geq 1} b_n \sin(n t).
+\]
+ 
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+L' \emph{égalité de Parseval} s'obtient en écrivant $f$ sous forme d'une série de Fourier, et en calculant:
+\[
+ \frac1\pi \int_{-\pi}^{\pi} f(t)^2 dt 
+ %= \frac{a_0}2 + \sum_{n\geq1} ( a_n^2 + b_n^2).
+ = \frac1\pi \int_{-\pi}^{\pi} \left ( \frac{a_0}{2} + \sum_{n \geq 1} a_n \cos(n t) + \sum_{n \geq 1} b_n \sin(n t) \right)^2 dt.
+\]
+Il suffit ensuite de développer l'expression et d'utiliser les propriétés usuelles des fonctions trigonométriques.
+On obtient bien:
+\[
+ \frac1\pi \int_{-\pi}^{\pi} f(t)^2 dt 
+ = \frac{a_0^2}2 + \sum_{n\geq1} ( a_n^2 + b_n^2).
+\]
+Cette égalité montre que l'énergie de la fonction est donnée par la somme des carrés de ses coefficients de Fourier.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice} 
+
+\begin{center}
+{\bf *** L'abominable fonction de Dirichlet ***} 
+\end{center}
+ 
+Soit l'abominable fonction de Dirichlet:
+\[
+  \chi_\eQ(t) = \left \{ \begin{array}{llr} 
+  1 & \mbox{si }& t\in \eQ,\\
+  0 & \mbox{sinon.}
+  \end{array}\right.
+\]
+
+\begin{enumerate}
+ \item Cette fonction n'est continue nulle part: pour tout $t\in]-\pi;\pi[$, il existera toujours des points $s$ tels que $\chi_\eQ(s)=0$ et d'autres tels que $\chi_\eQ(s)=1$ dans une voisinage arbitrairement petit de $t$.
+ Les mathématiciens du XIXe siècle ont d'ailleurs eu du mal à admettre qu'il s'agissait bien d'une fonction.
+  
+ \item Calculons pour $n\geq1$:
+ \[
+  a_n = \int_{-\pi}^\pi \chi_\eQ (t) \cos(nt) dt = \int_{]-\pi;\pi[ \cap \eQ} \cos(nt) \, dt = 0,
+ \]
+ car l'ensemble $]-\pi;\pi[ \cap \eQ$ est de mesure nulle. Il en est de même pour $a_0$ et $b_n$, $n\geq1$.
+ 
+ Donc la série de Fourier associée à $\chi_\eQ$ est la fonction nulle.
+ 
+ \item On déduit de la question précédente que la série de Fourier de $\chi_\eQ$ ne converge pas ponctuellement vers $\chi_\eQ$ en une infinité de points (pour tous les points qui sont rationnels).
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Transformée de Fourier}
+
+\begin{exercice}
+
+\begin{enumerate}
+ \item Fonction ``porte'', avec $a \geq 0$:
+ \[
+  f_1 (t) = \left \{ \begin{array}{llr} 
+  1 & \mbox{si }& -a<t<a,\\
+  0 & \mbox{sinon.}
+  \end{array}\right.
+ \]
+
+ La transformée de Fourier a été détaillée en cours:
+ $$\hat{f}_1 (\xi) = \frac1{\pi \xi} \sin ( 2\pi a \xi).$$
+ 
+ 
+ \item Fonction gaussienne:
+ \[
+  f_2(t) = \frac14 e^{-3 t^2}.
+ \]
+ 
+ Il suffit d'appliquer la formule du cours en prenant $a=3$:
+ \[
+  \hat{f}_2(\xi) = \frac14 \sqrt{\frac{\pi}{3}} e^{-\frac{\pi^2}{3} \xi^2}.
+ \]
+
+ 
+ \item Fonction ``zig-zag'':
+ \[
+  f_3 (t) = \left \{ \begin{array}{llr} 
+  -\frac12 & \mbox{si }& -a<t<0,\\
+  \frac12 & \mbox{si }& 0<t<a,\\
+  0 & \mbox{sinon.}
+  \end{array}\right.
+ \]
+ 
+ On fait le calcul:
+ \begin{eqnarray*}
+  \hat{f}_3 (\xi) & = & \int_\eR f_3(t) e^{-2\pi i \xi t} dt\\
+  & = & -\frac12 \int_{-a}^0 e^{-2\pi i \xi t} dt
+  + \frac12 \int_{0}^a e^{-2\pi i \xi t} dt\\
+  & = & -\frac12 \left [ \frac{e^{-2\pi i \xi t}}{-2\pi i \xi} \right ]_{-a}^0 
+  + \frac12 \left [ \frac{e^{-2\pi i \xi t}}{-2\pi i \xi} \right ]_{0}^a\\
+  & = & \frac1{4\pi i \xi} \left [ 1 - e^{2\pi i \xi a} \right ]
+  - \frac1{4\pi i \xi} \left [ e^{-2\pi i \xi a} - 1 \right ]\\
+  & = & \frac1{2\pi i \xi} - \frac1{2 \pi i \xi} \frac{ e^{2\pi i \xi a} + e^{-2\pi i \xi a}}{2}\\
+    & = & \frac{1-\cos (2\pi \xi a)}{2 \pi i \xi} .
+ \end{eqnarray*}
+
+ 
+ \item Fonction ``exponentielle'':
+ \[
+  f_4 (t) = e^{-|t|/a}.
+ \]
+
+ On fait encore le calcul:
+ \begin{eqnarray*}
+  \hat{f}_4 (\xi) & = & \int_\eR f_4(t) e^{-2\pi i \xi t} dt\\
+  & = & \int_\eR e^{-|t|/a} e^{-2\pi i \xi t} dt\\
+  & = & \int_{-\infty}^0 e^{t/a} e^{-2\pi i \xi t} dt + \int_0^{+\infty} e^{-t/a} e^{-2\pi i \xi t} dt\\
+  & = & \int_{-\infty}^0 e^{(\frac1a -2\pi i \xi) t} dt + \int_0^{+\infty} e^{-(\frac1a + 2\pi i \xi ) t} dt\\
+  & = & \left [ \frac{e^{(\frac1a -2\pi i \xi) t}}{\frac1a -2\pi i \xi} \right ]_{-\infty}^0 
+  + \left [ \frac{e^{-(\frac1a + 2\pi i \xi ) t}}{-(\frac1a + 2\pi i \xi)} \right ]_{0}^{+\infty}\\
+  & = & \frac1{\frac1a -2\pi i \xi}  
+  + \frac1{\frac1a + 2\pi i \xi}\\
+  & = & \frac{a}{1 -2\pi a i \xi}  
+  + \frac{a}{1 + 2\pi a i \xi}\\
+  & = & a \frac{1 + 2\pi a i \xi + 1 - 2\pi a i \xi}{(1 -2\pi a i \xi)(1 +2\pi a i \xi)}\\
+  & = & \frac{2a}{1 + 4 \pi^2 a^2 \xi^2}.
+  \end{eqnarray*}
+
+ \end{enumerate}
+ 
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+La démonstration des formules suivantes a été vue en cours (il suffit d'appliquer directement la définition):
+\begin{enumerate}
+ \item Si $g(t) = e^{2\pi i a t} f(t)$ alors $$\hat{g}(\xi) = \hat{f} ( \xi - a).$$
+ \item Si $g(t) = f(t + a)$ alors $$\hat{g}(\xi) = e^{2\pi i a \xi} \hat{f} ( \xi ).$$
+ \item Si $g(t) = f(at)$ alors $$\hat{g}(\xi) = \frac1a \hat{f} \left ( \frac{\xi}{a} \right ).$$
+\end{enumerate}
+ 
+\end{exercice}
+
+\end{document}
+
