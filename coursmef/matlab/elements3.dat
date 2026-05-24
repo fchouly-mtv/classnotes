@@ -1,0 +1,6 @@
+% Input-file of triangles for the small mesh
+%
+% element-number  /  1-node  /  2-node  /  3-node
+%
+1      1      3      2
+2      3      4      2

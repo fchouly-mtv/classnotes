@@ -1,0 +1,227 @@
+\input{e.tex}
+
+\corrPolitique{0}
+
+\newcommand{\eps}{\varepsilon}
+
+\usepackage{url}
+
+\title{TP 1 de Calcul Scientifique 2\\ Méthode des Eléments Finis}
+
+\author{Master MIGS 2}
+
+\date{2020/2021}
+
+\begin{document}
+
+\maketitle
+
+Le but de ce TP, à faire en binôme, est d'apprendre à utiliser un code éléments finis "dernière génération", qui se base sur l'écriture du problème à résoudre sous forme faible.
+%
+On utilisera dans ce but FreeFEM++, qui est un logiciel libre développé principalement par le Laboratoire Jacques Louis Lions, à Paris 6 (Frédéric Hecht est le principal contributeur).
+On pourra compléter cette utilisation, si besoin, avec des logiciels de visualisation.
+%
+Cette première partie, sur l'équation de Poisson, a principalement pour objectif d'illustrer le cours et les notions les plus importantes, et aussi de permettre une prise en main du logiciel. %La deuxième partie, sur l'équation de la chaleur, a pour objectif d'appliquer ces notions à un problème "réel".
+
+\parindent0mm
+
+\section{Equation de Poisson}
+
+On se propose ici d'étudier le problème de Poisson suivant sur un domaine $\Omega$ de $\eR^2$:
+\[
+-\Delta u = f \textrm{ dans } \Omega,
+\quad
+u = 0 \textrm{ sur } \partial \Omega,
+\]
+avec $f \in L^2(\Omega)$ le terme source, donné, et où l'inconnue est $u : \Omega \rightarrow \eR$.
+
+\subsection{Domaine carré}
+
+On considère d'abord un domaine carré unité:
+\[
+\Omega := (0,1) \times (0,1)
+\]
+sur lequel on se donne une \emph{solution manufacturée}
+$$ u(x,y) = x(x-1)y(y-1).$$
+Autrement dit, on impose l'expression de la solution $u$ et on calcule le terme source et les conditions limites en conséquence.
+
+\medskip
+
+On approchera la solution à l'aide de maillages structurés (commande {\tt square} de FreeFEM++). On notera $u_h$ la solution approchée par éléments finis.
+
+\begin{enumerate}
+
+\item Calculer l'expression du terme source $f$ pour que la solution du problème de Poisson soit effectivement $u(x,y) = x(x-1)y(y-1)$. Est-ce qu'avec cette expression, on vérifie les conditions de Dirichlet homogènes ?
+
+\item Ecrire la formulation faible associée au problème et le script FreeFEM++ correspondant, pour un maillage structuré de taille $h=0.1$ et des éléments finis $\mathbb{P}_1$.
+
+\item Visualiser la solution obtenue (comparer au graphe de la solution exacte).
+
+\item Calculer les erreurs en norme $L^2$ et $H^1$:
+$\| u - u_h \|_{0,\Omega}$
+et
+$\| u - u_h \|_{1,\Omega}$.
+
+\item Faire maintenant varier la taille $h$ des éléments, et tracer les courbes de convergence associées pour les erreurs en norme $L^2$ et $H^1$. Ce sont des courbes, en échelle logarithmique, où la taille $h$ est en abscisse, et les erreurs sont en ordonnée. Trouver la pente associée à ces erreurs (\emph{taux de convergence}). Qu'observez-vous ?
+
+\item Changer le degré des éléments finis: $P_k$, $k=2,3\dots$, et tracer à nouveau les courbes. Comment évoluent les pentes en fonction de $k$ ?
+
+\item On veut maintenant une solution telle que l'erreur en norme $L^2$ soit plus petite que $10^{-4}$ : quel(s) choix pour $h$ et $k$ préconisez vous ? Pour chaque choix, quel est le nombre de degrés de liberté associé et la taille du système linéaire à résoudre ?
+
+\item %Résoudre un problème similaire dans $\eR^3$, sur un domaine qui est le cube unité, et visualiser la solution ? Quelle est la taille maximum du problème que vous pouvez résoudre dans ce cas ?
+Pour $k=2$, jusqu'à quelle taille de maillage êtes vous capables de résoudre le problème matriciel ? Quelle est alors la taille du système linéaire associé, et l'erreur en norme $H^1$ associée ? Combien de temps est nécessaire pour la résolution ?
+
+\item Comparer les performances, en terme de temps de calcul, des différents solveurs linéaires associés à FreeFEM++ : Cholesky, gradient conjugué, etc.
+
+
+\end{enumerate}
+
+\medskip
+
+%{\it Questions subsidiaires:
+%
+%\begin{enumerate}
+%
+%\item Pouvez-vous écrire un script où on construit explicitement le système linéaire associé au problème variationnel discret ?
+%
+%\item Quelle est la valeur minimale de $h$ que vous êtes capables d'atteindre ? Quelle est la taille du système à résoudre et le temps de calcul associé ?
+%
+%\item Parvenez-vous à résoudre le même problème dans $\eR^3$ sur un domaine qui est le cube unité, et à visualiser la solution ? Quelle est la taille maximum du problème que vous pouvez résoudre dans ce cas ?
+%
+%\end{enumerate}
+%
+%}
+
+\subsection{Domaine en L}
+
+On s'intéresse maintenant à un domaine en forme de "L":
+\[
+\Omega := (0,2)^2 \setminus [1,2)^2.
+\]
+On choisira un terme source constant sur tout le domaine: $L=1$.
+Le maillage ici ne sera pas forcément structuré.
+
+\begin{enumerate}
+
+\item Ecrire la formulation faible associée au problème et le script FreeFEM++ correspondant, pour un maillage de taille maximale $h=0.05$ et des éléments finis $P_1$.
+
+\item Visualiser la solution obtenue. Que remarquez-vous sur le comportement de la solution ?
+
+\item Faire varier $h$ et calculer les courbes de convergence pour les normes $L^2$ et $H^1$:
+$\| u - u_h \|_{0,\Omega}$
+et
+$\| u - u_h \|_{1,\Omega}$.
+Comme on ne connait pas l'expression de la solution $u$, on l'approchera par une solution avec des éléments finis $\mathbb{P}_2$ calculée sur un maillage très fin.
+
+Quel est le taux de convergence observé ?
+
+%\end{enumerate}
+
+%{\it Question subsidiaire:
+
+%\begin{enumerate}
+
+\item Essayer de raffiner localement le maillage là où c'est nécessaire, et observer comment évoluent les erreurs.
+
+\end{enumerate}
+
+%}
+
+\end{document}
+
+
+\newpage
+
+\section{Equation de la chaleur}
+
+On va maintenant résoudre numériquement l'équation de la chaleur, d'abord sur un exemple simple, mais artificiel, et ensuite pour un problème "réel" (thermique d'une aile d'avion).
+
+\subsection{Un premier exemple simple}
+
+Soit $T>0$ et \[
+\Omega := (0,1) \times (0,1).
+\]
+On va d'abord résoudre l'équation de la chaleur sur le domaine $\Omega \times [0,T]$ de $\eR^3$:
+\[
+\partial_t u -\Delta u = f \textrm{ dans } \Omega \times [0,T],
+\quad
+u = 0 \textrm{ sur } \partial \Omega \times [0,T],
+\quad
+u(t=0) = 0 \textrm{ dans } \Omega,
+\]
+avec $f \in L^2(\Omega \times (0,T))$ le terme source, donné, et où l'inconnue est $u : \Omega \times [0,T] \rightarrow \eR$. On prendra, en fait, ici $f=1$ (on chauffe uniformément sur tout le carré).
+
+\begin{enumerate}
+
+\item Rappeler quelle est l'expression de la formulation totalement discrète en utilisant à la fois des éléments finis $P_1$ pour la variable d'espace et le schéma d'Euler implicite pour la variable temporelle. 
+
+\item Ecrire le script FreeFEM++ correspondant. Visualiser la solution obtenue (choisir, par exemple, comme pas de temps et d'espace $h=0.1$, $\tau = 0.1$).
+
+\item A partir de quelle valeur de $T$ observez-vous une solution (quasi-)stationnaire ?
+
+\item Etudier comment converge la méthode lorsque $h$ et $\tau$ deviennent petit. Quelle est la meilleure stratégie pour faire évoluer $h$ et $\tau$ ?
+
+\item Qu'est-ce que vous observez si vous prenez le schéma d'Euler explicite pour la discrétisation en temps ?
+
+\end{enumerate}
+
+{\it Remarque.} outre les scripts fournis avec FreeFEM++, vous pouvez aussi reprendre le script fourni sur la page web de Grégoire Allaire : 
+
+\begin{center}
+\url{http://www.cmap.polytechnique.fr/~allaire/map431/infoX2.html}
+\end{center}
+
+{\it Questions subsidiaires:
+
+\begin{enumerate}
+
+\item Que se passe-t'il si on arrête de chauffer au bout d'un temps donné ? Pouvez-vous fournir une explication mathématique ?
+
+\item Arrivez-vous à gagner en précision avec d'autres schémas en temps et d'autres éléments finis en espace ?
+
+\end{enumerate}
+
+}
+
+\subsection{Application en aéronautique}
+
+Simulons maintenant l'évolution de la température au sein d'une aile d'avion en acier, représentée Figure~\ref{fig:airfoil}. 
+On considère que l'aile est à une température initiale 
+$u_0=298.15^{\circ}{\rm K}$, et qu'elle est entourée d'air, qui, lui, est à une température $u_\mathrm{s}=253.15^{\circ}{\rm K}$ (sur la partie $\Gamma_{\mathrm{R}}$). 
+On impose une température $u_{{d}} = 348.15^{\circ}{\rm K}$ sur une petite portion 
+$\Gamma_{\mathrm{D}}$ de la frontière, en bas de l'aile ($\partial \Omega = 
+\Gamma_{\mathrm{R}} \cup \Gamma_{\mathrm{D}})$. %, see Figure~\ref{fig:airfoil} (a)).
+L'acier est caractérisé par sa densité volumique $\rho=7860\  \mbox{kg/m}^3$, 
+une chaleur spécifique $c=502 \ \mbox{J/Kg\,K}$ et une conductivité thermique $\kappa=60\mbox{W/m\,K}$. 
+Pour l'air, le coefficient de transfert de chaleur par convection est $\alpha=45\ \mbox{W/m$^2$\,K}$. On prendra un temps de simulation $T=1000$ s. La dimension transverse $L$ de l'aile est $0.8$ m.
+%
+\begin{figure}[ht!]
+\center
+\includegraphics[width=0.6\linewidth]{airfoil3.pdf} %(a)
+\caption{Géométrie de l'aile d'avion, avec notations pour le domaine et les bords.}
+\label{fig:airfoil}
+\end{figure}
+%
+Le modèle mathématique pour ce problème est le suivant :
+\begin{equation*}
+%\label{eq:heatAirfoil}
+\begin{aligned}
+\rho c\ \partial_t {u} - \kappa\:\Delta u &= 0 &\quad\textrm{dans}&\quad\Omega\times(0,T),\\
+u(\cdot,0)&=u_0 &\quad\textrm{dans}&\quad\Omega,\\
+\kappa \frac{\partial u}{\partial n}+\alpha u&=\alpha u_s & \quad\textrm{sur}&\quad \Gamma_{\mathrm{R}},\\
+u & = u_{{d}} & \quad\textrm{sur}&\quad \Gamma_{\mathrm{D}}.
+\end{aligned}
+\end{equation*}
+%
+Ecrire le script FreeFEM++ qui permet de résoudre le problème décrit ci-dessus, puis prédire et visualiser l'évolution de la température au niveau de l'aile.
+
+\newpage
+
+\section{Technique de pénalité}
+
+Autre sujet, à voir en fonction des avancées.
+
+Reprendre matériel précédent (exams CTU et mémoires).
+
+\end{document}
+

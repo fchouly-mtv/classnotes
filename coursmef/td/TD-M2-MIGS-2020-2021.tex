@@ -1,0 +1,1701 @@
+\input{e.tex}
+
+\corrPolitique{0}
+
+\newcommand{\eps}{\varepsilon}
+
+\begin{document}
+
+%\maketitle
+
+\parindent0mm
+
+\section{Solutions analytiques de quelques EDP}
+
+Il s'agit dans ce premier TD de calculer explicitement les solutions (analytiques) de certaines équations aux dérivées partielles, sur des domaines simples et avec des termes sources et des conditions aux limites simples.
+
+\medskip
+
+Dans certains exercices, on pourra chercher la solution $u$ en utilisant la technique de séparation des variables, autrement dit on cherchera $u$ sous la forme:
+\[
+u(x,y) = P(x)Q(y).
+\]
+Dans d'autres exercices, on pourra utiliser les coordonn\'ees polaires. On rappelle pour cela les formules suivantes, pour un champ scalaire $u$:
+\[
+\nabla u (r,\theta) = \left [ \frac{\partial u}{\partial r} , \frac{1}{r}\frac{\partial u}{\partial \theta} \right ]^{\mathrm{T}}, \qquad
+\Delta u (r,\theta) %= 
+%\frac{\partial^2 u}{\partial r^2} + \frac1{r} \frac{\partial u}{\partial r} + %%\frac1{r^2} \frac{\partial^2 u}{\partial \theta^2}
+= \frac1{r} \frac{\partial}{\partial r} \left ( r \frac{\partial u}{\partial r} \right )
++ \frac1{r^2} \frac{\partial^2 u}{\partial \theta^2}.
+\]
+
+\begin{exercice}\label{exoChEDP_Anneau}
+
+On considère comme domaine un anneau : 
+$$\Omega = \{ (x,y)\in\eR^2 \, : \, 1 < x^2 + y^2 < R^2 \},$$
+avec $R > 1$ le rayon du disque externe.
+On notera $\Gamma = \partial \Omega$ le bord du domaine, et on notera les bords internes et externes du domaine, respectivement,
+\begin{eqnarray*}
+\Gamma_1 &=& \{ (x,y)\in\eR^2 \, : \,  x^2 + y^2 = 1 \},\\
+\Gamma_R &=& \{ (x,y)\in\eR^2 \, : \,  x^2 + y^2 = R^2 \}.
+\end{eqnarray*}
+
+La notation $u$ sera utilisée pour désigner la solution d'une équation aux dérivées partielles, autrement dit une fonction $u : \Omega \rightarrow \eR$.
+
+\begin{enumerate}
+
+\item On s'intéresse d'abord au problème de Poisson sur $\Omega$ avec conditions aux limites de Dirichlet homogènes :
+\[
+- \Delta u = f \mbox{ dans } \Omega, \quad u = 0 \mbox{ sur } \Gamma,
+\]
+où $f : \Omega \rightarrow \eR$ est donnée. On choisira pour simplifier $f$ constante : $f(x,y) = F$, pour $(x,y)\in\Omega$ et $F\in\eR$.
+Calculer explicitement $u$ en fonction de $F$ et représenter cette solution $u$ pour différentes valeurs de $F$.
+
+\item On veut maintenant imposer une condition de Dirichlet non-homogène $u_D$ sur le bord interne :
+\[
+- \Delta u = f \mbox{ dans } \Omega, \quad u = u_D \mbox{ sur } \Gamma_1,
+\quad u = 0 \mbox{ sur } \Gamma_R.
+\]
+On choisira aussi $u_D$ constante : $u_D(x,y) = U$, pour $(x,y)\in\Omega$ et $U\in\eR$.
+Calculer explicitement $u$ en fonction de $F$ et de $U$, et représenter cette solution $u$ pour quelques valeurs de $U$ et $F$.
+
+\item On veut ici imposer une condition de Neumann sur chacun des bords :
+\[
+- \Delta u = f \mbox{ dans } \Omega, \quad \partial_n u = g_1 \mbox{ sur } \Gamma_1,
+\quad \partial_n u = g_R \mbox{ sur } \Gamma_R.
+\]
+Montrer qu'il existe une condition entre $g_1$, $g_R$ et $F$ pour pouvoir trouver une solution, et en supposant cette condition satisfaite, donner l'expression de $u$ en fonction des différentes données. Que remarquez-vous en particulier ?
+
+Représentez graphiquement quelques exemples de solutions.
+
+\item On s'intéresse finalement au problème de Poisson avec une condition de Robin :
+\[
+- \Delta u = f \mbox{ dans } \Omega, \quad \partial_n u + \alpha u = 0 \mbox{ sur } \Gamma,
+\]
+où $\alpha \in \eR$ est un paramètre donné. Calculer à nouveau l'expression de $u$ en fonction de $F$ et $\alpha$, et représenter quelques solutions.
+
+Que se passe-t'il si $\alpha$ devient très grand ?
+
+\end{enumerate}
+
+\end{exercice}
+
+%\medskip
+
+\newpage
+
+\begin{exercice}\label{exoChEDP_AdvectionReactionDiffusion}
+
+On considère le domaine suivant :
+\[
+\Omega = ]-1;1[ \times \eR,
+\]
+et on notera les bords gauche et droit, respectivement $\Gamma_{-1} = \{ -1 \} \times \eR$ et $\Gamma_1 = \{ 1 \} \times \eR$.
+Soit l'équation elliptique suivante dite d'advection-réaction-diffusion:
+\[
+\alpha u + ( \beta \cdot \nabla ) u - \varepsilon \Delta u = 0 \mbox{ dans } \Omega,
+\]
+avec les paramètres $\alpha \in \eR$, $\beta \in \eR^2$ et $\varepsilon > 0$,
+et les conditions aux limites:
+\[
+u = U \mbox{ sur } \Gamma_{-1}, \qquad \partial_n u = 0 \mbox{ sur } \Gamma_1.
+\]
+On choisira $\beta = (1,0)^\mathrm{T}$. Donner l'expression analytique de $u$ en fonction des différents paramètres et représenter graphiquement quelques solutions pour des valeurs bien choisies de $\alpha$ et $\varepsilon$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChEDP_PoissonCarre}
+
+On considère un domaine carré 
+$$ \Omega = ] 0 ; \pi [^2$$
+de bord $\Gamma = \partial \Omega$
+et le problème de Poisson avec conditions de Dirichlet homogènes :
+\[
+- \Delta u = 1 \mbox{ dans } \Omega, \quad u = 0 \mbox{ sur } \Gamma.
+\]
+Trouver la solution $u$ de ce problème.
+
+\medskip
+
+{\it Indication : on pourra utiliser la méthode des variables séparées et représenter $u$ à l'aide d'une série de Fourier.}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChEDP_ChaleurAnalytique}
+
+On considère un domaine carré 
+$$ \Omega = ] 0 ; \pi [^2$$
+de bord $\Gamma = \partial \Omega$
+et la solution $u : \Omega \times \eR_+ \rightarrow \eR$ de l'équation de la chaleur avec terme source nul et conditions de Dirichlet homogènes :
+\[
+\partial_t u - \Delta u = 0 \mbox{ dans } \Omega \times ]0;+\infty[, \quad u = 0 \mbox{ sur } \Gamma \times ]0;+\infty[,
+\]
+et comme condition initiale $u(x,y,0) = \sin(m x) \sin(n y)$, avec $m \geq1$ et $n\geq1$.
+Trouver la solution $u$ de ce problème.
+
+\medskip
+
+{\it Indication : se ramener à la résolution d'une équation différentielle.}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChEDP_ChaleurProp}
+
+On va montrer ici une propriété de décroissance exponentielle en temps des solutions pour l'équation de la chaleur. On considère pour cela un domaine $\Omega$ de $\eR^2$, borné, de bord $\Gamma = \partial \Omega$ et le problème suivant : 
+\[
+\partial_t u - \Delta u = 0 \mbox{ dans } \Omega \times ]0;+\infty[, \quad u = 0 \mbox{ sur } \Gamma \times ]0;+\infty[,
+\]
+et comme condition initiale $u = u_0$ dans $\Omega$.
+
+\begin{enumerate}
+
+\item Montrer d'abord que, pour tout $t>0$:
+\[
+\frac12 \frac{d}{dt} \int_\Omega u^2(x,y,t) dxdy = - \int_\Omega \| \nabla u (x,y,t) \|^2 dx dy.
+\]
+
+\item En utilisant l'inégalité de Poincaré, en déduire que 
+\[
+\int_\Omega u^2(x,y,t) dxdy
+\]
+décroit exponentiellement en temps.
+
+\end{enumerate}
+
+\end{exercice}
+
+%Equation des ondes dans le carré unité
+%Conservation de l'énergie pour l'équation des ondes
+%Equation de transport ?
+
+\newpage
+
+\section{Formules de Green et formulations faibles}
+
+Le but de ce TD est d'abord de revenir sur le Théorème de la divergence de Gauss, sur la formule de Green, et d'en proposer des variantes. Ensuite, il s'agira de travailler sur les formulations faibles de quelques problèmes aux limites pour des équations aux dérivées partielles elliptiques.
+
+\bigskip
+
+\begin{exercice}\label{exoChWeak_Stokes}
+
+Démontrer la formule suivante, connue sous le nom de \emph{formule de Stokes}:
+\[
+\int_\Omega ( \hbox{div } \sigma ) \phi 
+= 
+- \int_\Omega \sigma \cdot ( \nabla \phi ) 
++ \int_{\partial \Omega} (\sigma \cdot n) \phi,
+\]
+où $\Omega$ est un ouvert borné de $\eR^2$ de frontière $\partial \Omega$ polygonale ou lisse, de normale unitaire sortante $n$, et $\phi \in \mathcal{C}^1(\overline{\Omega})$, $\sigma \in ( \mathcal{C}^1(\overline{\Omega}) )^2$. 
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChWeak_2Green}
+
+Démontrer la \emph{deuxième formule de Green}:
+\[
+\int_\Omega ( v \Delta u  - u \Delta v ) = 
+\int_{\partial \Omega} ( v \partial_n u - u \partial_n v ),
+\]
+où $\Omega$ est un ouvert borné de $\eR^2$ de frontière $\partial \Omega$ polygonale ou lisse, de normale unitaire sortante $n$, et $u,v \in \mathcal{C}^2(\overline{\Omega})$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChWeak_rot}
+
+Soit $\Omega$ est un ouvert borné de $\eR^3$ de frontière $\partial \Omega$ polyédrale ou lisse, de normale unitaire sortante $n$. On notera $(x_1,x_2,x_3)$ les coordonnées génériques d'un point quelconque de $\eR^3$. On admettra également que le Théorème de la divergence de Gauss est aussi valable dans $\eR^3$.
+
+\begin{enumerate}
+
+\item Soit $i=1,2,3$, et $u,v \in \mathcal{C}^1(\overline{\Omega})$. Montrer la formule suivante :
+\[
+\int_\Omega  u \frac{\partial v}{\partial x_i}
+=
+- \int_\Omega \frac{\partial u}{\partial x_i} v
++ \int_{\partial \Omega} { u v n_i}.
+\]
+
+\item Soit $\phi \in (\mathcal{C}^1(\overline{\Omega}))^3$. On définit le rotationnel de $\phi$ comme étant le vecteur de composantes:
+\[
+\hbox{rot } \phi = \left (
+\frac{\partial \phi_3}{\partial x_2} - \frac{\partial \phi_2}{\partial x_3},
+\frac{\partial \phi_1}{\partial x_3} - \frac{\partial \phi_3}{\partial x_1},
+\frac{\partial \phi_2}{\partial x_1} - \frac{\partial \phi_1}{\partial x_2}
+\right )^{\mathrm{T}}.
+\]
+Montrer alors que pour tout $\phi \in (\mathcal{C}^1(\overline{\Omega}))^3$ et tout $\psi \in (\mathcal{C}^1(\overline{\Omega}))^3$, on peut obtenir l'identité :
+\[
+\int_\Omega  ( \hbox{rot } \phi ) \psi
+- \int_\Omega \phi ( \hbox{rot } \psi)
+= - \int_{\partial \Omega} ( \phi \times n ) \psi.
+\]
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChWeak_Neumann}
+
+Soit $\Omega \subset \eR^2$, ouvert, borné et connexe, et de frontière $\Gamma = \partial \Omega$, et 
+soit le problème de Poisson avec une condition de Neumann :
+\begin{equation}\label{eq:PoissonNeumann}
+- \Delta u = f \mbox{ dans } \Omega, \quad \partial_n u = g \mbox{ sur } \Gamma,
+\end{equation}
+où $f : \Omega \rightarrow \eR$ et $g : \Gamma \rightarrow \eR$ sont données.
+
+\begin{enumerate}
+
+\item Montrer que s'il existe une solution $u\in \mathcal{C}^2(\overline{\Omega})$ au problème \eqref{eq:PoissonNeumann}, alors $f$ et $g$ satisfont l'équation suivante:
+\[
+\int_\Omega f + \int_\Gamma g = 0.
+\]
+Cette relation est appelée \emph{condition de compatibilité}.
+
+\emph{Retrouver la condition de l'exercice 1.1 dans le cas où le domaine est un anneau.}
+
+\item Montrer que si $u\in \mathcal{C}^2(\overline{\Omega})$ est une solution de \eqref{eq:PoissonNeumann}, alors $u+C$ reste encore une solution, pour toute constante $C\in\eR$.
+
+\item Ecrire le problème sous forme faible. On utilisera comme espace pour la solution et les fonctions tests:
+\[
+V = \left \{ v \in H^1(\Omega) \, ; \, \int_\Omega v = 0 \right \}.
+\]
+Quelles conditions sur $f$ et $g$ faut-il pour que la forme faible soit bien définie ? Justifier le choix de l'espace $V$.
+
+\item Montrer que le problème faible admet une unique solution. On utilisera pour cela l'inégalité suivante, connue sous le nom \emph{d'inégalité de Poincaré-Wirtinger} : si $\Omega$ est borné et connexe, il existe $c>0$ telle que pour tout $v\in H^1(\Omega)$:
+\[
+c \, \left \| v - \left( \frac1{|\Omega|} \int_\Omega v \right ) \right \|_{0,\Omega} \leq \| \nabla v \|_{0,\Omega}.
+\]
+
+\item Peut-on écrire la solution $u$ de \eqref{eq:PoissonNeumann} comme le minimum d'une fonctionnelle d'énergie ?
+
+\item Que se passe-t'il si $\Omega$ n'est pas connexe ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChWeak_Robin}
+
+Soit $\Omega \subset \eR^2$ de frontière $\Gamma = \partial \Omega$, et 
+soit le problème de Poisson avec une condition de Robin :
+\begin{equation}\label{eq:PoissonRobin}
+- \Delta u = f \mbox{ dans } \Omega, \quad \partial_n u + \alpha u = \alpha g \mbox{ sur } \Gamma,
+\end{equation}
+où $\alpha \in \eR$ est le paramètre de Robin, et $f : \Omega \rightarrow \eR$ et $g : \Gamma \rightarrow \eR$ sont données.
+
+\begin{enumerate}
+
+\item Dériver la formulation faible associée à ce problème. Préciser dans quels espaces on doit choisir $f$ et $g$ pour que la formulation faible soit bien définie, et l'espace $V$ dans lequel on cherche $u$.
+
+\item Montrer que le problème faible admet une unique solution, à condition de bien choisir $\alpha$. On utilisera pour cela l'inégalité suivante, qui généralise l'inégalité de Poincaré : si $\Omega$ est borné, il existe $c>0$ telle que pour tout $v\in H^1(\Omega)$:
+\[
+c \, \left \| v \right \|_{0,\Omega} \leq \| v \|_{0,\Gamma}+ \| \nabla v \|_{0,\Omega}.
+\]
+
+\item Peut-on écrire la solution de \eqref{eq:PoissonRobin} comme le minimum d'une fonctionnelle d'énergie ?
+
+\item Supposons $g=0$. Montrer qu'il existe $C>0$ telle que :
+\[
+\| \nabla u \|_{0,\Omega} 
++
+(2\alpha - 1 ) \| u \|_{0,\Gamma}
+\leq C \| f \|_{0,\Omega}.
+\]
+Que peut-on déduire de cette inégalité ?
+
+\item Parvenez-vous à montrer un résultat similaire quand $g\neq0$ ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChWeak_plaque}
+
+Soit $\Omega \subset \eR^2$ de frontière $\Gamma = \partial \Omega$.
+On s'intéresse au problème suivant, dit \emph{problème de plaque} ou \emph{problème biharmonique}:
+\begin{equation} \label{eq:plaque}
+\Delta^2 u = f \mbox{ dans } \Omega, \quad u = \partial_n u = 0 \mbox{ sur } \Gamma,
+\end{equation}
+où $f : \Omega \rightarrow \eR$ est donnée. L'opérateur bilaplacien est défini par :
+\[
+\Delta^2 u = \Delta (\Delta u).
+\]
+Ici la solution $u$ correspond au déplacement vertical d'une plaque encastrée sur sa frontière $\Gamma$.
+
+On notera $(x_1,x_2)$ les coordonnées génériques d'un point quelconque de $\eR^2$.
+
+\begin{enumerate}
+
+\item Expliciter l'expression $\Delta^2 u$ en fonction des dérivées partielles de $u$ par rapport à $x_1$ et à $x_2$.
+
+\item Mettre le problème \eqref{eq:plaque} sous forme faible. Bien préciser comment les conditions limites sont traitées. Préciser également les espaces choisis pour le terme source $f$, la fonction inconnue $u$ et les fonctions tests $v$. 
+
+\item 
+On va montrer que le problème \eqref{eq:plaque} admet une unique solution. Soit l'espace
+\[
+V = H^2_0 (\Omega) = \{ v \in H^2(\Omega) \, ; \, v = \partial_n v = 0  \mbox{ sur } \Gamma \}
+\]
+muni de sa norme usuelle notée $\|v\|_{2,\Omega}$. En utilisant l'inégalité de Poincaré, montrer que la semi-norme $\| \nabla^2 v \|_{0,\Omega}$ est en fait une norme sur $V$.
+
+
+\item Soit $v \in \mathcal{C}^3(\overline{\Omega})$ qui s'annule sur $\Gamma$, ainsi que toutes ses dérivées. Montrer l'identité suivante, pour $i,j=1,2$:
+\[
+\int_\Omega \left (\frac{\partial^2 v}{\partial x_i \partial x_j} \right )^2
+=
+\int_\Omega \frac{\partial^2 v}{\partial x_i^2} \frac{\partial^2 v}{\partial x_j^2}.
+\]
+En déduire que pour tout $v$ dans $V$:
+\[
+\| \Delta v \|_{0,\Omega} = \| \nabla^2 v \|_{0,\Omega}.
+\]
+
+\item Montrer finalement que \eqref{eq:plaque} est bien posé.
+
+\item Peut-on écrire \eqref{eq:plaque} comme le minimum d'une fonctionnelle d'énergie ?
+
+\end{enumerate}
+
+\end{exercice}
+
+% EXERCICES EN PLUS : PROBLEME DE TRANSMISSION
+
+\newpage
+
+\section{Espaces d'éléments finis $\mathbb{P}_k$}
+
+Nous allons dans ce TD généraliser les notions vues en cours sur les éléments finis. En cours, nous avons vu les éléments finis de Lagrange d'ordre un sur des triangles (en dimension deux, donc). Nous allons ici voir comment on peut construire des éléments finis de Lagrange d'ordre quelconque $k$ sur des simplexes : segments en dimension un,  triangles en dimension deux et tétraèdres en dimension trois.
+
+\medskip
+
+On notera $N$ la dimension de l'espace ($N=1,2,3,\dots$) et un $N$-simplexe $T$ l'enveloppe convexe définie par les points
+\[
+a_1, a_2 , \ldots, a_{N+1} \in \eR^N
+\]
+autrement dit un $1$-simplexe est un segment, un $2$-simplexe est un triangle et un $3$-simplexe un tétraèdre.
+
+\medskip
+
+On appelera un des points $a_i$ un \emph{sommet} de $T$, et on appelera une \emph{face} de $T$ le $(N-1)$-simplexe engendré par tous les points $a_1, a_2 , \ldots, a_{N+1}$ sauf un seul (en fait, c'est une arête en dimension deux, et un point en dimension un).
+
+\medskip
+
+On notera $(a_{i,j})_{j=1,\ldots,N}$ les coordonnées du point $a_i$.
+
+\medskip
+
+\begin{exercice}\label{exoChPk_nondeg}
+
+Montrer que $T$ est non-dégénéré si et seulement si la matrice
+\[
+X_T = \left [
+\begin{array}{cccc}
+a_{1,1} & a_{2,1} & \ldots & a_{N+1,1} \\
+a_{1,2} & a_{2,2} & \ldots & a_{N+1,2} \\
+\vdots & \vdots & & \vdots \\
+a_{1,N} & a_{2,N} & \ldots & a_{N+1,N} \\
+1 & 1 & \ldots & 1
+\end{array}
+\right ]
+\]
+est inversible.
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChPk_barycentrique}
+
+Pour repérer un point dans $T$, nous allons utiliser les coordonnées barycentriques $(\lambda_j)_{j=1,\ldots,N+1}$ définies par les relations suivantes, pour tout $x\in\eR^N$:
+\[
+\sum_{j=1}^{N+1} \lambda_j = 1, \quad
+\sum_{j=1}^{N+1} \lambda_j a_j = x.
+\]
+
+\begin{enumerate}
+
+\item Montrer que si $T$ est non-dégénéré, les coordonnées barycentriques sont bien définies, et expliciter les formules ci-dessus dans les cas $N=1$ et $N=2$.
+
+\item Que valent les coordonnées barycentriques $(\lambda_j)_{j=1,\ldots,N+1}$ si on se situe sur un sommet de $T$ ? sur une face de $T$ ?
+
+\item Montrer que les coordonnées barycentriques $(\lambda_j)_{j=1,\ldots,N+1}$ sont des fonctions affines du point $x$ (et on pourra noter aussi, si besoin, $\lambda_j = \lambda_j (x)$).
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+Pour chaque valeur de $k\geq1$, on définit ensuite un ensemble de points particuliers sur $T$ qui vont servir à évaluer des polynômes :
+\[
+\Sigma_k = \left \{ x \in \eR^N \,\middle| \, \lambda_j(x) \in \left\{0,\frac{1}{k},\ldots,\frac{k-1}{k},1\right \}, \mbox{ pour } j=1,\ldots,N \right \}.
+\]
+On appelle cet ensemble un \emph{treillis d'ordre} $k$.
+
+\medskip
+
+\begin{exercice}\label{exoChPk_treillis}
+
+\begin{enumerate}
+\item Représenter graphiquement $\Sigma_k$ pour $N=1,2,3$ et $k=1,2,3$. Donner la valeur du cardinal de $\Sigma_k$ dans chacun des cas. On notera $n_k$ cette valeur.
+
+\item Montrer que pour tout $k\geq 1$, les sommets de $T$ appartiennent toujours à $\Sigma_k$.
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+Finalement, on introduit l'ensemble $\mathbb{P}_k$ des polynômes à coefficients réels de $\eR^N$ dans $\eR$, et de degré inférieur ou égal à $k$. Autrement dit pour $p \in \mathbb{P}_k$, on peut écrire:
+\[
+p(x) = \sum_{\substack{i_1,\ldots,i_N\geq0 \\ i_1+\ldots+i_N\leq k\phantom{-}}} \alpha_{i_1 , \ldots , i_N} x_1^{i_1} \cdots x_N^{i_N}
+\]
+pour tout $x=[x_1,\ldots,x_N]^\mathrm{T}\in \eR^N$.
+
+\medskip
+
+\begin{exercice}\label{exoChPk_Pk}
+
+Pour $N=1,2,3$ et $k=1,2$, expliciter l'expression de $p$ pour $p\in\mathbb{P}_k$ et donner la dimension de $\mathbb{P}_k$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChPk_unisolvant}
+
+Le but de cet exercice est de montrer que $\Sigma_k$ est \emph{unisolvant} pour $\mathbb{P}_k$, autrement dit que tout polynôme de $\mathbb{P}_k$ est déterminé de manière unique en l'évaluant sur l'ensemble des points de $\Sigma_k$.
+
+\medskip
+
+On peut établir ce résultat pour toutes les valeurs de $k$ et $N$, mais la preuve est délicate (voir par exemple le Théorème 4.2.1 du livre de Pierre-Arnaud Raviart et Jean-Marie Thomas). Nous allons l'établir ici pour $N$ quelconque, mais seulement pour $k=1,2$.
+
+\begin{enumerate}
+
+\item Montrer que $$\dim(\mathbb{P}_k) = \mbox{card}(\Sigma_k) (=n_k).$$
+
+\item Soit $(\sigma_j)_{1\leq j\leq n_k}$ l'ensemble des points de $\Sigma_k$ et soit l'application linéaire
+\[
+\Psi_k : \left \{
+\begin{array}{lcl}
+\mathbb{P}_k &\rightarrow &\eR^{n_k}\\
+p & \mapsto & (p(\sigma_j))_{1\leq j\leq n_k}
+\end{array}
+\right. .
+\]
+Nous allons montrer que $\Psi_k$ est injective. Pourquoi est-ce suffisant pour pouvoir conclure ?
+
+\item Montrer que pour $N=1$, $\Psi_k$ est injective.
+
+\item Supposons maintenant : jusqu'au rang $N-1$, $\Psi_k$ est injective. 
+
+On va montrer que cela reste vrai au rang $N$.
+
+Soit $p\in\mathbb{P}_k$, montrer qu'on peut écrire 
+\[
+p(x) = q(\lambda),
+\]
+avec $\lambda = [\lambda_1,\ldots,\lambda_{N+1}]^\mathrm{T}\in \eR^{N+1}$ le vecteur des coordonnées barycentriques et $q$ un polynôme. Quel est le degré de $q$ ?
+
+\item Supposons $p \in \ker{\Psi_k}$. Montrer que $q$ s'annule sur toutes les faces de $T$. En déduire que tout $\lambda_j$ est un diviseur de $q$.
+
+\item Conclure : $q$ est-il nul ? (considérer séparément les cas $k=1$ et $k=2$)
+
+\item En déduire qu'il existe une base $(\varphi_j)_{1\leq j\leq n_k}$ de $\mathbb{P}_k$ telle que :
+\[
+\varphi_j(\sigma_i) = \delta_{ij}, 1 \leq i,j \leq n_k.
+\]
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChPk_jonction}
+
+Soient maintenant $T$ et $T'$ deux $N$-simplexes qui partagent une face commune, que nous noterons $\Gamma$. Montrer que pour $k\geq1$, le treillis $\Sigma_k$ de $T$ et le treillis $\Sigma_k'$ de $T'$ coïncident sur $\Gamma$.
+
+\medskip
+
+Soient également $p_T$ et $p_{T'}$ deux polynômes de $\mathbb{P}_k$, et la fonction $v$ définie sur $T \cup T'$ par :
+\[
+v(x) = \left \{
+\begin{array}{ll}
+p_T(x) &\mbox{si } x \in T\\
+p_{T'}(x) &\mbox{si } x \in T'
+\end{array}
+\right. .
+\]
+Montrer que $v$ est continue si et seulement si les valeurs de $p_T$ et $p_{T'}$ coïncident sur tous les points du treillis de $\Gamma$.
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChPk_expression}
+
+Donner l'expression des polynômes de $\mathbb{P}_k$ sur $T$, en fonction des sommets et des coordonnées barycentriques, pour $k=1$, puis pour $k=2$.
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChPk_global}
+
+Soit $\mathcal{T}_h$ un maillage d'un ouvert connexe polyédrique $\Omega$. Donner la définition de l'espace $V_h$ d'éléments finis $\mathbb{P}_k$ de Lagrange d'ordre $k$ et construire une base de $V_h$.
+\end{exercice}
+
+%Montrer que l'ensemble des fonctions chapeau est bien une base de Vh.
+
+\newpage
+
+\section{Formulations éléments finis}
+
+\begin{exercice}\label{exoChMEF_AdvectionReactionDiffusion}
+
+Soit $\Omega$ un ouvert de $\eR^2$ de bord polygonal et
+soit l'équation d'advection-réaction-diffusion vue à l'exercice \ref{exoChEDP_AdvectionReactionDiffusion}:
+\[
+\alpha u + ( \beta \cdot \nabla ) u - \varepsilon \Delta u = f \mbox{ dans } \Omega,
+\]
+avec les paramètres $\alpha \in \eR$, $\beta \in \eR^2$ et $\varepsilon > 0$,
+et des conditions de Dirichlet homogènes sur le bord $\Gamma := \partial \Omega$.
+
+\begin{enumerate}
+
+\item Ecrire la formulation faible associée au problème ci-dessus. Montrer que cette formulation est bien posée moyennant une condition sur les différents paramètres. Peut-on dire quelque chose si $\varepsilon$ devient petit ?
+
+\item Pour $\mathcal{T}_h$ une triangulation de $\Omega$ et $V_h$ l'espace d'éléments finis de Lagrange de degré 1, écrire la formulation éléments finis associée.
+
+\item Ecrire le système matriciel que l'on obtient à partir de la formulation éléments finis. Détailler l'expression des coefficients de la matrice globale en fonction de la base globale de Lagrange $\varphi_1,\ldots,\varphi_N$.
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}\label{exoChMEF_Robin}
+
+On reprend le problème de Poisson avec condition de Robin, vu à l'exercice \ref{exoChWeak_Robin}.
+%
+Soit $\Omega \subset \eR^2$ de frontière $\Gamma = \partial \Omega$, et 
+soit le problème de Poisson avec une condition de Robin :
+\begin{equation*} %\label{eq:PoissonRobin}
+- \Delta u = f \mbox{ dans } \Omega, \quad \partial_n u + \alpha u = \alpha g \mbox{ sur } \Gamma,
+\end{equation*}
+où $\alpha \in \eR$ est le paramètre de Robin, et $f : \Omega \rightarrow \eR$ et $g : \Gamma \rightarrow \eR$ sont données.
+
+\begin{enumerate}
+
+\item A partir de la formulation faible vue à l'exercice \ref{exoChWeak_Robin}, et pour $\mathcal{T}_h$ une triangulation de $\Omega$ et $V_h$ l'espace d'éléments finis de Lagrange de degré 1, écrire la formulation éléments finis associée.
+
+\item Ecrire le système matriciel que l'on obtient à partir de la formulation éléments finis. Détailler l'expression des coefficients de la matrice globale en fonction de la base globale de Lagrange $\varphi_1,\ldots,\varphi_N$.
+
+\end{enumerate}
+
+\end{exercice}
+
+
+
+
+\newpage
+
+\corrChapitre
+
+\begin{corrige}{ChEDP_Anneau}
+
+On cherche déjà les fonctions $u$ qui vérifient 
+\[
+- \Delta u = F \mbox{ dans } \Omega
+\]
+sans tenir compte des conditions aux limites.
+Elles sont de la forme :
+\[
+u(r) = -\frac{F}{4} r^2 + \alpha \ln (r) + \beta,
+\]
+avec $\alpha$ et $\beta$ des constantes à déterminer.
+On écrit aussi l'expression de la dérivée de $u$, qui va être utile pour les conditions de Neumann et Robin:
+\[
+\frac{du}{dr}(r) = -\frac{F}{2} r + \frac{\alpha}{r}.
+\]
+
+\begin{enumerate}
+
+\item Pour les conditions aux limites de Dirichlet homogènes :
+\[
+u = 0 \mbox{ sur } \Gamma,
+\]
+il vient :
+\[
+0 = u(1) = -\frac{F}{4} + \beta, \qquad
+0 = u(R) = -\frac{F}{4} R^2 + \alpha \ln(R) + \beta.
+\]
+On en déduit
+\[
+\beta = \frac{F}{4}
+\]
+et 
+\[
+\alpha = \frac{F}{4\ln(R)} ( R^2 - 1 ).
+\]
+D'où l'expression finale de la solution :
+\[
+u(r) = \frac{F}{4} \left (
+1 - r^2 + \frac{R^2-1}{\ln(R)} \ln(r)
+\right ).
+\]
+
+\item Pour une condition de Dirichlet non-homogène $U$ sur le bord interne :
+\[
+u = U \mbox{ sur } \Gamma_1,
+\quad u = 0 \mbox{ sur } \Gamma_R,
+\]
+on commence par trouver la solution $\tilde u$ du problème $-\Delta \tilde u = 0$ avec les conditions limites ci-dessus (mais sans terme source $F$). Cette solution est de la forme 
+\[
+\tilde u(r) = \alpha \ln(r) + \beta,
+\]
+et vérifie
+\[
+u(1) = U, \qquad u(R) = 0,
+\]
+d'où
+\[
+\beta = U, \qquad \alpha \ln(R) + U = 0.
+\]
+Ce qui donne 
+\[
+\tilde u(r) = U \left ( 1 - \frac{\ln(r)}{\ln(R)} \right ).
+\]
+Il reste maintenant à superposer cette solution avec la solution $u_0$ obtenue à la question précédente, avec terme source $F$ et conditions homogènes. On a donc:
+\[
+u_0(r) = \frac{F}{4} \left (
+1 - r^2 + \frac{R^2-1}{\ln(R)} \ln(r)
+\right ).
+\]
+Ainsi la solution finale cherchée est:
+\[
+u(r) = u_0(r) + \tilde u (r) =
+\frac{F}{4} \left (
+1 - r^2 + \frac{R^2-1}{\ln(R)} \ln(r)
+\right ) + U \left ( 1 - \frac{\ln(r)}{\ln(R)} \right ).
+\]
+
+\item Pour une condition de Neumann sur chacun des bords :
+\[
+\partial_n u = g_1 \mbox{ sur } \Gamma_1,
+\quad \partial_n u = g_R \mbox{ sur } \Gamma_R.
+\]
+On a donc :
+\[
+g_1 = - \frac{du}{dr} (1) = \frac{F}{2} - {\alpha}
+\]
+et 
+\[
+g_R = \frac{du}{dr} (R) = -\frac{F}{2} R + \frac{\alpha}{R}.
+\]
+On se rend compte qu'il n'y a qu'une seule inconnue à déterminer, alors que nous devons satisfaire deux équations : le système est surcontraint. Si par contre, on a :
+\[
+\frac{g_1}{R} + g_R = \frac{F}{2} \left ( \frac{1}{R} - R \right ),
+\]
+qui est une \emph{condition de compatibilité} obtenue en divisant la première équation par $R$ et en l'additionnant à la deuxième, on peut, par exemple, déterminer $\alpha$ en fonction de $g_1$ et de $F$ (et $g_R$ est donné par la condition de compatibilité):
+\[
+\alpha = \frac{F}{2} - g_1.
+\]
+On obtient finalement une solution de la forme :
+\[
+u(r) = -\frac{F}{4} r^2 + \left ( \frac{F}{2} - g_1 \right )  \ln (r) + \beta,
+\]
+où $\beta$ reste indéterminée : pour toute valeur de $\beta$, la fonction $u$ ci-dessus est en effet solution du problème de Neumann (les solutions sont donc définies à une constante additive près).
+
+\item Pour une condition de Robin :
+\[
+\partial_n u + \alpha u = 0 \mbox{ sur } \Gamma,
+\]
+où $\alpha \in \eR$ est le paramètre de Robin, on reprend les expressions générales de $u$ et de sa dérivée:
+\[
+u(r) = -\frac{F}{4} r^2 + a \ln (r) + b,
+\qquad
+\frac{du}{dr}(r) = -\frac{F}{2} r + \frac{a}{r}
+\]
+où cette fois nous avons employé les notations $a$ et $b$ pour les constantes, afin qu'il n'y ait pas de confusion possible avec le paramètre de Robin $\alpha$.
+
+Ecrivons tout d'abord la condition pour $r=1$ :
+\[
+0 = -\frac{du}{dr} (1) + \alpha u(1)
+= -a + \frac{F}{2} + \alpha ( b - \frac{F}{4} ).
+\]
+Ecrivons également la condition pour $r=R$ :
+\[
+0 = \frac{du}{dr} (R) + \alpha u(R)
+= \frac{a}{R} - \frac{F}{2} R + \alpha ( -\frac{F}{4} R^2 + a \ln(R) + b ).
+\]
+On obtient ainsi le système linéaire suivant d'inconnues $a$ et $b$:
+ :
+\begin{eqnarray*}
+- a + \alpha b &=& \frac{F}{4} ( \alpha - 2)\\
+(\frac{1}{R} + \alpha \ln(R) ) a + \alpha b &=& \frac{FR}{4} (\alpha R - 2).
+\end{eqnarray*}
+On peut résoudre ce système en soustrayant la deuxième ligne de la première, et ainsi trouver $a$. On obtient ensuite $b$ en fonction de $a$ à l'aide de la première équation.
+
+Si $\alpha$ devient très grand, on retrouve la solution obtenue en 1. pour une condition de Dirichlet homogène.
+
+\end{enumerate}
+
+\end{corrige}
+
+\newpage
+
+\begin{corrige}{ChEDP_AdvectionReactionDiffusion}
+
+On travaille sur
+\[
+\Omega = ]-1;1[ \times \eR,
+\]
+avec $\Gamma_{-1} = \{ -1 \} \times \eR$ et $\Gamma_1 = \{ 1 \} \times \eR$.
+On considère:
+\[
+\alpha u + ( \beta \cdot \nabla ) u - \varepsilon \Delta u = 0 \mbox{ dans } \Omega,
+\]
+et
+\[
+u = U \mbox{ sur } \Gamma_{-1}, \qquad \partial_n u = 0 \mbox{ sur } \Gamma_1.
+\]
+
+Déjà, pour $\beta = (1,0)^\mathrm{T}$, l'équation d'advection-réaction-diffusion s'écrit :
+\[
+\alpha u + \frac{\partial u}{\partial x} - \varepsilon \Delta u = 0. \]
+On peut ensuite utiliser la méthode de séparation des variables et chercher $u$ sous la forme :
+\[
+u(x,y) = \varphi(x) \psi (y)
+\]
+ce qui donne
+\[
+\alpha \varphi (x) \psi(y) + \psi(y) \varphi'(x) 
+- \varepsilon (\varphi''(x) \psi(y) + \psi''(y) \varphi(x)) = 0.
+\]
+Compte-tenu de la forme du domaine $\Omega$, on peut de plus supposer que la solution ne dépend pas de $y$ : $\psi(y)=1$. Ceci nous donne finalement une équation différentielle dont l'inconnue est $\varphi$:
+\[
+\alpha \varphi (x) + \varphi'(x) - \varepsilon \varphi''(x) = 0.
+\]
+C'est une équation linéaire du second ordre à coefficients constants. Le discriminant de l'équation caractéristique s'écrit :
+\[
+\Delta = 1 + 4 \alpha \varepsilon > 0
+\]
+qui est toujours positif, et donc les solutions sont de la forme :
+\[
+\varphi(x) = C_1 e^{\lambda_1 x} + C_2 e^{\lambda_2 x},
+\]
+avec
+\[
+\lambda_1 = \frac{1}{2\alpha} (-1 + \sqrt{\Delta}), \quad
+\lambda_2 = \frac{1}{2\alpha} (-1 - \sqrt{\Delta}).
+\]
+Les constantes $C_1$ et $C_2$ sont déterminées à l'aide des conditions aux limites: $\varphi(-1) = U$ et $\varphi'(1) = 0$.
+
+\medskip
+
+Ceci permet de représenter ensuite $u(x,y) = \varphi(x)$. On pourra s'intéresser à ce qui se passe quand $\alpha$ et $\varepsilon$ sont très grands ou très petits.
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChEDP_PoissonCarre}
+
+On décompose la solution uniquement sur une base en sinus, afin de respecter les conditions aux limites.
+
+On décompose tout d'abord le terme source $f(x,y)=1$ en une double série de Fourier :
+\[
+1 = \sum_{m,n\geq0} F_{mn} \sin(mx) \sin(ny),
+\]
+où les coefficients sont donnés par 
+\[
+F_{mn} = \frac{4}{\pi^2} \int_0^\pi \int_0^\pi \sin(mx) \sin(ny) dx dy
+= \frac{4}{mn \pi^2} ( 1 - (-1)^m ) ( 1 - (-1)^n ).
+\]
+Ensuite, on cherche aussi $u$ sous la forme
+\[
+u(x,y) = \sum_{m,n\geq0} U_{mn} \sin(mx) \sin(ny),
+\]
+et ainsi
+\[
+\Delta u(x,y) = - \sum_{m,n\geq0} (m^2 +n^2) U_{mn} \sin(mx) \sin(ny).
+\]
+Donc l'équation $-\Delta u = 1$ peut s'écrire en termes de coefficients de Fourier :
+\[
+U_{mn} = -\frac{F_{mn}}{m^2 + n^2}
+= -\frac{4}{(m^2 + n^2) mn \pi^2} ( 1 - (-1)^m ) ( 1 - (-1)^n ).
+\]
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChEDP_ChaleurAnalytique}
+
+Pour 
+$$ \Omega = ] 0 ; \pi [^2$$
+de bord $\Gamma = \partial \Omega$,
+on cherche $u : \Omega \times \eR_+ \rightarrow \eR$
+sous la forme
+\[
+u(x,y,t) = u_0(x,y) \varphi(t)
+\]
+qui vérifie à la fois les conditions initiales, pourvu que $\varphi(0)=1$, et les conditions aux limites.
+En remarquant que 
+\[
+\Delta u_0 = -(m^2 + n^2) u_0,
+\]
+l'équation de la chaleur 
+\[
+\partial_t u - \Delta u = 0 
+\]
+devient
+\[
+\varphi'(t) + (m^2 + n^2) \varphi(t) = 0,
+\]
+dont la solution est de la forme :
+\[
+\varphi(t) = \varphi(0) \exp ( - (m^2 + n^2) t ).
+\]
+Comme $\varphi(0)=1$, on a finalement :
+\[
+u(x,y) = \sin ( mx ) \sin ( my ) \exp ( - (m^2 + n^2) t ).
+\]
+On remarque que la solution décroit exponentiellement.
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChEDP_ChaleurProp}
+
+On se place sur un domaine $\Omega$ de $\eR^2$, borné, de bord $\Gamma = \partial \Omega$ et on considère le problème : 
+\[
+\partial_t u - \Delta u = 0 \mbox{ dans } \Omega \times ]0;+\infty[, \quad u = 0 \mbox{ sur } \Gamma \times ]0;+\infty[,
+\]
+avec comme condition initiale $u = u_0$ dans $\Omega$.
+
+\begin{enumerate}
+
+\item On multiplie $\partial_t u - \Delta u = 0$ par $u$ et on l'intègre sur $\Omega$. En utilisant la relation $$(\partial_t u) u = \frac12 \partial_t (u^2)$$ et la formule de Green, on obtient bien :
+\[
+\frac12 \frac{d}{dt} \int_\Omega u^2(x,y,t) dxdy = - \int_\Omega \| \nabla u (x,y,t) \|^2 dx dy.
+\]
+
+\item A partir de la formule ci-dessus, et en utilisant l'inégalité de Poincaré, on obtient : 
+\[
+\frac12 \frac{d}{dt} \int_\Omega u^2(x,y,t) dxdy \leq - c \int_\Omega u^2 (x,y,t) dx dy
+\]
+avec $c>0$. Soit alors 
+\[
+\varphi(t) = \int_\Omega u^2(x,y,t) dxdy.
+\]
+Comme $\varphi$ vérifie l'inéquation
+\[ \varphi'(t) \leq -2c \,\varphi(t) \]
+elle vérifie aussi l'inégalité
+\[
+\varphi(t) \leq \varphi(0) \exp (-2c \, t).
+\]
+\end{enumerate}
+
+\end{corrige}
+
+\newpage
+
+\begin{corrige}{ChWeak_Stokes}
+
+En appliquant le théorème de la divergence de Gauss à $\psi = \phi \sigma$, on obtient bien la 
+{formule de Stokes}
+\[
+\int_\Omega ( \hbox{div } \sigma ) \phi 
+= 
+- \int_\Omega \sigma \cdot ( \nabla \phi ) 
++ \int_{\partial \Omega} (\sigma \cdot n) \phi
+\]
+pour $\phi \in \mathcal{C}^1(\overline{\Omega})$ et $\sigma \in ( \mathcal{C}^1(\overline{\Omega}) )^2$. 
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChWeak_2Green}
+Pour $u,v \in \mathcal{C}^2(\overline{\Omega})$, on écrit deux fois la première formule de Green, en permutant le rôle de $u$ et de $v$ lors de la deuxième écriture. Il suffit ensuite d'additionner les deux relations pour obtenir la
+{deuxième formule de Green}:
+\[
+\int_\Omega ( v \Delta u  - u \Delta v ) = 
+\int_{\partial \Omega} ( v \partial_n u - u \partial_n v ).
+\]
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChWeak_rot}
+
+\begin{enumerate}
+
+\item Pour $i=1,2,3$, et $u,v \in \mathcal{C}^1(\overline{\Omega})$, on applique le théorème de la divergence de Gauss au vecteur $\psi = (uv) e_i$, où $e_i$ est le $i$-ème vecteur de la base canonique. On obtient alors \[
+\int_\Omega  u \frac{\partial v}{\partial x_i}
+=
+- \int_\Omega \frac{\partial u}{\partial x_i} v
++ \int_{\partial \Omega} { u v n_i}.
+\]
+
+\item Soit $\phi \in (\mathcal{C}^1(\overline{\Omega}))^3$ et son
+rotationel 
+\[
+\hbox{rot } \phi = \left (
+\frac{\partial \phi_3}{\partial x_2} - \frac{\partial \phi_2}{\partial x_3},
+\frac{\partial \phi_1}{\partial x_3} - \frac{\partial \phi_3}{\partial x_1},
+\frac{\partial \phi_2}{\partial x_1} - \frac{\partial \phi_1}{\partial x_2}
+\right )^{\mathrm{T}}.
+\]
+Soit également $\psi \in (\mathcal{C}^1(\overline{\Omega}))^3$.
+On écrit d'abord :
+\begin{align*}
+ & \int_\Omega \left ( \hbox{rot } \phi \right ) \cdot \psi \\
+=& \int_\Omega \left (
+\frac{\partial \phi_3}{\partial x_2} - \frac{\partial \phi_2}{\partial x_3}
+\right ) \psi_1
++ \int_\Omega \left (
+\frac{\partial \phi_1}{\partial x_3} - \frac{\partial \phi_3}{\partial x_1}
+\right ) \psi_2
++ \int_\Omega \left (
+\frac{\partial \phi_2}{\partial x_1} - \frac{\partial \phi_1}{\partial x_2}
+\right ) \psi_3.
+\end{align*}
+Il suffit ensuite d'appliquer la formule de la question 1 à chacun des trois termes, et ensuite de regrouper les termes en $\phi_1$, $\phi_2$ et $\phi_3$. On obtient bien alors : 
+\[
+\int_\Omega  ( \hbox{rot } \phi ) \psi
+- \int_\Omega \phi ( \hbox{rot } \psi)
+= - \int_{\partial \Omega} ( \phi \times n ) \psi.
+\]
+
+\end{enumerate}
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChWeak_Neumann}
+
+%Cet exercice a été traité en détails en TD.
+
+%Soit $\Omega \subset \eR^2$, ouvert, borné et connexe, et de frontière $\Gamma = \partial \Omega$, et 
+On rappelle le problème de Poisson avec condition de Neumann:
+\begin{equation}\label{eq:PoissonNeumann}
+- \Delta u = f \mbox{ dans } \Omega, \quad \partial_n u = g \mbox{ sur } \Gamma.
+\end{equation}
+%où $f : \Omega \rightarrow \eR$ et $g : \Gamma \rightarrow \eR$ sont données.
+
+\begin{enumerate}
+
+\item Supposons qu'il existe une solution $u\in \mathcal{C}^2(\overline{\Omega})$ au problème \eqref{eq:PoissonNeumann}, alors 
+en appliquant le Théorème de la divergence de Gauss:
+\[
+\int_\Omega \Delta u = \int_\Omega \textrm{div } (\nabla u)
+= \int_\Gamma \partial_n u.
+\]
+Mais comme nous avons $u$ solution de \eqref{eq:PoissonNeumann}, ceci implique
+\[
+\int_\Omega \Delta u = - \int_\Omega f
+\]
+et aussi
+\[
+\int_\Gamma \partial_n u = \int_\Gamma g.
+\]
+En combinant ces trois égalités, on obtient bien:
+\[
+\int_\Omega f + \int_\Gamma g = 0.
+\]
+%Cette relation est appelée \emph{condition de compatibilité}.
+%
+%\emph{Retrouver la condition de l'exercice 1.1 dans le cas où le domaine est un anneau.}
+%
+\item Si $u\in \mathcal{C}^2(\overline{\Omega})$ est une solution de \eqref{eq:PoissonNeumann}, alors pour toute constante $C\in\eR$:
+\[
+\Delta (u+C) = \Delta u, \qquad \partial_n (u+C) = \partial_n u
+\]
+et donc $u+C$ reste encore une solution de \eqref{eq:PoissonNeumann}.
+
+\item %Ecrire le problème sous forme faible. On utilisera comme espace pour la solution et les fonctions tests:
+Soit 
+\[
+V = \left \{ v \in H^1(\Omega) \, ; \, \int_\Omega v = 0 \right \}.
+\]
+Le problème faible associé à \eqref{eq:PoissonNeumann} s'obtient directement via la formule de Green, et en injectant les deux équations de \eqref{eq:PoissonNeumann}. Elle s'écrit comme suit : trouver $u\in V$ telle que
+\[
+\int_\Omega \nabla u \cdot \nabla v = \int_\Omega f v + \int_\Gamma gv
+\]
+pour tout $v \in V$.
+Réciproquement, on va vérifier que si $u\in V$ est solution du problème faible \emph{et} que la condition de compatibilité est satisfaite, alors $u\in V$ est solution (au sens des distributions) du problème fort \eqref{eq:PoissonNeumann}. Pour cela, on introduit l'application linéaire $m : V \rightarrow \eR$ en définissant:
+\[
+m(v) = \frac{1}{|\Omega|} \int_\Omega v.
+\]
+On prend maintenant $v \in H^1(\Omega)$ arbitraire, et on définit $w=v - m(v)$. On vérifie que $w\in V$. On peut alors partir de la formulation faible
+\[
+\int_\Omega \nabla u \cdot \nabla w = \int_\Omega f w + \int_\Gamma gw.
+\]
+Et comme $\nabla (m(v))=0$, on a alors:
+\[
+\int_\Omega \nabla u \cdot \nabla w = \int_\Omega \nabla u \cdot \nabla v.
+\]
+D'un autre côté, on a, en utilisant $w=v-m(v)$ et en regroupant les termes:
+\[
+\int_\Omega f w + \int_\Gamma gw
+=
+\int_\Omega f v + \int_\Gamma gv + m(v)\left ( \int_\Omega f + \int_\Gamma g \right) 
+= \int_\Omega f v + \int_\Gamma gv.
+\]
+La dernière égalité vient de la condition de compatibilité.
+On obtient finalement 
+\[
+\int_\Omega \nabla u \cdot \nabla v = \int_\Omega f v + \int_\Gamma gv
+\]
+pour tout $v \in H^1(\Omega)$ (et pas seulement $v \in V$). En utilisant la formule de Green, on peut alors en déduire que $u$ est solution solution (au sens des distributions) du problème fort \eqref{eq:PoissonNeumann}.
+
+%Quelles conditions sur $f$ et $g$ faut-il pour que la forme faible soit bien définie ? Justifier le choix de l'espace $V$.
+
+\item Le problème faible admet une unique solution. L'inégalité de Poincaré-Wirtinger % : si $\Omega$ est borné et connexe, il existe $c>0$ telle que pour tout $v\in H^1(\Omega)$:
+\[
+c \, \left \| v - \left( \frac1{|\Omega|} \int_\Omega v \right ) \right \|_{0,\Omega} \leq \| \nabla v \|_{0,\Omega}.
+\]
+permet de montrer en effet que $\int_\Omega \nabla u \cdot \nabla v$ est $V$-elliptique. Il suffit alors d'appliquer le Lemme de Lax-Milgram pour conclure.
+
+\item On peut écrire la solution $u$ de \eqref{eq:PoissonNeumann} comme le minimum d'une fonctionnelle d'énergie car la forme faible associée est symétrique.
+
+\item Si $\Omega$ n'est pas connexe, la solution est définie sur chaque composante connexe à une constante près.
+
+\end{enumerate}
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChWeak_Robin}
+
+Soit le problème de Poisson avec une condition de Robin :
+\begin{equation*} %\label{eq:PoissonRobin}
+- \Delta u = f \mbox{ dans } \Omega, \quad \partial_n u + \alpha u = \alpha g \mbox{ sur } \Gamma,
+\end{equation*}
+où $\alpha \in \eR$ est le paramètre de Robin, et $f : \Omega \rightarrow \eR$ et $g : \Gamma \rightarrow \eR$ sont données.
+
+\begin{enumerate}
+
+\item Après multiplication de $-\Delta u = f$ par une fonction test $v$ et intégration sur $\Omega$, on utilise la formule de Green, et on se sert de la relation $\partial_n u + \alpha u = \alpha g$ pour remplacer $\partial_n u$ par $\alpha (u-g)$ dans le terme de bord. La formulation faible s'écrit alors :
+
+\medskip
+Trouver $u\in V$ tel que :
+\[
+a_\alpha ( u , v ) = L_\alpha (v), \qquad \forall v \in V,
+\]
+avec $V = H^1(\Omega)$ et 
+\[
+a_\alpha ( u , v ) = \int_\Omega \nabla u \cdot \nabla v 
++ \alpha \int_\Gamma u v, \quad
+L_\alpha ( v ) = \int_\Omega f v + \alpha \int_\Gamma g v.
+\]
+On peut supposer que $f$ et $g$ sont dans $L^2(\Omega)$.
+
+\item L'espace $V$ est un espace de Hilbert. La forme linéaire $L_\alpha (\cdot)$ est bien continue pour la norme $H^1$ et la forme bilinéaire $a_\alpha (\cdot , \cdot)$ est aussi continue pour la norme $H^1$, grâce au théorème de trace. Si on suppose $\alpha > 0$, la forme bilinéaire $a_\alpha(\cdot,\cdot)$ est aussi $V$-elliptique, par application directe de l'inégalité :
+\[
+c \, \left \| v \right \|_{0,\Omega} \leq \| v \|_{0,\Gamma}+ \| \nabla v \|_{0,\Omega}.
+\]
+On peut alors appliquer le Lemme de Lax-Milgram, ce qui prouve que le problème faible admet une solution unique.
+
+\item Comme $a_\alpha ( \cdot , \cdot)$ est symétrique, on peut écrire la solution $u$ du problème faible comme le minimiseur sur $V$ de la fonctionnelle d'énergie :
+\[
+J_\alpha ( v ) = \frac12 a_\alpha ( v , v ) - L_\alpha (v).
+\]
+
+\item En supposant $g=0$ et en prenant $v =u \in V$ dans la formulation faible $a_\alpha ( u , v ) = L_\alpha (v)$, il vient :
+\[
+\int_\Omega \nabla u \cdot \nabla u 
++ \alpha \int_\Gamma u^2 = \int_\Omega f u .
+\]
+On applique ensuite sur le dernier terme les inégalités de Cauchy-Schwarz, de Young et 
+l'inégalité $c \, \left \| v \right \|_{0,\Omega} \leq \| v \|_{0,\Gamma}+ \| \nabla v \|_{0,\Omega}$, ce qui permet d'obtenir :
+\[
+\| \nabla u \|^2_{0,\Omega}
++ \alpha \| u \|^2_{0,\Gamma} \leq
+\frac1{2\epsilon} \| f \|^2_{0,\Omega} 
++ \frac{\epsilon}{2c} \left (
+\| u \|_{0,\Gamma}+ \| \nabla u \|_{0,\Omega}
+\right)  
+\]
+avec $\epsilon > 0$. On peut écrire cette inégalité :
+\[
+\left ( 1 - \frac{\epsilon}{2c} \right ) 
+\| \nabla u \|^2_{0,\Omega}
++ \left ( \alpha - \frac{\epsilon}{2c} \right ) 
+\| u \|^2_{0,\Gamma} \leq
+\frac1{2\epsilon} \| f \|^2_{0,\Omega} .
+\]
+Il suffit ensuite de prendre $\epsilon = c$ 
+et on obtient bien  :
+\[
+\| \nabla u \|_{0,\Omega} 
++
+(2\alpha - 1 ) \| u \|_{0,\Gamma}
+\leq C \| f \|_{0,\Omega}
+\]
+avec $C = 1/c$.
+
+Ainsi, pour $\alpha > 1/2$, on parvient à majorer la solution $u$ du problème de Robin à l'aide de la norme du terme source $f$ (c'est une \emph{estimation a priori}).
+
+\item En supposant $g\neq0$ et en prenant $v =u \in V$ dans la formulation faible $a_\alpha ( u , v ) = L_\alpha (v)$, il vient cette fois :
+\[
+\int_\Omega \nabla u \cdot \nabla u 
++ \alpha \int_\Gamma u^2 = \int_\Omega f u + \alpha \int_\Gamma gu.
+\]
+On procède alors comme précédemment et on applique ensuite sur les deux derniers termes les inégalités de Cauchy-Schwarz, de Young et 
+l'inégalité $c \, \left \| v \right \|_{0,\Omega} \leq \| v \|_{0,\Gamma}+ \| \nabla v \|_{0,\Omega}$, ce qui permet d'obtenir :
+\[
+\| \nabla u \|^2_{0,\Omega}
++ \alpha \| u \|^2_{0,\Gamma} \leq
+\frac1{2\epsilon_1} \| f \|^2_{0,\Omega} 
++ \frac{\alpha}{2\epsilon_2} \| g \|^2_{0,\Gamma} 
++ \frac{\epsilon_1}{2c} \left (
+\| u \|_{0,\Gamma}+ \| \nabla u \|_{0,\Omega}
+\right)  
++ \frac{\alpha\epsilon_2}{2} \| u \|^2_{0,\Gamma}
+\]
+avec $\epsilon_1 , \epsilon_2 > 0$. On peut écrire cette inégalité :
+\[
+\left ( 1 - \frac{\epsilon_1}{2c} \right ) 
+\| \nabla u \|^2_{0,\Omega}
++ \left ( \alpha - \frac{\epsilon_1}{2c} - \frac{\alpha\epsilon_2}{2} \right ) 
+\| u \|^2_{0,\Gamma} \leq
+\frac1{2\epsilon_1} \| f \|^2_{0,\Omega} 
++ \frac{\alpha}{2\epsilon_2} \| g \|^2_{0,\Gamma}
+.
+\]
+On peut par exemple choisir $\epsilon_1 = c$ et $\epsilon_2 = 1$, ce qui donne alors :
+\[
+\frac12
+\| \nabla u \|_{0,\Omega} 
++ \frac12
+(\alpha - 1 ) \| u \|_{0,\Gamma}
+\leq
+\frac1{2c} \| f \|^2_{0,\Omega} 
++ \frac{\alpha}{2} \| g \|^2_{0,\Gamma}.
+\]
+
+\end{enumerate}
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChWeak_plaque}
+
+Le {problème de plaque} s'écrit :
+\begin{equation*} %\label{eq:plaque}
+\Delta^2 u = f \mbox{ dans } \Omega, \quad u = \partial_n u = 0 \mbox{ sur } \Gamma,
+\end{equation*}
+où $f : \Omega \rightarrow \eR$ est donnée. L'opérateur bilaplacien est défini par :
+\[
+\Delta^2 u = \Delta (\Delta u).
+\]
+
+\begin{enumerate}
+
+\item Comme 
+\[
+\Delta u = \left ( \frac{\partial^2}{\partial x_1^2}
++ \frac{\partial^2}{\partial x_2^2} \right ) u,
+\]
+on obtient par composition
+\[
+\Delta^2 u = 
+\left ( \frac{\partial^2}{\partial x_1^2}
++ \frac{\partial^2}{\partial x_2^2} \right ) 
+\left [ \left ( \frac{\partial^2}{\partial x_1^2}
++ \frac{\partial^2}{\partial x_2^2} \right ) u
+ \right ].
+\]
+Il suffit ensuite de développer :
+\[
+\Delta^2 u = 
+\frac{\partial^4 u}{\partial x_1^4}
++ 
+\frac{\partial^4 u}{\partial x_1^2 \partial x_2^2} 
++ 
+\frac{\partial^4 u}{\partial x_2^2 \partial x_1^2}
++
+\frac{\partial^4 u}{\partial x_2^4}.
+\]
+Ainsi le bilaplacien est un opérateur différentiel d'ordre 4.
+
+\item Pour ce type de problème, il est intéressant d'utiliser la deuxième formule de Green : 
+\[
+\int_\Omega ( v \Delta w  - w \Delta v ) = 
+\int_{\Gamma} ( v \partial_n w - w \partial_n v )
+\]
+avec $v$ une fonction test arbitraire, et $w=\Delta u$. On obtient ainsi :
+\[
+\int_\Omega ( v \Delta^2 u  - \Delta u \Delta v ) = 
+\int_{\Gamma} ( v \partial_n (\Delta u) - (\Delta u) \partial_n v ).
+\]
+On choisit ensuite $v$ tel que $v=0$ et $\partial_n v = 0$ sur $\Gamma$, ce qui est cohérent avec les conditions limites imposées sur $u$ (conditions essentielles).
+En utilisant l'équation $\Delta^2 u = f$, on obtient finalement le problème faible suivant :
+
+\smallskip
+
+Trouver $u \in V$ tel que :
+\[
+a(u,v) = L(v), \qquad \forall v \in V
+\]
+avec 
+\[
+V = \{ v \in H^2(\Omega) \: | \: v = \partial_n v = 0 \mbox{ sur } \Gamma \}
+\]
+et
+\[
+a(u,v) = \int_\Omega \Delta u \Delta v , \qquad L(v) = \int_\Omega f v.
+\]
+On pourra prendre $f \in L^2 (\Omega)$.
+
+\item On utilise deux fois l'inégalité de Poincaré, pour $v \in V$ :
+\[ 
+c_1 c_2  \|  v \|_{0,\Omega} \leq c_2 \| \nabla v \|_{0,\Omega} \leq \| \nabla^2 v \|_{0,\Omega}
+\]  
+où $c_1$ et $c_2$ sont les constantes de Poincaré. On peut appliquer cette inégalité compte tenu du fait que $\partial_n v$ et $v$ sont nuls sur $\Gamma$. Ainsi, $ \| \nabla^2 v \|_{0,\Omega}$ est bien une norme sur $v$ car elle est définie.
+
+\item Soit $v \in \mathcal{C}^3(\overline{\Omega})$ qui s'annule sur $\Gamma$, ainsi que toutes ses dérivées. Pour $i,j=1,2$, on applique une première fois la formule de Stokes:
+\[
+\int_\Omega \left (\frac{\partial^2 v}{\partial x_i \partial x_j} \right )^2
+=
+- \int_\Omega \left (\frac{\partial v}{\partial x_j} 
+\frac{\partial^3 v}{\partial x^2_i \partial x_j}
+\right )
+\]
+Le théorème de Schwarz nous autorise à permuter l'ordre de dérivation : 
+\[
+\int_\Omega \left (\frac{\partial^2 v}{\partial x_i \partial x_j} \right )^2
+=
+- \int_\Omega \left (\frac{\partial v}{\partial x_j} 
+\frac{\partial^3 v}{ \partial x_j \partial x^2_i }
+\right )
+\]
+Il suffit finalement d'appliquer encore une fois la formule de Stokes :
+\[
+\int_\Omega \left (\frac{\partial^2 v}{\partial x_i \partial x_j} \right )^2
+=
+- \int_\Omega \left (\frac{\partial v}{\partial x_j} 
+\frac{\partial^3 v}{ \partial x_j \partial x^2_i }
+\right )
+=
+\int_\Omega \left (\frac{\partial^2 v}{\partial x^2_j} 
+\frac{\partial^2 v}{  \partial x^2_i }
+\right ) 
+\]
+A chaque fois, les termes de bord sont nuls compte tenu des hypothèses faites sur $v$.
+On obtient bien la relation :
+\[
+\int_\Omega \left (\frac{\partial^2 v}{\partial x_i \partial x_j} \right )^2
+=
+\int_\Omega \frac{\partial^2 v}{\partial x_i^2} \frac{\partial^2 v}{\partial x_j^2}.
+\]
+On obtient l'identité
+\[
+\| \Delta v \|_{0,\Omega} = \| \nabla^2 v \|_{0,\Omega}
+\]
+en détaillant composante par composante les normes au carré, et en utilisant la relation démontrée précédemment.
+
+\item On constate que $a(\cdot,\cdot)$ est elliptique sur $V$ muni de la norme $\| \Delta v \|_{0,\Omega}$. On a vu précédemment que cette norme est équivalente à la norme usuelle sur $V$. Le problème \eqref{eq:plaque} est donc bien posé par application du Lemme de Lax-Milgram.
+
+\item Comme $a(\cdot,\cdot)$ est symétrique, on peut aussi écrire \eqref{eq:plaque} comme le minimisation d'une fonctionnelle d'énergie.
+
+\end{enumerate}
+
+\end{corrige}
+
+\newpage
+
+\begin{corrige}{ChPk_nondeg}
+
+Supposons que $T$ est dégénéré, alors tous ses sommets se situent dans un hyperplan de dimension $N-1$. Autrement dit les sommets vérifient l'équation :
+\[
+\alpha_1 ( a_1 - a_{N+1} ) + \alpha_2 ( a_2 - a_{N+1} ) + \ldots +
+\alpha_N ( a_N - a_{N+1} ) = 0,
+\]
+avec $\alpha_1,\dots,\alpha_N$ des réels non tous nuls. En posant
+\[
+\alpha_{N+1} = - \sum_{j=1}^N \alpha_j,
+\]
+l'équation ci-dessus peut se réécrire :
+\[
+\alpha_1 a_1 + \alpha_2 a_2 + \ldots + \alpha_N a_N + \alpha_{N+1} a_{N+1} = 0
+\]
+et de plus :
+\[
+\alpha_1 + \alpha_2 + \ldots + \alpha_N + \alpha_{N+1} = 0.
+\]
+Donc le vecteur non-nul de composantes $[ \alpha_1 , \ldots , \alpha_{N+1} ]^T$ est dans le noyau de la matrice $X_T$. On peut donc conclure que $X_T$ n'est pas inversible.
+
+\medskip
+
+Réciproquement, si la matrice 
+\[
+X_T = \left [
+\begin{array}{cccc}
+a_{1,1} & a_{2,1} & \ldots & a_{N+1,1} \\
+a_{1,2} & a_{2,2} & \ldots & a_{N+1,2} \\
+\vdots & \vdots & & \vdots \\
+a_{1,N} & a_{2,N} & \ldots & a_{N+1,N} \\
+1 & 1 & \ldots & 1
+\end{array}
+\right ]
+\]
+n'est pas inversible, cela implique qu'elle est de rang strictement inférieur à $N+1$. En particulier, il existe donc $\alpha_1, \ldots, \alpha_{N+1}$ non tous nuls tels que 
+\[
+\alpha_1 a_1 + \alpha_2 a_2 + \ldots + \alpha_N a_N + \alpha_{N+1} a_{N+1} = 0,
+\]
+et
+\[
+\alpha_1 + \alpha_2 + \ldots + \alpha_N + \alpha_{N+1} = 0.
+\]
+Cette dernière relation peut se ré-écrire $\alpha_{N+1} = - \alpha_1 - \alpha_2 - \ldots - \alpha_N$ et on obtient donc à partir de la première relation :
+\[
+\alpha_1 ( a_1 - a_{N+1} )+ \ldots + \alpha_{N} ( a_{N} - a_{N+1} ) = 0,
+\]
+ce qui signifie que les sommets appartiennent à un même hyperplan de dimension $N-1$, autrement dit que $T$ est dégénéré.
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChPk_barycentrique}
+
+Les coordonnées barycentriques $(\lambda_j)_{j=1,\ldots,N+1}$ s'écrivent pour tout $x\in\eR^N$:
+\[
+\sum_{j=1}^{N+1} \lambda_j = 1, \quad
+\sum_{j=1}^{N+1} \lambda_j a_j = x.
+\]
+
+\begin{enumerate}
+
+\item Pour trouver les coordonnées barycentriques, on doit donc résoudre le système 
+\[
+\left [
+\begin{array}{cccc}
+a_{1,1} & a_{2,1} & \ldots & a_{N+1,1} \\
+a_{1,2} & a_{2,2} & \ldots & a_{N+1,2} \\
+\vdots & \vdots & & \vdots \\
+a_{1,N} & a_{2,N} & \ldots & a_{N+1,N} \\
+1 & 1 & \ldots & 1
+\end{array}
+\right ]
+\left [
+\begin{array}{c}
+\lambda_1 \\
+\lambda_2 \\
+\vdots  \\
+\lambda_N \\
+\lambda_{N+1}
+\end{array}
+\right ]
+=
+\left [
+\begin{array}{c}
+x_1 \\
+x_2 \\
+\vdots  \\
+x_N \\
+1
+\end{array}
+\right ]
+\]
+La matrice associée à ce système est $X_T$, donnée à l'exercice précédent.
+Ce système admet une unique solution si $X_T$ est inversible, autrement dit si $T$ est non-dégénéré, d'après l'exercice précédent.
+
+\item Si on se situe sur un sommet $a_i$ de $T$, on a $\lambda_i = 1$ et $\lambda_j = 0$ pour tout $j \neq i$. Avec ce choix, on a bien en effet :
+\[
+\sum_{j=1}^{N+1} \lambda_j = 1, \quad
+\sum_{j=1}^{N+1} \lambda_j a_j = a_i.
+\]
+Ce choix est l'unique choix possible, compte-tenu de la question précédente.
+
+\medskip
+
+Si un point $x$ se situe sur une face $F_i$ de $T$ opposée au sommet $a_i$, on a $\lambda_i = 0$. En effet, comme $F_i$ est un $N-1$-simplexe, on peut localiser tout point $x$ de $F_i$ grâce aux coordonnées barycentriques $(\lambda_j)_{j \neq i}$. On vérifie bien les relations
+\[
+\sum_{j=1 , j\neq i}^{N+1} \lambda_j = 1, \quad
+\sum_{j=1 , j\neq i}^{N+1} \lambda_j a_j = x.
+\]
+
+\medskip
+
+En fait, pour tout point $x$ de $T$, on peut même définir toute coordonnée barycentrique $\lambda_i(x)$ avec la relation :
+\[
+\lambda_i (x) = \frac{ ( x - b_i ) \cdot (a_i - b_i ) 
+}{ \| a_i - b_i \|^2 }
+\]
+où $b_i$ est le projeté orthogonal de $a_i$ sur $F_i$.
+
+\item Comme les coordonnées barycentriques sont données par :
+\[
+\left [
+\begin{array}{c}
+\lambda_1 \\
+\lambda_2 \\
+\vdots  \\
+\lambda_N \\
+\lambda_{N+1}
+\end{array}
+\right ]
+=
+\left ( X_T \right )^{-1}
+\left [
+\begin{array}{c}
+x_1 \\
+x_2 \\
+\vdots  \\
+x_N \\
+1
+\end{array}
+\right ]
+\]
+ce sont bien des fonctions affines de $x$.
+
+\end{enumerate}
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChPk_treillis}
+
+\begin{enumerate}
+\item Déterminons $n_k$, le cardinal de $\Sigma_k$, pour différentes valeurs de la dimension $N$.
+
+Pour $N = 1$ :
+\begin{eqnarray*}
+n_1 = 2 ; \quad n_2 = 3 ; \quad n_3 = 4 \qquad &\longrightarrow& n_k = 1 + k.
+\end{eqnarray*}
+
+Pour $N = 2$ :
+\begin{eqnarray*}
+n_1 = 3 ; \quad n_2 = 6 ; \quad n_3 = 10 \qquad &\longrightarrow& n_k = \sum_{j=0}^k (1+k) = \frac12 (k+1)(k+2).
+\end{eqnarray*}
+
+Pour $N = 3$ :
+\begin{eqnarray*}
+n_1 = 4 ; \quad n_2 = 10 ; \quad n_3 = 20 \qquad &\longrightarrow& n_k = \frac16 (k+1) (k+2)  (k+3) \end{eqnarray*}
+
+Détaillons un peu la formule générale, plus difficile à obtenir ici :
+\[
+n_k = \sum_{j=0}^k \left (\frac12 (j+1) (j+2) \right ) =
+1+k + \frac32 \sum_{j=0}^k j + \frac12 \sum_{j=0}^k j^2
+= 1 + k + \frac34 k ( 1 + k) + \frac1{12} k ( 1 + k ) ( 1 + 2k )
+%= \frac16 (k+1) (6+5k+k^2).
+\]
+puis il suffit de factoriser l'expression par $(1+k)$ puis de la simplifier.
+
+\medskip
+
+De façon plus générale, un raisonnement combinatoire permet d'obtenir, pour tout $N$ et tout $k$ :
+\[
+n_k = \frac{(N+k)!}{N!k!}
+\]
+
+
+\item Nous avons vu qu'un sommet $a_i$ de $T$ a pour coordonnées barycentriques $\lambda_i = 1$ et $\lambda_j = 0$, pour $j\neq i$, qui sont bien des multiples de $\frac1k$, donc le sommet $a_i$ appartient bien au treillis $\Sigma_k$.
+\end{enumerate}
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChPk_Pk}
+
+Soit $p \in \mathbb{P}_k$, on a:
+\[
+p(x) = \sum_{\substack{i_1,\ldots,i_N\geq0 \\ i_1+\ldots+i_N\leq k\phantom{-}}} \alpha_{i_1 , \ldots , i_N} x_1^{i_1} \cdots x_N^{i_N}
+\]
+avec $x=[x_1,\ldots,x_N]^\mathrm{T}\in \eR^N$.
+
+\medskip
+
+Explicitons cette expression pour différentes valeurs de $N$ et de $k$.
+
+\medskip
+
+Pour $N=1$, $k=1$ : 
+\[
+p(x) = \alpha_0 + \alpha_1 x .
+\]
+Pour $N=1$, $k=2$ : 
+\[
+p(x) = \alpha_0 + \alpha_1 x + \alpha_2 x^2.
+\]
+
+Pour $N=1$, dimension de $\mathbb{P}_k$ : $1+k$.
+
+\bigskip
+
+Pour $N=2$, $k=1$ : 
+\[
+p(x_1,x_2) = \alpha_{00} + \alpha_{10} x_1 + \alpha_{01} x_2.
+\]
+Pour $N=2$, $k=2$ : 
+\[
+p(x_1,x_2) = \alpha_{00} + \alpha_{10} x_1 + \alpha_{01} x_2
++ \alpha_{20} x_1^2 + \alpha_{11} x_1 x_2 + \alpha_{02} x_2^2. 
+\]
+
+Pour $N=2$, dimension de $\mathbb{P}_k$ : $\frac12 (k+1) (k+2)$.
+
+\bigskip
+
+Pour $N=3$, $k=1$ : 
+\[
+p(x_1,x_2,x_3) = \alpha_{000} + \alpha_{100} x_1 + \alpha_{010} x_2 + \alpha_{001} x_3.
+\]
+Pour $N=3$, $k=2$ : 
+\begin{align*}
+p(x_1,x_2) =&  \alpha_{000} + \alpha_{100} x_1 + \alpha_{010} x_2 + \alpha_{001} x_3\\
+& 
++ \alpha_{110} x_1 x_2  + \alpha_{101} x_1 x_3
++ \alpha_{011} x_2 x_3 
++ \alpha_{200} x_1^2 + \alpha_{020} x_2^2 + \alpha_{002} x_3^2.
+\end{align*}
+
+Pour $N=3$, dimension de $\mathbb{P}_k$ : $\frac16 (1+k) (2+k) (3+k)$.
+
+\bigskip
+
+De même qu'à l'exercice précédent, on pourrait montrer avec un raisonnement combinatoire que :
+\[
+\hbox{dim } \mathbb{P}_k= \frac{(N+k)!}{N!k!}
+\]
+
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChPk_unisolvant}
+
+\begin{enumerate}
+
+\item D'après les deux exercices précédents, on vérifie bien :  $$\dim(\mathbb{P}_k) = \mbox{card}(\Sigma_k) (=n_k).$$
+
+\item Pour $(\sigma_j)_{1\leq j\leq n_k}$, ensemble des points de $\Sigma_k$, on a l'application linéaire \[
+\Psi_k : \left \{
+\begin{array}{lcl}
+\mathbb{P}_k &\rightarrow &\eR^{n_k}\\
+p & \mapsto & (p(\sigma_j))_{1\leq j\leq n_k}
+\end{array}
+\right. .
+\]
+Comme les espaces vectoriels de départ et d'arrivée sont de même dimension, si on montre que $\Psi_k$ est injective, alors elle est nécessairement bijective aussi.
+
+\item Pour $N=1$, $\Psi_k$ est injective. En effet, si un polynôme $p$ d'une variable $x$ et de degré $k$ s'annule en $k+1$ points, il est identiquement nul.
+
+\item Supposons maintenant : jusqu'au rang $N-1$, $\Psi_k$ est injective. 
+
+Montrons que cette propriété reste vraie au rang $N$.
+
+Soit $p\in\mathbb{P}_k$, comme les coordonnées barycentriques sont des fonctions affines de $x$ (et réciproquement), on peut bien écrire 
+\[
+p(x) = q(\lambda),
+\]
+avec $\lambda = [\lambda_1,\ldots,\lambda_{N+1}]^\mathrm{T}\in \eR^{N+1}$ le vecteur des coordonnées barycentriques et $q$ un polynôme, de degré $k$. On peut en plus éliminer une des coordonnées compte tenu de la relation $\lambda_1 + \ldots + \lambda_{N+1} = 1$.
+
+\item Supposons $p \in \ker{\Psi_k}$. En appliquant l'hypothèse de récurrence aux faces de $T$, qui sont des $N-1$-simplexes, on a bien $p$ (et donc $q$) qui s'annule sur les faces de $T$.
+Comme chaque face est donnée par l'équation $\lambda_j = 0$, on a bien $\lambda_j$ qui est un diviseur de $q$.
+
+\item Compte tenu de la question précédente, on a :
+\[
+q(\lambda) = \lambda_1 \lambda_2 \ldots \lambda_{N+1} \tilde q(\lambda),
+\]
+ce qui n'est possible que si $\tilde q(\lambda) = 0$. On en déduit donc $p=0$. Cela montre que $\Psi_k$ est injective au rang $N$.
+
+\item Comme $\Psi_k$ est bijective, pour chaque vecteur $e_i$ de la base canonique de $\eR^{n_k}$, il existe un unique polynôme $\varphi_i = (\Psi_k)^{-1} ( e_i)$ qui appartient à $\mathbb{P}_k$. Ce polynôme vérifie par définition 
+\[
+\varphi_i(\sigma_j) = \delta_{ij}, 1 \leq j \leq n_k.
+\]
+Avec cette relation, on vérifie alors que l'ensemble $(\varphi_j)$ ($1 \leq j \leq n_k$) est bien une famille libre, donc une base de $\mathbb{P}_k$, duale de la base canonique de $\eR^{n_k}$.
+
+\end{enumerate}
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChPk_jonction}
+
+Pour $T$ et $T'$ deux $N$-simplexes qui partagent une face commune $\Gamma$, le treillis $\Sigma_k$ de $T$ et le treillis $\Sigma_k'$ de $T'$ coïncident sur $\Gamma$, par définition des treillis (on vérifie bien que les noeuds de chaque treillis sont superposés).
+
+\medskip
+
+Pour $p_T$ et $p_{T'}$ deux polynômes de $\mathbb{P}_k$, nous avons défini la fonction $v$  sur $T \cup T'$ par :
+\[
+v(x) = \left \{
+\begin{array}{ll}
+p_T(x) &\mbox{si } x \in T\\
+p_{T'}(x) &\mbox{si } x \in T'
+\end{array}
+\right. .
+\]
+On utilise la propriété d'unisolvence établie à l'exercice précédent.
+
+\medskip
+
+Déjà, si $v$ est continue sur $T$, cela signifie que les polynômes $p_T$ et $p_{T'}$ sont identiques sur $\Gamma$, et donc les valeurs de $p_T$ et $p_{T'}$ coïncident bien sur tous les points du treillis de $\Gamma$.
+
+\medskip
+
+Réciproquement, si les valeurs de $p_T$ et $p_{T'}$ coïncident sur tous les points du treillis de $\Gamma$, en utilisant la propriété d'unisolvence sur ce $N-1$ simplexe, on en déduit que la restriction des polynômes $p_T$ et $p_{T'}$ à $\Gamma$ est identique. Donc $v$ est continue.
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChPk_expression}
+
+Pour $k=1$, les polynômes de $\mathbb{P}_1$ sur $T$ s'écrivent :
+\[
+p(x) = \sum_{j=1}^{N+1}  p(a_j) \lambda_j(x). 
+\]
+
+Pour $k=2$, les polynômes de $\mathbb{P}_2$ sur $T$ s'écrivent :
+\[
+p(x) = \sum_{j=1}^{N+1}  p(a_j) \lambda_j(x) (2 \lambda_j (x) - 1)
++ 4 \sum_{1\leq j < j' \leq N+1} p(m_{jj'}) \lambda_j(x) \lambda_{j'} (x)
+\]
+avec $m_{jj'}$ le barycentre des sommets $a_j$ et $a_{j'}$.
+
+\end{corrige}
+
+\medskip
+
+\begin{corrige}{ChPk_global}
+
+Avec $\mathcal{T}_h$ un maillage d'un ouvert connexe polyédrique $\Omega$, l'espace $V_h$ s'écrit :
+\[
+V_h = \left \{ v_h \in \mathcal{C}(\overline{\Omega}) \, ; \, v_h|_T \in \mathbb{P}_k(T), \, \forall T \in \mathcal{T}_h \right \}.
+\]
+
+Une base de $V_h$ est donnée par l'ensemble des fonctions qui s'annulent sur tous les degrés de liberté, sauf un seul, où la fonction vaut 1. On obtient cette base globale par concaténation des bases locales sur chaque simplexe. 
+
+\end{corrige}
+
+\end{document}
+

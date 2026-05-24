@@ -1,0 +1,122 @@
+\input{e.tex}
+
+\corrPolitique{0}
+
+\newcommand{\eps}{\varepsilon}
+
+\usepackage{url}
+
+\title{TP 2 de Calcul Scientifique 2\\ Méthode des Eléments Finis}
+
+\author{Master MIGS 2}
+
+\date{2020/2021}
+
+\begin{document}
+
+\maketitle
+
+%Le but de ce TP est d'apprendre à utiliser un code éléments finis "dernière génération", qui se base sur l'écriture du problème à résoudre sous forme faible.
+%
+%On utilisera dans ce but FreeFEM++, qui est un logiciel libre développé principalement par le Laboratoire Jacques Louis Lions, à Paris 6 (Frédéric Hecht est le principal contributeur).
+%On pourra compléter cette utilisation, si besoin, avec des logiciels de visualisation.
+
+%La première partie, sur l'équation de Poisson, a principalement pour objectif d'illustrer le cours et les notions les plus importantes, et aussi de permettre une prise en main du logiciel. La deuxième partie,
+Ce deuxième TP porte sur l'équation de la chaleur, et a pour objectif d'appliquer les notions vues en cours à un problème "réel".
+
+\parindent0mm
+\section{Equation de la chaleur}
+
+On va résoudre numériquement l'équation de la chaleur, d'abord sur un exemple simple, mais artificiel, et ensuite pour un problème "réel" (thermique d'une aile d'avion).
+
+\subsection{Un premier exemple simple}
+
+Soit $T>0$ et \[
+\Omega := (0,1) \times (0,1).
+\]
+On va d'abord résoudre l'équation de la chaleur sur le domaine $\Omega \times [0,T]$ de $\eR^3$:
+\[
+\partial_t u -\Delta u = f \textrm{ dans } \Omega \times [0,T],
+\quad
+u = 0 \textrm{ sur } \partial \Omega \times [0,T],
+\quad
+u(t=0) = 0 \textrm{ dans } \Omega,
+\]
+avec $f \in L^2(\Omega \times (0,T))$ le terme source, donné, et où l'inconnue est $u : \Omega \times [0,T] \rightarrow \eR$. On prendra, en fait, ici $f=1$ (on chauffe uniformément sur tout le carré).
+
+\begin{enumerate}
+
+\item Rappeler quelle est l'expression de la formulation totalement discrète en utilisant à la fois des éléments finis $\mathbb{P}_1$ pour la variable d'espace et le schéma d'Euler implicite pour la variable temporelle. 
+
+\item Ecrire le script FreeFEM++ correspondant. Visualiser la solution obtenue (choisir, par exemple, comme pas de temps et d'espace $h=0.1$, $\tau = 0.1$).
+
+\item A partir de quelle valeur de $T$ observez-vous une solution (quasi-)stationnaire ?
+
+\item Etudier comment converge la méthode lorsque $h$ et $\tau$ deviennent petit. Quelle est la meilleure stratégie pour faire évoluer $h$ et $\tau$ ?
+
+%\item Qu'est-ce que vous observez si vous prenez le schéma d'Euler explicite pour la discrétisation en temps ?
+
+\end{enumerate}
+
+{\it Remarque.} outre les scripts fournis avec FreeFEM++, vous pouvez aussi reprendre le script fourni sur la page web de Grégoire Allaire : 
+
+\begin{center}
+\url{http://www.cmap.polytechnique.fr/~allaire/map431/infoX2.html}
+\end{center}
+
+{\it Questions subsidiaires:
+
+\begin{enumerate}
+
+\item Que se passe-t'il si on arrête de chauffer au bout d'un temps donné ? Pouvez-vous fournir une explication mathématique ?
+
+\item Arrivez-vous à gagner en précision avec d'autres schémas en temps et d'autres éléments finis en espace ?
+
+\end{enumerate}
+
+}
+
+\subsection{Application en aéronautique}
+
+Simulons maintenant l'évolution de la température au sein d'une aile d'avion en acier, représentée Figure~\ref{fig:airfoil}. 
+On considère que l'aile est à une température initiale 
+$u_0=298.15^{\circ}{\rm K}$, et qu'elle est entourée d'air, qui, lui, est à une température $u_\mathrm{s}=253.15^{\circ}{\rm K}$ (sur la partie $\Gamma_{\mathrm{R}}$). 
+On impose une température $u_{{d}} = 348.15^{\circ}{\rm K}$ sur une petite portion 
+$\Gamma_{\mathrm{D}}$ de la frontière, en bas de l'aile ($\partial \Omega = 
+\Gamma_{\mathrm{R}} \cup \Gamma_{\mathrm{D}})$. %, see Figure~\ref{fig:airfoil} (a)).
+L'acier est caractérisé par sa densité volumique $\rho=7860\  \mbox{kg/m}^3$, 
+une chaleur spécifique $c=502 \ \mbox{J/Kg\,K}$ et une conductivité thermique $\kappa=60\mbox{W/m\,K}$. 
+Pour l'air, le coefficient de transfert de chaleur par convection est $\alpha=45\ \mbox{W/m$^2$\,K}$. On prendra un temps de simulation $T=1000$ s. La dimension transverse $L$ de l'aile est $0.8$ m.
+%
+\begin{figure}[ht!]
+\center
+\includegraphics[width=0.6\linewidth]{airfoil3.pdf} %(a)
+\caption{Géométrie de l'aile d'avion, avec notations pour le domaine et les bords.}
+\label{fig:airfoil}
+\end{figure}
+%
+Le modèle mathématique pour ce problème est le suivant :
+\begin{equation*}
+%\label{eq:heatAirfoil}
+\begin{aligned}
+\rho c\ \partial_t {u} - \kappa\:\Delta u &= 0 &\quad\textrm{dans}&\quad\Omega\times(0,T),\\
+u(\cdot,0)&=u_0 &\quad\textrm{dans}&\quad\Omega,\\
+\kappa \frac{\partial u}{\partial n}+\alpha u&=\alpha u_s & \quad\textrm{sur}&\quad \Gamma_{\mathrm{R}},\\
+u & = u_{{d}} & \quad\textrm{sur}&\quad \Gamma_{\mathrm{D}}.
+\end{aligned}
+\end{equation*}
+%
+Ecrire le script FreeFEM++ qui permet de résoudre le problème décrit ci-dessus, puis prédire et visualiser l'évolution de la température au niveau de l'aile.
+
+\end{document}
+
+\newpage
+
+\section{Technique de pénalité}
+
+Autre sujet, à voir en fonction des avancées.
+
+Reprendre matériel précédent (exams CTU et mémoires).
+
+\end{document}
+
