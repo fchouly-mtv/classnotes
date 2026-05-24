@@ -1,0 +1,1563 @@
+\input{e.tex}
+
+\corrPolitique{0}
+
+\newcommand{\eps}{\varepsilon}
+
+\begin{document}
+
+%\maketitle
+
+\parindent0mm
+
+\section{Fonctions, zéros et points fixes (I)}
+
+{\bf Motivation et exemple :} 
+
+\medskip
+
+On va s'intéresser au calcul approché de zéros de fonctions. Ce problème intervient dans de nombreuses applications pratiques. Prenons par exemple un fond d'investissement, sur lequel on apporte chaque année $v$ euros. Au bout de l'année numéro $n$, on retire finalement un capital de $M$ euros. On veut connaître le taux d'intérêt moyen $r$. Cela revient à trouver le zéro de la fonction $f$ suivante:
+\[
+f(r) = M r - {v} ( 1 + r  ) \left ( (1 + r) ^n - 1 \right ),
+\]
+pour laquelle on ne dispose pas de formule explicite si $n$ a une valeur trop élevée.
+
+\bigskip
+
+\begin{exercice}
+
+En utilisant la relation:
+\[
+M = v(1+r) + \dots + v(1+r)^n,
+\]
+montrer qu'effectivement, le taux d'intérêt est obtenu en résolvant 
+\[
+f(r) = 0,
+\]
+avec $f$ la fonction dont l'expression est donnée ci-dessus.
+Pour quelles valeurs de $n$ pouvez-vous trouver explicitement $r$ ?
+\end{exercice}
+
+
+\bigskip
+
+Pour la suite, nous aurons besoin du résultat fondamental suivant:
+
+\begin{theorem}[Théorème des valeurs intermédiaires]
+Soit $f$ une fonction réelle définie et continue sur un intervalle $[a,b]$. Alors $f$ est bornée sur $[a,b]$ et pour tout réel $y$ tel que:
+\[
+\inf_{x \in [a,b]} f(x) \leq y \leq \sup_{x \in [a,b]} f(x),
+\]
+il existe (au moins) un réel $\xi \in [a,b]$ tel que 
+\[
+y = f(\xi).
+\]
+En particulier, la borne inférieure et la borne supérieure de $f$ sont atteintes et peuvent être remplacées par $\min_{x \in [a,b]}$ et $\max_{x \in [a,b]}$, respectivement.
+\end{theorem}
+
+On rappelle également une variante utile :
+
+\begin{theorem}[Théorème de la bijection]
+On se place dans le même cadre que le théorème précédent, et on suppose de plus que $f$ est strictement monotone sur $]a,b[$. Alors pour tout réel $y$ tel que:
+\[
+\inf_{x \in [a,b]} f(x) \leq y \leq \sup_{x \in [a,b]} f(x),
+\]
+il existe un et un seul réel $\xi \in [a,b]$ tel que $y = f(\xi)$.
+\end{theorem}
+
+\begin{exercice}
+
+Soit $f$ une fonction réelle définie et continue sur $[a,b]$. On suppose que 
+\[
+f(a) f(b) \leq 0.
+\]
+Montrer qu'il existe (au moins) un réel $\xi \in [a,b]$ tel que $f(\xi)=0$.
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On considère la fonction $f$ donnée par l'expression:
+\[
+f(x) = 2 - x + \ln(x).
+\]
+
+\begin{enumerate}
+
+\item Quel est l'ensemble de définition de $f$ ?
+
+\item Représenter graphiquement $f$.
+
+\item Montrer que l'équation $f(x)=0$ admet exactement deux solutions réelles, qui seront notées $\alpha$ et $\beta$.
+
+\item Montrer que
+\[
+\frac1{10} < \alpha < \frac12.
+\]
+
+\item Montrer que
+\[
+3 < \beta < 4.
+\]
+
+\item Est-ce que $3 < \beta < 3.5$ ou $3.5 < \beta < 4$ ?
+
+\item Trouver une valeur approchée de $\beta$ à $\frac1{16}$ près.
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit la fonction $f$ donnée par l'expression:
+\[
+f(x) = x^3 + 2 x + 1.
+\]
+
+\begin{enumerate}
+
+\item Quel est l'ensemble de définition de $f$ ?
+
+\item Représenter graphiquement $f$.
+
+\item Montrer que l'équation $f(x)=0$ admet exactement une solution réelle $\alpha$.
+
+\item Montrer que
+\[
+-2 < \alpha < 0.
+\]
+
+\item Soit 
+\[
+h(x) = x - \frac{f(x)}{f'(x)}.
+\]
+Soit $x_0 = 0$ et la suite définie par récurrence :
+\[
+x_{n+1} = h ( x_n ), \quad n \in \eN.
+\]
+Calculer $x_1,x_2,x_3,\ldots$. Qu'observez-vous ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $g$ une fonction réelle, définie et continue sur un intervalle $[a,b]$, telle que
+\[
+\forall x \in [a,b],\quad g(x) \in [a,b].
+\]
+Montrer qu'il existe un réel $\xi \in [a,b]$ tel que 
+\[
+g(\xi) = \xi.
+\]
+On dira que \emph{$\xi$ est un point fixe de la fonction $g$}. Le résultat démontré est d'ailleurs connu sous le nom du \emph{Théorème de Point Fixe de Brouwer}.
+
+\medskip
+
+Peut-on avoir plusieurs points fixes ? Si oui, donner un exemple explicite.
+
+\end{exercice}
+
+\newpage
+
+\section{Fonctions, zéros et points fixes (II)}
+
+\begin{exercice}
+\label{exo:fonctionsfg}
+
+Soit la fonction $f$ définie sur l'intervalle $[1,2]$ par l'expression
+\[
+f(x) = e^x - 2 x - 1, \quad x\in[1,2].
+\]
+
+\begin{enumerate}
+\item Montrer qu'il existe $\xi \in [1,2]$ tel que $f(\xi)=0$.
+
+\item Montrer que l'équation $f(x)=0$ est équivalente sur $[1,2]$ à l'équation $g(x) = x$, avec 
+\[
+g(x) = \ln ( 2x + 1).
+\]
+
+\item Montrer, en utilisant le Théorème de Brouwer, que $g$ admet au moins un point fixe sur $[1,2]$.
+
+\item On choisit cette fois $g(x)=\frac12 ( e^x - 1)$. Montrer que l'équation $f(x)=0$ est encore équivalente sur $[1,2]$ à l'équation $g(x)=x$. Peut-on encore ici appliquer le Théorème de Brouwer pour montrer que $g$ admet au moins un point fixe ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+\label{exo:pointFixeBanach}
+
+On considère une fonction $g$ définie sur un intervalle $[a,b]$ et telle que pour tout $x \in [a,b]$, $g(x) \in [a,b]$.
+On va supposer que $g$ est une \emph{contraction} sur $[a,b]$, autrement dit qu'il existe une constante $L$ telle que $0 < L < 1$ et que
+\[
+\forall x,y \in [a,b], \quad
+| g(x) - g(y) | \leq L | x - y |.
+\]
+
+\begin{enumerate}
+\item Montrer que $g$ est nécessairement continue.
+
+\item Montrer que $g$ admet un \emph{unique} point fixe $\xi$ sur $[a,b]$.
+\end{enumerate}
+
+Pour $x_0 \in [a,b]$, on définit maintenant une suite $(x_k)$ par la relation de récurrence suivante:
+\[
+\forall k \in \eN, \quad x_{k+1} = g(x_k).
+\]
+
+\begin{enumerate}
+\item[3] Montrer que la suite $(x_{k})$ tend vers $\xi$ lorsque $k$ tend vers l'infini.
+\end{enumerate}
+
+On vient de démontrer ici une version simplifiée du \emph{Théorème du Point Fixe de Banach (ou de Picard)}.
+Vous verrez ultérieurement une démonstration plus générale. En particulier, on peut se passer de l'hypothèse $g([a,b]) \subset [a,b]$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+\label{exo:fonctiongPF}
+
+On reprend la fonction $g$ de la question 2 de l'exercice \ref{exo:fonctionsfg}, définie sur $[1,2]$ par 
+\[
+g(x) = \ln(2x+1).
+\]
+
+\begin{enumerate}
+
+\item Soit $x,y\in[1,2]$. Montrer qu'il existe $\eta \in [x,y]$ tel que:
+\[
+| g(x) - g(y) | = |g'(\eta)| | x - y |.
+\]
+
+\item Montrer que $g'$ est une fonction strictement décroissante sur $[1,2]$ et en déduire:
+\[
+\frac25 \leq g'(\eta) \leq \frac23.
+\]
+
+\item Montrer alors que $g$ est une contraction, autrement dit qu'il existe $0 < L < 1$ tel que pour $x,y\in[1,2]$,
+\[
+| g(x) - g(y) | \leq L | x - y |.
+\]
+Quelle valeur pouvez-vous donner à $L$ ?
+
+\item Montrer que $g$ admet un unique point fixe $\xi$ sur $[1,2]$, et que la suite 
+\[
+x_{k+1} = \ln ( 2 x_k + 1), \quad k\in\eN,
+\]
+converge vers $\xi$, pour n'importe qu'elle valeur de $x_0$ dans $[1,2]$.
+
+\item Avec le choix $x_0 = 1$, calculer $x_k$ pour $k=1,\ldots,11$. Qu'observez-vous ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On se place dans le cadre de l'exercice \ref{exo:pointFixeBanach}
+et on considère toujours une fonction $g$ définie sur $[a,b]$ et telle que pour tout $x \in [a,b]$, $g(x) \in [a,b]$.
+On suppose encore que $g$ est une \emph{contraction} sur $[a,b]$, autrement dit qu'il existe une constante $L$ telle que $0 < L < 1$ et que
+\[
+\forall x,y \in [a,b], \quad
+| g(x) - g(y) | \leq L | x - y |.
+\]
+On note toujours $\xi$ l'unique point fixe de $g$, et pour $x_0 \in [a,b]$, on définit la suite:
+\[
+\forall k \in \eN, \quad x_{k+1} = g(x_k).
+\]
+
+\begin{enumerate}
+\item Montrer d'abord que 
+\[
+| x_0 - \xi | \leq \frac1{1-L} | x_0 - x_1 |.
+% | x_0 - \xi | \leq | x_0 - x_1 | + L | x_0 - \xi |.
+\]
+
+\item En déduire que pour tout $k \in \eN$, on vérifie
+\[
+| x_k - \xi | \leq \frac{L^k}{1-L} | x_1 - x_0 |.
+\]
+
+\item On se donne une tolérance $\varepsilon > 0$ pour l'approximation du point fixe $\xi$ par la suite $(x_k)$. On souhaite déterminer la valeur de l'itération $k$ à partir de laquelle 
+\[
+| x_k - \xi | \leq \varepsilon.
+\]
+Démontrer que l'inégalité ci-dessus est vérifiée pour tout $k$ tel que
+\[
+ k \geq \frac{\ln |x_1 - x_0 | - \ln (\varepsilon(1-L))}{\ln(1/L)}.
+\]
+
+\item \emph{Application:} Reprenons la fonction $g$ donnée à l'exercice \ref{exo:fonctiongPF}. Combien faut-il d'itérations pour obtenir $\xi$ avec une précision $\varepsilon = 0.5 \times 10^{-6}$ ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Points fixes}
+
+On va commencer par donner une définition qui permet de caractériser différents comportements des points fixes d'une fonction:
+
+\begin{definition}
+ Soit $g$ une fonction réelle définie sur un intervalle $I$. Supposons que $g$ admette (au moins) un point fixe, noté $\xi\in I$, et que $g$ soit dérivable en $\xi$. Alors :
+ \begin{itemize}
+  \item si $|g'(\xi)| < 1$, on dira que $\xi$ est un point fixe \emph{stable.}
+  \item si $|g'(\xi)| > 1$, on dira que $\xi$ est un point fixe \emph{instable.}
+ \end{itemize}
+
+\end{definition}
+
+On commence par donner le résultat suivant, qui peut être vu comme une version locale du Théorème de point fixe de Banach.
+
+\begin{theorem}[Convergence au voisinage d'un point fixe stable]
+\label{thm:pointfixelocal}
+Soit $g$ une fonction réelle définie et continue sur un intervalle $I$. On suppose qu'il existe 
+%\[
+%\forall x \in [a,b],\, g(x) \in [a,b].
+%\]
+$\xi (= g(\xi)) \in I$ qui est un point fixe de $g$. On supposera que $g$ admet une dérivée continue dans un voisinage de $\xi$, et que de plus
+\[
+| g'(\xi) | < 1.
+\]
+Alors la suite $(x_k)_{k\in\eN}$ donnée par la relation de récurrence 
+$$x_{k+1} = g(x_k),\quad k\geq0$$ 
+converge vers $\xi$ lorsque $k\rightarrow +\infty$ si la première valeur $x_0$ est choisie suffisamment proche de $\xi$.
+\end{theorem}
+
+%Dans le cadre de ce théorème, on parlera de point fixe \emph{stable}.
+
+\bigskip
+
+\begin{exercice}
+
+Démontrer le Théorème \ref{thm:pointfixelocal}.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On se place toujours sous les hypothèses du Théorème \ref{thm:pointfixelocal}. On veut connaître la \emph{vitesse de convergence} de la suite $(x_k)_{k\in\eN}$ qui approche le point fixe $\xi$. Montrer que
+\[
+\lim_{k\rightarrow +\infty} \frac{|x_{k+1} - \xi|}{| x_k - \xi |} = |g'(\xi)|.
+\]
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit un réel $\alpha \in ]0;+\infty[$, on définit sur l'intervalle $[0,1]$ une fonction $g$ dépendante de $\alpha$ à l'aide de l'expression suivante:
+\[
+g(x) = \left\{
+\begin{array}{ll}
+2^{-\{ 1 + (\log_2(1/x))^{\frac1\alpha} \}^\alpha}&\quad \mbox{si } x\in]0;1],\\
+0&\quad \mbox{sinon}.
+\end{array}
+\right.
+\]
+
+\begin{enumerate}
+
+\item Calculer la limite de $g$ en $0+$. Que peut-on en déduire sur la continuité de $g$ ?
+
+\item Etudier les variations de $g$ sur $[0,1]$. Représenter $g$ pour $\alpha = \frac12,1,2$.
+
+\item La fonction $g$ admet-elle un (ou des) point(s) fixe(s) ? Le(s)quel(s) ?
+
+\item Soit la suite $(x_k)_{k\in\eN}$ donnée par $x_0=1$ et $x_{k+1} = g(x_k)$. Montrer que pour tout $k\geq0$, nous avons
+\[
+x_{k} = 2^{-k^\alpha}.
+\]
+Qu'en déduit-on sur la convergence de la suite ?
+
+\item Calculer la limite suivante, qui va donner la vitesse de convergence de la suite, en fonction de $\alpha$:
+\[
+\lim_{k \rightarrow +\infty} \frac{|x_{k+1}|}{|x_k|}.
+\]
+Comment interprète-t'on ce résultat ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $g$ une fonction réelle définie et continue sur un intervalle $I$. On suppose que $g$ admet un point fixe sur $I$,
+%\[
+%\forall x \in [a,b],\, g(x) \in [a,b].
+%\]
+qu'on notera $\xi (= g(\xi)) \in I$. %un point fixe de $g$, et 
+On supposera que $g$ admet une dérivée continue dans un voisinage de $\xi$, et que de plus
+\[
+| g'(\xi) | > 1.
+\]
+Autrement dit $\xi$ est un point fixe instable.
+On se donne toujours la suite $(x_k)_{k\in\eN}$ avec la relation de récurrence 
+$$x_{k+1} = g(x_k),\quad k\geq0.$$
+
+Montrer que, pour tout $x_0$ dans $I$, % si $x_0$ est suffisamment proche de $\xi$, %avec $x_0 \neq \xi$, 
+alors, lorsque $k\rightarrow +\infty$:
+\begin{enumerate}
+ \item soit la suite $x_k$ atteint exactement $\xi$ après un nombre fini d'itérations $k_0 \geq 0$ ($x_{k} = \xi$ pour tout $k \geq k_0$).
+ \item soit la suite $(x_k)_{k\in\eN}$ ne converge pas vers $\xi$.
+\end{enumerate}
+
+%\smallskip
+
+%On dira que le point fixe $\xi$ est \emph{instable}.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit la fonction $g$ définie sur $\eR$ à l'aide de l'expression suivante:
+\[
+g(x) = \frac12 ( x^2 + c ),
+\]
+où $c\in\eR$ est une constante donnée.
+
+\begin{enumerate}
+
+\item Montrer qu'en fonction de $c$, $g$ admet $0$, $1$ ou $2$ points fixes. Donner leur expression (en fonction de $c$).
+
+\item On se place maintenant dans le cadre où $g$ admet deux points fixes $\xi_1$ et $\xi_2$, avec la convention $\xi_1 < \xi_2$. Montrer que 
+\[
+\xi_1 < 1 < \xi_2.
+\]
+
+\item Montrer que $\xi_2$ est instable, autrement dit que $|g'(\xi_2)| > 1$.
+
+\item Est-ce que $\xi_1$ est stable ($|g'(\xi_1)| < 1$) ? Pour quelles plages de valeurs de $c$ ?
+
+\item On va supposer ici $0 < c < 1$ et s'intéresser à la suite $(x_k)$ donnée par $x_{k+1} = g(x_k)$. Montrer que 
+\[
+x_{k+1} - \xi_1 = \frac12 ( x_k + \xi_1 ) ( x_k - \xi_1 ), \quad k\geq 0.
+\]
+En déduire que
+\[
+\lim_{k \rightarrow +\infty} x_k = \xi_1
+\]
+pour $0 \leq x_0 < \xi_2$.
+
+\item Que peut-on dire sur la vitesse de convergence 
+\[
+\lim_{k\rightarrow +\infty} \frac{|x_{k+1} - \xi_1|}{| x_k - \xi_1 |}
+\]
+lorsque $c=0$ et lorsque $c$ est proche de $1$ ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Méthodes de relaxation et de Newton-Raphson}
+
+On supposera ici que $f$ est une fonction réelle définie et continue sur un voisinage d'un réel noté $\xi$. On appelle \emph{méthode de relaxation} la méthode qui permet d'approcher un zéro de $f$ à l'aide de la suite $(x_k)$ définie par la relation de récurrence
+\begin{equation} \label{eq:relaxation}
+x_{k+1} = x_k - \lambda f(x_k), \quad k\geq0,
+\end{equation}
+où le réel $\lambda\neq0$ est un paramètre fixé, choisi judicieusement, et où la valeur initiale $x_0$ est donnée dans un voisinage de $\xi$.
+
+\medskip
+
+Remarquons que cela correspond à faire des itérations de point fixe pour une fonction $g$ définie par
+\[
+g(x) = x - \lambda f(x).
+\]
+
+\medskip
+
+\begin{exercice}
+
+On va établir ici un résultat de convergence pour la méthode de relaxation, moyennant les bonnes conditions sur $f$ et sur $\lambda$. 
+On va pour cela supposer que $f(\xi)=0$, que $f'$ est définie et continue sur un voisinage de $\xi$, et que $f'(\xi)\neq0$.
+
+Montrer alors qu'il existe $\delta > 0$, tel que pour tout $\lambda$ suffisamment petit (et $\lambda \neq 0$), la suite $(x_k)$ définie par \eqref{eq:relaxation} converge vers $\xi$ pour tout $x_0$ dans l'intervalle $[\xi - \delta ; \xi + \delta ]$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On modifie ici la méthode de relaxation \eqref{eq:relaxation} en s'autorisant un choix différent de $\lambda$ à chaque itération:
+\[
+x_{k+1} = x_k - \lambda(x_k) f(x_k), \quad k\geq0.
+\]
+On supposera que $\lambda$ est une fonction continue par rapport à $x$.
+
+\begin{enumerate}
+
+\item Montrer que si la suite $(x_k)$ converge vers un réel $\xi$, avec $\lambda(\xi)\neq0$, alors $\xi$ est solution de $f(\xi)=0$.
+
+\item Montrer que, si $f$ est dérivable en $\xi$ et si $(x_k)$ converge vers $\xi$, la vitesse de convergence asymptotique de la suite est donnée par 
+\[
+\lim_{k\rightarrow +\infty} \frac{|x_{k+1} - \xi|}{| x_k - \xi|}
+= | 1 - \lambda(\xi) f'(\xi)|.
+\]
+
+\item Quel choix paraît alors judicieux pour $\lambda(x)$ ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+On supposera ici que $f$ est dérivable dans un voisinage de $\xi$, avec de plus sa dérivée $f'$ qui ne s'annule pas dans ce voisinage.
+On définit maintenant la \emph{méthode de Newton-Raphson} avec la relation de récurrence
+\begin{equation} \label{eq:newton}
+x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}, \quad k\geq0,
+\end{equation}
+où la valeur initiale $x_0$ est donnée dans un voisinage de $\xi$.
+
+\medskip
+
+Remarquons que cela correspond aussi à faire des itérations de point fixe pour une fonction $g$ définie par
+\[
+g(x) = x - \frac{f(x)}{f'(x)}.
+\]
+
+\medskip
+
+\begin{exercice}
+
+Nous allons établir ici un résultat de convergence pour la méthode de Newton-Raphson. Nous supposerons pour cela que $f$ est deux fois dérivable, avec une dérivée seconde $f''$ continue sur un intervalle $I_\delta = [ \xi - \delta ; \xi + \delta ]$, $\delta > 0$. On supposera de plus $f(\xi) = 0$, $f''(\xi)\neq0$, et qu'il existe $A >0$ tel que
+\begin{equation} \label{eq:A}
+\left | \frac{f''(x)}{f'(y)} \right | \leq A, \quad \forall x,y \in I_\delta.
+\end{equation}
+On notera par ailleurs $h = \min \{ \delta , \frac1{A} \}$.
+
+\begin{enumerate}
+
+\item Supposons qu'à l'itération $k\geq0$, le réel $x_k$ soit tel que $|x_k - \xi| \leq h$. Montrer qu'il existe $\eta_k \in I_\delta$ tel que 
+\[
+0 = f(x_k) + (\xi - x_k) f'(x_k) + \frac{(\xi-x_k)^2}{2}f''(\eta_k).
+\]
+
+\item En déduire que
+\[
+\xi - x_{k+1} = - \frac{(\xi-x_k)^2 f''(\eta_k)}{2 f'(x_k)},
+\]
+puis que
+\[
+| \xi - x_{k+1} | \leq \frac12 | \xi - x_k |.
+\]
+
+\item Montrer alors que, si $x_0$ est tel que $|x_0 - \xi|\leq h$, nous avons pour tout $k\geq0$:
+\[
+| \xi - x_k | \leq h 2^{-k}.
+\]
+Que peut-on en déduire ?
+
+\item Montrer maintenant que
+\[
+\lim_{k\rightarrow +\infty} \frac{|x_{k+1} - \xi|}{| x_k - \xi|^2}
+= \mu.
+\]
+Donner l'expression du réel $\mu$ et montrer que
+\[
+0 < \mu \leq \frac{A}{2}.
+\]
+
+\medskip
+
+\end{enumerate}
+
+Nous avons finalement établi que la méthode de Newton converge avec un taux de convergence quadratique.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+%On se place dans le même cadre que l'exercice précédent, avec les mêmes hypothèses sur $f$. 
+Soit $f$ une fonction réelle deux fois dérivable sur un intervalle $I$, avec une dérivée seconde $f''$ continue sur $I$. On supposera de plus qu'il existe $\xi \in I$ avec $f(\xi) = 0$, $f''(\xi)\neq0$,
+et qu'il existe un réel $X > \xi$ tel que sur l'intervalle $J=[\xi,X] \subset I$, les dérivées première $f'$ et seconde $f''$ de $f$ soient strictement positives. Montrer alors que la suite $(x_k)$ définie en \eqref{eq:newton} converge vers $\xi$, avec un taux quadratique, pour toute valeur initiale $x_0$ dans $J$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On reprend ici l'exercice 1.3, avec la fonction $f$ donnée par l'expression:
+\[
+f(x) = x^3 + 2 x + 1.
+\]
+On rappelle que cette fonction admet un unique zéro $\alpha$ avec
+\[
+-2 < \alpha < 0.
+\]
+
+\begin{enumerate}
+
+\item Calculer une valeur approchée de $\alpha$ en utilisant la méthode de relaxation \eqref{eq:relaxation}. Comment choisissez-vous le paramètre de relaxation $\lambda$ et combien d'itérations faut-il alors pour obtenir une précision acceptable ?
+
+\item Comparer les résultats obtenus à la question 1 avec ceux obtenus en utilisant la méthode de Newton-Raphson \eqref{eq:newton}. Que constatez-vous ?
+
+\item Comment vérifie-t'on en pratique qu'il y a une convergence quadratique ? 
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On revient ici à l'application en économétrie. On rappelle que le taux d'intérêt $r$ pour le fond d'investissement considéré est donné par l'équation:
+\[
+f(r)=0, \quad f(r) = M r - v {(1+r)} \left ( (1+r)^n - 1 \right).
+\]
+
+On choisira ici : un capital initial $v=1000$ euros, le capital retiré $M=6000$ euros, au bout de $n=5$ années. Trouver une valeur approchée de $r$ à l'aide de la méthode de votre choix, et commenter sur la qualité du résultat obtenu.
+
+\end{exercice}
+
+\newpage
+
+\section{Interpolation de Lagrange}
+
+\emph{Motivation :} On mesure la température à l'extérieur du bâtiment "Mirande" pendant toute une journée:
+
+\medskip
+
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c}
+$t$ & 8h & 9h & 11h & 13h & 15h \\ \hline
+$T$ ($^o$C) & 12.1 & 13.6 & 15.9 & 18.5 & 16.1 
+\end{tabular}
+\end{center}
+
+On veut pouvoir trouver une expression explicite de la fonction température $T(t)$, qui permettra de donner par exemple la température qu'il faisait à 10h.
+
+\medskip
+
+\emph{Problème général :} Soit $n\in\eN$ et $\mathcal{P}_n$ l'ensemble des polynômes sur $\eR$  de degré maximal $n$. Soit également $n+1$ réels $x_0,x_1,\ldots,x_n$ \emph{distincts} et $n+1$ réels $y_0,y_1,\ldots,y_n$. On veut trouver $p_n$ dans $\mathcal{P}_n$ tel que
+\begin{equation} \label{eq:interp}
+p_n(x_i)=y_i,\quad i=0,\ldots,n.
+\end{equation}
+
+\medskip
+
+\begin{exercice} 
+
+On supposera ici que $n\geq1$. 
+
+\begin{enumerate}
+
+\item Montrer qu'il existe $n+1$ polyn\^omes $L_k \in \mathcal{P}_n$, $k=0,\ldots,n$ tels que
+\[
+L_k(x_i) = \left \{ \begin{array}{ll}
+1 & \quad i=k,\\
+0 & \quad i\neq k,
+\end{array} \right.
+\]
+
+L'ensemble de ces polynômes s'appelle la \emph{base de Lagrange}.
+
+\item Comment trouve-t'on à partir de la question 1 un polynôme qui vérifie \eqref{eq:interp} ?
+
+\item Soit maintenant deux polynômes $p_n$ et $q_n$ qui vérifient \eqref{eq:interp}. Montrer que $p_n=q_n$.
+
+\end{enumerate}
+
+Lorsque $n=0$, montrer qu'il existe un unique polynôme $p_0$ qui vérifie \eqref{eq:interp}.
+
+\end{exercice}
+
+\medskip
+
+L'exercice 5.1 a permis d'établir le résultat suivant:
+
+\begin{theorem}[Théorème d'interpolation de Lagrange]
+Soit $n\in\eN$. Soit $n+1$ réels $x_0,x_1,\ldots,x_n$ \emph{distincts} et $n+1$ réels $y_0,y_1,\ldots,y_n$. Il existe un unique polynôme $p_n \in \mathcal{P}_n$ tel que
+\begin{equation*} %\label{eq:interp}
+p_n(x_i)=y_i,\quad i=0,\ldots,n.
+\end{equation*}
+Ce polynôme est appelé \emph{polynôme d'interpolation de Lagrange}. Les valeurs $x_i$ sont appelées des \emph{points d'inter\-polation}.
+
+\end{theorem}
+
+\medskip
+
+\begin{exercice}
+
+Soit $f$ la fonction définie sur $[-1,1]$ à l'aide de l'expression suivante:
+\[
+f(x) = e^x.
+\]
+Trouver le polynôme d'interpolation de Lagrange associé à $f$ sur $[-1,1]$, en prenant les points d'interpolation suivants: $x_0=-1$, $x_1=0$, $x_2=1$ (et donc $y_i = f(x_i)$, $i=0,1,2$).
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Le but de cet exercice est d'estimer \emph{l'erreur d'interpolation}, autrement dit la distance entre une fonction $f$ et un polynôme d'interpolation de Lagrange $p_n$ défini à partir de valeurs de $f$. On suppose pour cela que $f$ est une fonction réelle définie et continue sur un intervalle $[a,b]$, qui admet des dérivées continues sur $[a,b]$ jusqu'à l'ordre $n+1$. On prendra toujours $n+1$ points d'interpolation distincts $x_0,x_1,\ldots,x_n$ et on notera $p_n \in \mathcal{P}_n$ le polynôme d'interpolation associé ($p_n(x_i) = f(x_i)$, $i=0,\ldots,n$).
+
+On définit
+\[
+\pi_{n+1} (x) = (x - x_0) (x - x_1) \ldots (x - x_n).
+\]
+
+On prend $x\in[a,b]$, $x\neq x_i$, $i=0,\ldots,n$. On introduit alors la fonction auxilliaire
+\[
+\varphi(t) = f(t) - p_n(t) - \frac{f(x) - p_n(x)}{\pi_{n+1}(x)} \pi_{n+1}(t).
+\]
+
+\begin{enumerate}
+
+\item Justifier que $\varphi$ est bien définie sur $[a,b]$.
+
+\item Montrer que $\varphi'$ s'annule en $n+1$ points sur l'intervalle $]a;b[$.
+
+\item Dans le cas $n=0$, montrer alors qu'il existe $\xi \in ]a;b[$ tel que 
+\[
+f(x) - p_0(x) = f'(\xi) \pi_1(x).
+\]
+
+\item On suppose maintenant $n\geq1$.
+
+\begin{enumerate}
+
+\item Montrer qu'il existe $\xi \in ]a,b[$ tel que $\varphi^{(n+1)}(\xi) = 0$.
+
+\item En déduire
+
+\[
+0 = f^{(n+1)} (\xi) - \frac{f(x) - p_n(x)}{\pi_{n+1}(x)} (n+1)!
+\]
+
+\end{enumerate}
+
+\item Déduire de ce qui précède que, pour $n\geq0$, il existe $\xi \in ]a;b[$ tel que 
+\[
+f(x) - p_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} \pi_{n+1}(x).
+\]
+
+\item Etablir finalement l'inégalité suivante:
+\[
+| f(x) - p_n(x) | \leq \frac{M_{n+1}}{(n+1)!} | \pi_{n+1}(x) |,
+\]
+où on précisera la valeur de la constante $M_{n+1} \geq 0$
+
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Interpolation de Hermite}
+
+\begin{theorem}[Théorème d'interpolation de Hermite]
+Soit $n\in\eN$. Soit $n+1$ réels $x_0,x_1,\ldots,x_n$ \emph{distincts}. Soit également deux ensembles de $n+1$ réels: d'une part $y_0,y_1,\ldots,y_n$ et d'autre part $z_0,z_1,\ldots,z_n$. Il existe un unique polynôme $p_{2n+1} \in \mathcal{P}_{2n+1}$ tel que
+\begin{equation} \label{eq:interpH}
+p_{2n+1}(x_i)=y_i,\quad 
+p_{2n+1}'(x_i)=z_i,\quad i=0,\ldots,n.
+\end{equation}
+Ce polynôme est appelé \emph{polynôme d'interpolation de Hermite}.
+\end{theorem}
+
+\begin{exercice}
+
+Le but de cet exercice est de démontrer le Théorème d'interpolation de Hermite.
+On considère pour cela les polynômes auxilliaires $H_k$ et $K_k$, $k=0,\ldots,n$, définis comme suit:
+\begin{eqnarray*}
+H_k(x) & = & [L_k(x)]^2 ( 1 - 2 L_k'(x_k)(x-x_k)),\\
+K_k(x) & = & [L_k(x)]^2 ( x - x_k ),
+\end{eqnarray*}
+où les $L_k$ sont les polynômes de la base de Lagrange définis lors du TD précédent.
+On se place d'abord dans le cas $n\geq 1$.
+
+\begin{enumerate}
+
+\item Quel est le degré des polynômes $H_k$ et $K_k$ ?
+
+\item Montrer que pour tous les indices $i,k=0,\ldots,n$:
+\[
+H_k(x_i) = \left \{ \begin{array}{ll} 1,& i=k, \\ 0,&i\neq k, \end{array} \right.
+\quad
+H_k'(x_i) = 0.
+\]
+\item Montrer aussi que pour tous les indices $i,k=0,\ldots,n$:
+\[
+K_k(x_i) = 0,
+\quad
+K_k'(x_i) = \left \{ \begin{array}{ll} 1,& i=k, \\ 0,&i\neq k. \end{array} \right.
+\]
+
+\item Montrer alors qu'il existe un polynôme $p_{2n+1} \in \mathcal{P}_{2n+1}$ qui vérifie les conditions \eqref{eq:interpH}.
+
+\item Montrer que s'il existe deux polynômes $p_{2n+1} \in \mathcal{P}_{2n+1}$ et $q_{2n+1} \in \mathcal{P}_{2n+1}$, alors $p_{2n+1} = q_{2n+1}$.
+
+\item Que peut-on dire dans le cas $n=0$ ?
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Construire le polynôme $p_3$ de degré 3 tel que
+\[
+p_3(0) = 0, \quad p_3(1)=1, \quad p_3'(0)=1, \quad p_3'(1)=0.
+\]
+Le représenter graphiquement.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $n\geq0$ et soit $f$ une fonction réelle, définie, continue et $2n+2$ fois dérivable sur un intervalle $[a,b]$, avec de plus $f^{(2n+2)}$ continue sur $[a,b]$.
+%
+Soit $n+1$ réels $x_0,x_1,\ldots,x_n$ \emph{distincts}, et $p_{2n+1} \in \mathcal{P}_{2n+1}$ le \emph{polynôme d'interpolation de Hermite pour $f$}, c'est à dire le polynôme tel que
+\begin{equation*} %\label{eq:interpH}
+p_{2n+1}(x_i)=f(x_i),\quad 
+p_{2n+1}'(x_i)=f'(x_i),\quad i=0,\ldots,n.
+\end{equation*}
+
+\begin{enumerate}
+
+\item Montrer que pour tout $x\in[a,b]$, il existe $\xi \in ]a,b[$ tel que
+\[
+f(x) - p_{2n+1} (x) = \frac{f^{(2n+2)}(\xi)}{(2n+2)!} [\pi_{n+1}(x)]^2,
+\]
+où le polynôme $\pi_{n+1}$ a été défini lors du TD précédent.
+
+\item En déduire l'inégalité suivante:
+\[
+| f(x) - p_{2n+1} (x) | \leq \frac{M_{2n+2}}{(2n+2)!} [\pi_{n+1}(x)]^2,
+\]
+où on précisera la valeur de la constante $M_{2n+2} \geq 0$
+
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Intégration et quadratures (I)}
+
+\begin{exercice}
+
+Calculer les intégrales suivantes:
+
+\begin{enumerate}
+
+\item D'abord $$ \int_0^1 e^x dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x) dx.$$
+
+\item Ensuite $$ \int_0^1 e^{x^2} dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x^2) dx.$$
+
+\item Et finalement
+\[
+\int_1^{2000} \exp(\sin(\cos(\sinh(\cosh(\arctan(\log(x))))))) dx.
+\]
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Dans cet exercice, nous allons établir la \emph{formule des trap\`ezes}, qui permet de calculer une intégrale de façon approchée. On l'appelle aussi \emph{formule de Newton-Cotes d'ordre 1}. On considère pour cela une fonction réelle $f$ définie et continue sur un intervalle $[a,b]$. Soit $p_1$ le polynôme de Lagrange de degré 1 qui interpole $f$ aux points $a$ et $b$. On rappelle qu'on peut écrire $p_1$ comme suit:
+\[
+p_1(x) = L_0(x) f(a) + L_1(x) f(b),
+\]
+avec $L_0$ et $L_1$ qui sont les polynômes de degré 1 de la base de Lagrange.
+
+\begin{enumerate}
+
+\item Montrer que:
+\[
+\int_a^b p_1(x) dx = \frac{b-a}2 ( f(a) + f(b) ).
+\]
+
+L'idée est ensuite de remplacer $f$ par $p_1$ dans le calcul d'intégrale, ce qui donne la formule approchée 
+\begin{equation} \label{eq:trapezes}
+\int_a^b f(x) dx \simeq \frac{b-a}2 ( f(a) + f(b) ).
+\end{equation}
+
+\item Appliquer la formule \eqref{eq:trapezes} pour calculer de façon approchée les intégrales suivantes:
+
+$$ \int_0^1 e^x dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x) dx.$$
+
+$$ \int_0^1 e^{x^2} dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x^2) dx.$$
+
+Comparer vos résultats à ceux de l'exercice 1.
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+De façon similaire à l'exercice précédent, nous allons établir la \emph{formule de Simpson}, toujours dans le but de calculer une intégrale de façon approchée (on parle encore de \emph{formule de Newton-Cotes d'ordre 2}). Soit une fonction réelle $f$ définie et continue sur un intervalle $[a,b]$. Soit $p_2$ le polynôme de Lagrange de degré 2 qui interpole $f$ aux points $a$, $m=\frac{a+b}2$ et $b$.
+
+\begin{enumerate}
+
+\item Montrer que:
+\[
+\int_a^b p_2(x) dx = \frac{b-a}6 ( f(a) + 4f(m) + f(b) ).
+\]
+
+On obtient comme cela la formule approchée 
+\begin{equation} \label{eq:Simpson}
+\int_a^b f(x) dx \simeq \frac{b-a}6 ( f(a) + 4f(m) + f(b) ).
+\end{equation}
+
+\item Appliquer la formule \eqref{eq:Simpson} pour calculer de façon approchée les intégrales suivantes:
+
+$$ \int_0^1 e^x dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x) dx.$$
+
+$$ \int_0^1 e^{x^2} dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x^2) dx.$$
+
+Comparer vos résultats à ceux des exercices 1 et 2.
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $f$ une fonction réelle définie et continue sur un intervalle $[a,b]$. Soit $h=(b-a)/n$, avec $n\geq1$, et soient les points d'interpolation définis comme suit
+\[
+x_i = a + i h, \qquad i=0,\ldots,n.
+\]
+Soit $p_n \in \mathcal{P}_n$ le polynôme d'interpolation de $f$ aux points $x_i$.
+
+\begin{enumerate}
+
+\item Montrer que
+\[
+ \int_a^b p_n(x) dx = \sum_{k=0}^n w_k f(x_k),
+\]
+et donner une expression des $w_k$.
+
+\item Soit \emph{l'erreur de quadrature} la différence entre la valeur exacte de l'intégrale et sa valeur approchée en utilisant la formule de la question 1:
+\[
+E_n (f) = \int_a^b f(x) dx - \sum_{k=0}^n w_k f(x_k).
+\]
+Montrer que l'on peut majorer cette erreur de la façon qui suit :
+\[
+| E_n (f) | \leq \frac{M_{n+1}}{(n+1)!} \int_a^b | \pi_{n+1} (x)| dx,
+\]
+avec
+$M_{n+1} = \max_{\eta \in [a,b]} | f^{(n+1)} (\eta) |$
+et
+$\pi_{n+1}(x) = ( x - x_0 ) \ldots (x - x_n)$.
+
+\item En déduire la majoration de l'erreur suivante pour la \emph{méthode des trapèzes}:
+\[
+| E_1 (f) | \leq \frac{(b-a)^3}{12} M_2.
+\]
+
+\item En déduire également la majoration de l'erreur suivante pour la \emph{méthode de Simpson}:
+\[
+| E_2 (f) | \leq \frac{(b-a)^4}{196} M_3.
+\]
+
+
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Intégration et quadratures (II)}
+
+On cherche à calculer l'intégrale d'une fonction $f$ sur un intervalle $[a,b]$ quelconque. On va pour cela construire des \emph{formules de quadrature} composées en subdivisant l'intervalle $[a,b]$ en sous-intervalles de petite taille, et en appliquant les formules vues au TD 1 sur chaque sous-intervalle.
+
+Dans la suite de ce TD, on notera $f: [a,b] \rightarrow \eR$ une fonction continue, dont on souhaite approcher l'intégrale. Une subdivision $(x_i)$ de l'intervalle $[a,b]$ sera notée comme suit :
+\[
+x_i = a + i h, \quad i=0,\ldots,m,
+\]
+où $m \in \eN$, $m\geq1$, est le nombre de points de la subdivision, et $h = (b-a)/m$ est le \emph{pas} de la subdivision.
+
+\bigskip
+
+\begin{exercice}
+
+En appliquant la formule des trapèzes sur chaque intervalle $[x_i,x_{i+1}]$ de la subdivision $(x_i)$, montrer qu'on peut approcher l'intégrale de $f$ sur $[a,b]$ par la formule suivante :
+\begin{equation}\label{eq:trapezes_comp}
+\int_a^b f(x) dx \simeq
+h \left (
+\frac12 f(x_0) + f(x_1) + \ldots + f(x_{m-1}) + \frac12 f(x_m)
+\right ).
+\end{equation}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Appliquer la formule \eqref{eq:trapezes_comp} pour calculer de façon approchée les intégrales suivantes:
+
+$$ \int_0^1 e^x dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x) dx,$$
+
+$$ \int_0^1 e^{x^2} dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x^2) dx.$$
+
+On choisira des subdivisions de $[0,1]$ en deux intervalles de même taille, puis en quatre intervalles de même taille.
+
+\medskip
+
+Comparer vos résultats à ceux du TD précédent.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On définit :
+\[
+\mathcal{E}_1 =
+\int_a^b f(x) dx -
+h \left (
+\frac12 f(x_0) + f(x_1) + \ldots + f(x_{m-1}) + \frac12 f(x_m)
+\right )
+\]
+l'erreur de quadrature associée à la formule composite des trapèzes. Montrer qu'on peut majorer cette erreur comme suit :
+\[
+| \mathcal{E}_1 | \leq \frac{(b-a)^3}{12 m^2} \max_{\zeta\in[a;b]} |f''(\zeta)|.
+\]
+
+Commenter le résultat obtenu.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Pour chaque indice $i=0,\ldots,m-1$, on notera 
+\[
+x_{i+\frac12} = \frac12 ( x_{i} + x_{i+1} ),
+\]
+le point au milieu du segment $[x_i;x_{i+1}]$.
+En appliquant la formule de Simpson sur chaque intervalle $[x_i,x_{i+1}]$ de la subdivision $(x_i)$, montrer qu'on peut approcher l'intégrale de $f$ sur $[a,b]$ par la formule suivante :
+\begin{equation}\label{eq:Simpson_comp}
+\int_a^b f(x) dx \simeq
+\frac{h}{6} \left (
+f(x_0) + 4f(x_{\frac12}) + 2 f(x_1) + 4f(x_{\frac32}) +
+\ldots + 2f(x_{m-1}) + 4 f(x_{m-\frac12}) + f(x_m)
+\right ).
+\end{equation}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Appliquer la formule \eqref{eq:Simpson_comp} pour calculer de façon approchée les intégrales suivantes:
+
+$$ \int_0^1 e^x dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x) dx,$$
+
+$$ \int_0^1 e^{x^2} dx \qquad \mbox{ et } \qquad \int_0^\pi \cos(x^2) dx.$$
+
+On choisira des subdivisions de $[0,1]$ en deux intervalles de même taille, puis en quatre intervalles de même taille.
+
+\medskip
+
+Comparer vos résultats à ceux du TD précédent et à ceux de l'exercice 8.2.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+On définit :
+\[
+\mathcal{E}_2 =
+\int_a^b f(x) dx -
+\frac{h}{6} \left (
+f(x_0) + 4f(x_{\frac12}) + 2 f(x_1) + 4f(x_{\frac32}) +
+\ldots + 2f(x_{m-1}) + 4 f(x_{m-\frac12}) + f(x_m)
+\right )
+\]
+l'erreur de quadrature associée à la formule composite de Simpson. Montrer qu'on peut majorer cette erreur comme suit :
+\[
+| \mathcal{E}_2 | \leq \frac{(b-a)^4}{196 m^3} \max_{\zeta\in[a;b]} |f^{(3)}(\zeta)|.
+\]
+
+Commenter le résultat obtenu et comparer avec celui de l'exercice 8.3.
+
+\end{exercice}
+
+\newpage
+
+\section{Fonctions à plusieurs variables (I)}
+
+Le but de ce TD est d'étudier des fonctions à plusieurs variables, autrement dit de la forme :
+\[
+f : \left \{ 
+\begin{array}{lcl}
+\eR^N & \rightarrow & \eR \\
+(x_1,x_2,\ldots,x_N) & \mapsto & f(x_1,x_2,\ldots,x_N)
+\end{array}
+\right.
+\]
+avec $N \geq 2$. On examinera d'abord leur continuité, puis ensuite on s'intéressera aux extrema de ces fonctions.
+On rappelle que le \emph{gradient} de $f$ est le vecteur de composantes :
+\[
+\nabla f = \left [ \frac{\partial f}{\partial x_1} , 
+\frac{\partial f}{\partial x_2} , \ldots , \frac{\partial f}{\partial x_N} \right ]^\mathrm{T}
+\]
+et on rappelle également que la \emph{matrice hessienne} de $f$ s'écrit :
+\[
+\mbox{Hess } f = \left ( \frac{\partial^2 f}{\partial x_i \partial x_j} \right )_{1\leq i,j \leq N}.
+\]
+
+\begin{exercice}
+
+Etudier la continuité des fonctions à deux variables suivantes :
+
+\begin{align*}
+& f_1(x,y) = |x| \\ 
+& f_2(x,y) = \left\{ \begin{array}{ll}
+\displaystyle \frac{\sin(x^2 + y^2)}{x^2 + y^2} & \mbox{ si } (x,y)\neq(0,0)\\\\
+1 & \mbox{ sinon}
+\end{array} \right.\\
+& f_3(x,y) = \left\{ \begin{array}{ll}
+\displaystyle \frac{xy}{\sqrt{x^2 + y^2}} & \mbox{ si } (x,y)\neq(0,0)\\\\
+0 & \mbox{ sinon}
+\end{array} \right.\\
+& f_4(x,y) = \left\{ \begin{array}{ll}
+\displaystyle \frac{x^2}{\sqrt{x^2 + y^2}} & \mbox{ si } (x,y)\neq(0,0)\\\\
+0 & \mbox{ sinon}
+\end{array} \right.\\
+& f_5(x,y) = \left\{ \begin{array}{ll}
+\displaystyle \frac{x^2}{{x^2 + y^2}} & \mbox{ si } (x,y)\neq(0,0)\\\\
+0 & \mbox{ sinon}
+\end{array} \right.\\
+& f_6(x,y) =  \left\{ \begin{array}{ll}
+\displaystyle \frac{x^2 y}{x^4 + y^2} & \mbox{ si } (x,y)\neq(0,0)\\\\
+0 & \mbox{ sinon}
+\end{array} \right.\\
+& f_7(x,y) = \left\{ \begin{array}{ll}
+\displaystyle xy \frac{x^2 - y^2}{x^2 + y^2} & \mbox{ si } (x,y)\neq(0,0)\\\\
+0 & \mbox{ sinon}
+\end{array} \right.
+\end{align*}
+
+\end{exercice}
+
+%\medskip
+\newpage
+
+\begin{exercice}
+
+D\'eterminer les points critiques des fonctions \`a deux variables suivantes. Dire si chaque point est un minimum ou un maximum en justifiant.
+
+\begin{align*}
+&f_1(x,y)=x^2+y^2 \\\\
+&f_2(x,y)=x^2-y^2 \\\\
+&f_3(x,y)=x^2+3y^2+2xy-2x-10y+9 \\\\
+&f_4(x,y)=x^3+x^2y-4y^2+1\\\\
+&f_5(x,y)=e^{-(x^2+y^2)}\\\\
+&f_6(x,y)=xye^{-(x^2+y^2)}
+\end{align*}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+D\'eterminer les points critiques des fonctions \`a trois variables suivantes. Dire si chaque point est un minimum ou un maximum en justifiant.
+
+\begin{align*}
+&f_1(x,y,z)=x^2+y^2+z^2\\\\
+&f_2(x,y,z)=x^2-y^2+z^2\\\\
+&f_3(x,y,z)=e^{-(x^2+y^2+z^2)}\\\\
+&f_4(x,y,z)=(2x+y)^2 + x^3 + y^3 + z^3
+\end{align*}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $f : \eR^N \rightarrow \eR$ une fonction continue et \emph{coercive}, c'est à dire :
+\[
+\lim_{\| x \|_2 \rightarrow + \infty} f(x) = + \infty,
+\]
+avec $\| x \|_2^2 = x_1^2 + \ldots + x_N^2$. 
+
+\medskip
+
+Montrer que $f$ admet au moins un minimiseur global dans $\eR^N$.
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $f : \eR^N \rightarrow \eR$ une fonction \emph{strictement convexe}, autrement dit, pour tout couple $(x,x')$ de vecteurs de $\eR^N$, avec $x\neq x'$, et pour tout $\theta \in ]0;1[$, on vérifie :
+\[
+f( \theta x + (1-\theta) x' ) < \theta f(x) + (1-\theta) f(x').
+\]
+
+\begin{enumerate}
+
+\item Une fonction strictement convexe est-elle convexe ? Réciproquement, une fonction convexe est-elle toujours strictement convexe ?
+
+\item Montrer qu'une fonction strictement convexe admet au plus un seul minimiseur global.
+
+\end{enumerate}
+
+\end{exercice}
+
+\newpage
+
+\section{Fonctions à plusieurs variables (II)}
+
+On va s'intéresser ici à la minimisation de fonctions, et voir comment approcher le minimiseur d'une fonction.
+
+\medskip
+
+Un exemple pratique de problème de minimisation est le suivant : on se donne $m$ points du plan de coordonnées $(x_i,y_i)$, $i=1,\ldots,m$ et on cherche la droite qui approche le nuage de points \emph{au sens des moindres carrés}. Autrement dit on cherche les coefficients $\alpha$ et $\beta$ qui minimisent la fonction :
+\begin{equation} \label{moindre_carres}
+J(\alpha,\beta) = \sum_{i=1}^m ( y_i - \alpha - \beta x_i )^2
+\end{equation}
+appelée \emph{erreur quadratique minimale}.
+
+\medskip
+
+De façon générale, pour $N \geq 1$, on notera 
+\[
+J : \eR^N \rightarrow \eR
+\]
+la fonction à minimiser, et on notera aussi son gradient :
+\[
+\nabla J = \left [ \frac{\partial J}{\partial x_1} , 
+\frac{\partial J}{\partial x_2} , \ldots , \frac{\partial J}{\partial x_N} \right ]^\mathrm{T}.
+\]
+La notation $\| x \|_2^2 = x_1^2 + \ldots + x_N^2$ désignera toujours la norme euclidienne dans $\eR^N$.
+
+\medskip
+
+On dira que $d \in \eR^N$ est une \emph{direction de descente} de $J$ en $x\in \eR^N$ s'il existe $\delta > 0$ tel que pour tout $t \in [0,\delta]$, on vérifie
+\[
+J ( x + t d ) \leq J(x).
+\]
+La direction est dite \emph{stricte} si l'inégalité ci-dessus est stricte pour $t>0$.
+
+\medskip
+
+\begin{exercice}
+
+On supposera que $J$ est différentiable au point $x$, et que $d$ est une direction de descente de $J$ en $x$.
+
+\begin{enumerate}
+
+\item Montrer que \[ ( \nabla J (x) , d ) \leq 0 \]
+où $(\cdot,\cdot)$ est le produit scalaire dans $\eR^N$.
+
+\item Montrer que si, de plus, $\nabla J (x) \neq 0$, alors $d = -\nabla J(x)$ est une direction de descente stricte de $J$ en $x$.
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+Soit $\lambda > 0$ un paramètre, qu'on appelle \emph{le pas}. On appelle \emph{algorithme de gradient à pas fixe} la méthode itérative suivante :
+\begin{equation}\label{eq:gradient}
+x^{k+1} = x^k - \lambda \nabla J (x^k),
+\end{equation}
+en partant d'un point $x^0 \in \eR^N$. Cette méthode itérative permet d'obtenir une suite $(x^k)$ susceptible d'approcher, sous conditions, un minimiseur de la fonction $J$.
+
+\medskip
+
+\begin{exercice}
+
+Montrer que la méthode \eqref{eq:gradient} peut s'interpréter comme une méthode d'approximation de point fixe, pour une fonctionnelle qu'on explicitera. Quand $N=1$, quelle méthode déjà connue retrouve-t'on ?
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Appliquer la méthode de gradient à pas fixe pour retrouver le minimum de 
+\[
+J(x_1,x_2)=x_1^2+3x_2^2+2x_1x_2-2x_1-10x_2+9.
+\]
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Le but de cet exercice est d'établir un résultat de convergence pour la méthode du gradient à pas fixe. On va supposer pour cela que $J$ est différentiable, et aussi qu'elle est \emph{fortement convexe} de paramètre $\alpha>0$, autrement dit que pour tout $x,y \in \eR^N$: %, pour tout $\theta \in [0,1]$:
+\[
+%J ( \theta x + (1-\theta) y ) \leq \theta J(x) + ( 1 - \theta) J(y) - \alpha %\frac{\theta (1-\theta)}{2} \| x - y \|_2^2.
+( \nabla J(x) - \nabla J(y) , x - y ) \geq \alpha \| x - y \|^2_2.
+\]
+On suppose aussi que l'application $\nabla J : \eR^N \rightarrow \eR^N$ est lipschitzienne, autrement dit qu'il existe $L>0$ tel que pour tout $x,y \in \eR^N$:
+\[
+\| \nabla J (x) - \nabla J (y) \|_2 \leq L \| x - y \|_2.
+\]
+On va supposer finalement : 
+\begin{equation}\label{eq:valeur_alpha}
+0 < \lambda < \frac{2\alpha}{L^2}.
+\end{equation}
+
+\begin{enumerate}
+
+\item Montrer d'abord que $J$ admet un unique minimiseur, noté $x^*$.
+
+\item Soit $J_\lambda : \eR^N \rightarrow \eR^N$ définie par 
+\[
+J_\lambda ( x ) = x - \lambda \nabla J (x),
+\]
+pour tout $x\in\eR^N$.
+Montrer que, pour tout $x,y\in\eR^N$  :
+\[
+\| J_\lambda (x) - J_\lambda(y) \|^2_2 \leq (1 - 2 \lambda \alpha + \lambda^2 L^2)  \| x - y \|^2_2.
+\]
+
+\item En utilisant \eqref{eq:valeur_alpha}, en déduire qu'il existe $\rho \in ] 0 ; 1 [$ tel que 
+\[
+\| J_\lambda (x) - J_\lambda(y) \|_2 \leq \rho \| x - y \|_2.
+\]
+
+\item Montrer alors que la suite $(x^k)$ donnée par \eqref{eq:gradient} vérifie
+ pour tout $k\geq0$ :
+ \[
+  \| x^* - x^{k+1} \|_2 \leq \rho \| x^* - x^k \|_2.
+ \]
+ 
+\item En déduire que la suite $(x^k)$ tend vers $x^*$.
+ 
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit une matrice $A \in \eR^{N,M}$ avec $M<N$. 
+
+\medskip
+
+Pour $y\in\eR^N$, on introduit la fonction $J : \eR^M \rightarrow \eR$ définie par
+\begin{equation} \label{eq:moindres_carres2}
+J(x) = \| A x - y \|^2_2,
+\end{equation}
+où $x \in \eR^M$.
+
+\begin{enumerate}
+
+\item Que peut-on dire sur le rang de $A$ ? En particulier, le système 
+\[
+A x = y
+\]
+admet-il toujours une solution pour $y\in\eR^N$ ?
+
+\item Montrer que la fonctionnelle $J$ admet un unique minimiseur.
+
+\item Montrer que le minimiseur de $J$ est solution d'un système linéaire que l'on explicitera.
+
+\item Peut-on retrouver la fonctionnelle \eqref{moindre_carres} comme un cas particulier de \eqref{eq:moindres_carres2} ? Si oui, expliciter la matrice $A$ correspondante.
+
+\end{enumerate}
+
+\end{exercice}
+
+%\begin{exercice}
+%
+%Dérivées et calculs d'extrema : exercices ISIFC et L1 Eco.
+%
+%\end{exercice}
+
+%\medskip
+
+%\begin{exercice}
+%
+%Le théorème de Schwartz : exemples et contre-exemples ?
+%
+%\end{exercice}
+
+%\medskip
+
+%\begin{exercice}
+
+%Un peu de descente de Gradient. Voir Ern et Stoltz, et peut-être Allaire aussi.
+
+%\end{exercice}
+
+% VOIR AUSSI EXOS PREPA.
+
+\newpage
+
+\section{Courbes paramétrées}
+
+Dans ce dernier TD, nous allons étudier des notions sur les courbes paramétrées. Soit $D \subset \eR$, une \emph{courbe paramétrée plane} est une application
+\[
+f : \left \{
+\begin{array}{lcl}
+D & \rightarrow & \eR^2 \\
+t & \mapsto & f(t) = (x(t),y(t)).
+\end{array}
+\right .
+\]
+
+\medskip
+
+\begin{exercice}
+
+Une \emph{courbe de Lissajous} est donnée par les équations:
+\[
+\left \{
+\begin{array}{lcl}
+x(t) & = & \sin(2t) \\
+y(t) & = & \sin(3t),
+\end{array}
+\right .
+\]
+pour $t\in\eR$.
+
+\begin{enumerate}
+\item Déterminer un domaine d'étude le plus simple possible pour cette courbe.
+
+\item Dans quelle partie du plan se situe la courbe ?
+
+\item Trouver les points où la tangente à la courbe est verticale, puis horizontale.
+
+\item Tracer la courbe.
+
+\end{enumerate}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Trouver les points multiples de la courbe :
+\[
+\left \{
+\begin{array}{lcl}
+x(t) & = & 2t + t^2 \\
+y(t) & = & 2t - \frac1{t^2},
+\end{array}
+\right .
+\]
+pour $t\in\eR^*$.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $(\cdot,\cdot)$ la notation pour le produit scalaire dans $\eR^2$, et $\| \cdot \|_2$ celle pour la norme associée.
+Soit $D \subset \eR$ et deux applications $f$ et $g$ définies sur $D$ et à valeurs dans $\eR^2$. Soit $t_0 \in D$, tel que $f$ et $g$ soient dérivables en $t_0$.
+
+\begin{itemize}
+
+\item Montrer que l'application 
+\[
+\phi(t) = ( f(t) , g(t) )
+\]
+est dérivable en $t_0$ et que 
+\[
+\phi'(t_0) = \left ( \frac{d}{dt} f(t_0) , g(t_0) \right ) + \left ( f(t_0) , \frac{d}{dt}g(t_0) \right ).
+\]
+
+\item En supposant que $f(t_0) \neq 0$, montrer que l'application
+\[
+t \rightarrow  \| f(t) \|_2
+\]
+est dérivable, et que sa dérivée est
+\[
+\frac{d}{dt} \| f(t) \|_2 (t_0) = \frac{1}{\| f(t_0) \|_2} 
+\left ( f(t_0) , \frac{d}{dt} f(t_0) \right ) .
+\]
+
+\end{itemize}
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Soit $t \rightarrow f(t)=( \cos(t) , \sin(t) )$ une paramétrisation du cercle de centre $O$ et de rayon $1$. Montrer en utilisant l'exercice précédent qu'en tout point $f(t)$ du cercle, la tangente est orthogonale au rayon.
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Etudier le point singulier à l'origine de :
+\[
+\left \{
+\begin{array}{lcl}
+x(t) & = & t^2 \ln(1+t) \\
+y(t) & = & t^2 (e^{t^2} - 1)
+\end{array}
+\right . .
+\]
+
+\end{exercice}
+
+\medskip
+
+\begin{exercice}
+
+Construire le \emph{folium de Descartes} d'équation
+\[
+x^3 + y^3 - 3 a x y = 0
+\]
+où le paramètre $a$ est un réel strictement positif.
+
+\end{exercice}
+
+\end{document}
+
