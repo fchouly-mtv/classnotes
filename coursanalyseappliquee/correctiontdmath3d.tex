@@ -1,0 +1,1657 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Correction TD Math3D}
+\author{Franz Chouly}
+\date{\today}
+
+\parindent 0em
+
+\begin{document}
+
+\maketitle
+
+\section{TD 1}
+
+{\bf Exercice 1.1} --
+
+{\bf Exercice 1.2} --
+
+{\bf Exercice 1.3}
+
+La fonction
+$$ f(x) = 2 - x + \ln(x) $$
+est définie sur $]0;+\infty[$. Sa dérivée est:
+$$ f'(x) = -1 + \frac{1}{x} = \frac{1-x}{x},$$
+et elle change de signe en $x=1$. Donc $f$ est croissante sur $]0;1[$ et décroissante sur $]1;+\infty[$. On a de plus:
+$$ \lim_{0^+} f = -\infty, \quad f(0) = 1, \quad \lim_{+\infty} f = -\infty.$$
+Comme $f$ est continue sur chacun des deux intervalles où elle est monotone, l'application du Théorème de la Bijection, adapté au cas non-borné, permet de conclure qu'il existe exactement deux zéros de $f$: $\alpha \in ]0;1[$, $\beta \in ]1;+\infty[$.
+On peut avoir un encadrement de ces racines à l'aide des évaluations suivantes de la fonction $f$:
+$$
+f(0.1) \simeq -0.4, \quad f(0.5) \simeq 0.8, \quad f(3) \simeq 0.1, \quad f(4) \simeq -0.6, \quad f(3.5) \simeq -0.2.
+$$
+%>> fun(0.1)
+%ans = -0.402585092994046
+%>> fun(0.5)
+%ans =  0.806852819440055
+%>> fun(3)
+%ans =  0.0986122886681098
+%>> fun(4)
+%ans = -0.613705638880109
+%>> fun(3.5)
+%ans = -0.247237031504632
+
+\newpage
+
+Appliquons la méthode de dichotomie pour avoir un encadrement des zéros. Voici le petit programme:
+{\scriptsize
+\begin{verbatim}
+% Dichotomie pour le calcul de zéro
+
+% Format long
+format long;
+
+% Précision souhaitee
+precision= 1e-15;
+
+% Valeurs initiales
+x1 = 1e-6; x2 = 1;
+
+% Fonction à considérer
+fun=inline('2-x+log(x)','x');
+
+% Calcul du zéro via Octave
+zRef = fzero(fun,[x1,x2]);
+
+disp("Zero calcule par Octave :"), disp(zRef), disp('***')
+
+% Calcul via dichotomie
+iter = 0;
+while ((x2-x1)>precision)
+  disp([ iter , x1 , x2 ])
+  xm = 0.5*(x1+x2);
+  if (fun(xm)*fun(x1) < 0)
+    x2 = xm;
+  else
+    x1 = xm;
+  end
+  iter = iter + 1;
+end
+  
+disp("*** Valeur finale :"), disp([ x1 , x2 ])
+\end{verbatim}
+}
+
+%\newpage
+
+Et les résultats, pour $\alpha$:
+{\scriptsize
+\begin{verbatim}
+>> dichotomie
+Zero calcule par Octave :
+ 0.158594339563039
+***
+   0   0.000001000000000   1.000000000000000
+   1   1.00000000000e-06   5.00000500000e-01
+   2   1.00000000000e-06   2.50000750000e-01
+   3   0.125000875000000   0.250000750000000
+   4   0.125000875000000   0.187500812500000
+   5   0.156250843750000   0.187500812500000
+   ...
+   49  0.158594339563038   0.158594339563040
+*** Valeur finale :
+   0.158594339563039   0.158594339563040
+\end{verbatim}
+}
+
+Et puis pour $\beta$:
+{\scriptsize
+\begin{verbatim}
+>> dichotomie
+Zero calcule par Octave :
+ 3.14619322062058
+***
+   0   3   4
+   1   3.00000000000000   3.50000000000000
+   2   3.00000000000000   3.25000000000000
+   3   3.12500000000000   3.25000000000000
+   4   3.12500000000000   3.18750000000000 <-
+   ...
+  49   3.14619322062058   3.14619322062058
+*** Valeur finale :
+   3.14619322062058   3.14619322062058    
+\end{verbatim}
+}
+
+%\newpage
+
+{\bf Exercice 1.4} 
+
+La fonction $f$ est définie sur $\mathbb{R}$. La fonction $f$ est strictement croissante sur $\mathbb{R}$, et compte-tenu de ses limites et du fait qu'elle est continue, le Théorème de la Bijection nous permet d'assurer que $f$ n'admet qu'une seule racine $\alpha$. Comme $f(-2) = -8 -4 +1 = -11$ et $f(0)=1$, alors $\alpha$ est comprise entre $-2$ et $0$.
+
+La méthode de Newton nous permet d'avoir une estimation plus précise:
+
+{\scriptsize
+\begin{verbatim}
+>> newton
+Zero calcule par Octave :
+-0.453397651516404
+***
+   0   0
+   1  -0.500000000000000
+   2  -0.454545454545455
+   3  -0.453398336679094
+   4  -0.453397651516648
+   5  -0.453397651516404
+   6  -0.453397651516404
+   ...
+*** Valeur finale de xR :
+-0.453397651516404
+\end{verbatim}
+}
+
+Et voici le script associé:
+{\scriptsize
+\begin{verbatim}
+% Newton pour le calcul de zéro
+
+% Format long
+format long;
+
+% Nombre d'itérations de Newton
+N=20;
+
+% Valeur initiale
+xI = 0;
+
+% Fonction à considérer
+fun=inline('x^3+2*x+1','x');
+% Derivee de la fonction
+fprime=inline('3*x^2+2','x');
+
+% Calcul du zéro via Octave
+zRef = fzero(fun,[-2,0]);
+
+disp("Zero calcule par Octave :"), disp(zRef), disp('***')
+
+% Calcul via Newton
+xR = xI;
+for i=1:N 
+  disp([ i-1 , xR ])
+  xR = xR - fun(xR)/fprime(xR);
+end
+  
+disp("*** Valeur finale de xR :"), disp(xR)
+\end{verbatim}
+}
+
+{\bf Exercice 1.5}
+
+Il suffit de considérer $f(x) = x - g(x)$, et d'exploiter l'inclusion $g([a,b]) \subset [a,b]$, qui donne $f(a) \leq 0$ et $f(b) \geq 0$.
+
+\newpage
+
+\section{TD 2}
+
+{\bf Exercice 2.1}
+
+\begin{enumerate}
+    \item On calcule:
+    \[ f(1) = e - 2 - 1 = e - 3 < 0, \quad f(2) = e^2 - 2*2 - 1 = e^2 - 5 > 0 \]
+    et comme f est continue sur $\mathbb{R}$, le TVI nous assure l'existence (d'au moins) un zéro $\xi$ dans l'intervalle $[1,2]$.
+    
+    \item Il suffit de partir de l'expression
+    $$  e^x - 2x - 1 = 0$$ qui devient $$ e^x = 2 x + 1,$$ et comme $x\in[1,2]$, on peut prendre le logarithme de cette dernière expression.
+    
+    \item La fonction $g$ est continue sur $[1,2]$, elle est croissante et de plus $g(1) = \ln(3) \geq 1$, $g(2) = \ln(5)\leq2$. On peut donc appliquer le Théorème de Brouwer et déduire que $g$ admet au moins un point fixe sur $[1,2]$.
+    
+    \item Non: $g$ ne vérifie plus la condition $g([1,2]) \subset [1,2]$.
+\end{enumerate}
+
+{\bf Exercice 2.2}
+
+\begin{enumerate}
+    \item $g$ est Lipschitz, donc continue.
+    \item Le Théorème de Brouwer nous garantit qu'on va avoir au moins un point fixe. Il est forcément unique. En effet, soient $\xi_1$ et $\xi_2$ deux points fixes:
+    \[
+    | \xi_1 - \xi_2 | = | g(\xi_1) - g(\xi_2) |
+    \leq L | \xi_1 - \xi_2 |
+    \]
+    où on a utilisé la définition d'un point fixe et la propriété contractante de $g$. La relation ci-dessus donne alors:
+    \[
+    (1 - L) | \xi_1 - \xi_2 | \leq 0
+    \]
+    qui implique $\xi_1 = \xi_2$.
+    \item On a 
+    \[
+    | x_{k+1} - \xi |
+    = |g(x_k) - g(\xi) | \leq L | x_k - \xi |
+    \]
+    en utlisant d'abord la relation de recurrence et le fait que $\xi$ est un point fixe, puis la propriété contractante de $g$.
+    Une récurrence immédiate donne alors:
+    \[
+    | x_k - \xi | \leq L^k | x_0 - \xi |.
+    \]
+    Comme $0 < L < 1$, ceci implique que $(x_k)$ converge vers $\xi$.
+\end{enumerate}
+
+{\bf Exercice 2.3}
+
+\begin{enumerate}
+    \item Il s'agit d'une application du Théorème des Accroissements Finis.
+    
+    \item On a $g'(x) = \frac{2}{2x+1}$ qui est strictement décroissante (composition d'une fonction croissante par une fonction décroissante), sur $[1,2]$.
+    
+    On a donc $$ g'(2) \leq g'(\eta) \leq g'(1) $$
+    et $g'(2) = \frac{2}{5}$, $g'(1) = \frac{2}{3}$.
+    
+    \item C'est une conséquence directe des deux questions précédentes, et on a $L = 2/3$.
+    
+    \item Il suffit d'appliquer le Théorème du Point Fixe de Banach.
+    
+     \item On obtient les valeurs suivantes :
+
+\begin{verbatim}
+0  1.000000
+1  1.098612
+2  1.162283
+3  1.201339
+4  1.224563
+5  1.238121
+6  1.245952
+7  1.250447
+8  1.253018
+9  1.254486
+10 1.255323
+11 1.255800
+\end{verbatim}
+    
+\end{enumerate}
+
+{\bf Exercice 2.4}
+
+\begin{enumerate}
+    \item On peut par exemple partir de l'inégalité triangulaire 
+    \[
+    | x_0 - \xi | \leq | x_0 - x_1 | + | \xi - x_1 |
+    \]
+    et puis ensuite utiliser
+    \[
+    | \xi - x_1 | = | g(\xi) - g(x_0) | \leq L 
+    | \xi - x_0 |
+    \]
+    pour obtenir
+    \[
+    | x_0 - \xi | \leq | x_0 - x_1 | +
+    L | \xi - x_0 |,
+    \]
+    ce qui donne bien l'inégalité voulue.
+    \item On obtient le résultat en combinant la question 1 et la propriété de contraction de $g$, puis en faisant une récurrence immédiate.
+    
+    \item On part de la relation obtenue à la question 2 et on écrit:
+    \begin{eqnarray*}
+    (1-L)^{-1} L^k |x_1 - x_0| & \leq & \varepsilon\\
+    \ln((1-L)^{-1} ) + k \ln(L) + \ln |x_1 - x_0| & \leq & \ln \varepsilon \\
+    k \ln(L) + \ln |x_1 - x_0| & \leq & \ln \varepsilon - \ln((1-L)^{-1} ) \\
+    k \ln(L) + \ln |x_1 - x_0| & \leq & \ln ((1-L)\varepsilon)
+    \end{eqnarray*}
+    d'où le résultat.
+    
+    \item Il faut 33 itérations.
+    
+\end{enumerate}
+
+\newpage
+
+\section{TD 3}
+
+{\bf Exercice 3.1}
+
+Nous allons montrer que $g$ est contractante dans un voisinage du point fixe $\xi$. Comme la dérivée de $g$ est continue dans un voisinage de $\xi$, elle l'est en particulier en $\xi$, et cela implique que pour tout $\varepsilon > 0$, il existe $\delta > 0$ tel que pour tout $x\in \mathbb{R}$ qui vérifie $|x - \xi| < \delta$, nous avons $x\in I$ et:
+\[
+| g'(x) - g'(\xi) | < \varepsilon. 
+\]
+Définissons maintenant
+\[
+0 \leq L = \frac12 ( 1 + |g'(\xi)| ) < 1
+\]
+et
+\[
+\varepsilon = \frac12 ( 1 - |g'(\xi)| ) > 0.
+\]
+Alors pour tout $x \in I$ tel que $|x - \xi| < \delta$, nous avons:
+\[
+|g'(x)| \leq |g'(\xi)| + |g'(x) - g'(\xi)| 
+\leq |g'(\xi)| + \varepsilon = L.
+\]
+On a $]\xi - \delta ; \xi + \delta [ \subset I$.
+En appliquant le Théorème des Acroissements Finis, on voit alors que $g$ est contractante sur $]\xi - \delta ; \xi + \delta [$. Il suffit alors de reprendre le même raisonnement que dans la démonstration du Théorème de Point Fixe de Banach-Picard pour montrer que la suite ($x_k$) donnée par la relation de récurrence $x_{k+1} = g(x_k)$ converge vers $\xi$, si $x_0$ est dans l'intervalle $I \cap ]\xi - \delta ; \xi + \delta [$ (on vérifie en particulier qu'à chaque itération on reste bien dans le bon intervalle $]\xi - \delta ; \xi + \delta [$).
+
+\medskip
+
+{\bf Exercice 3.2}
+
+Il suffit tout simplement de reconnaître le taux d'accroissement
+\[
+\frac{|g(x_k)-g(\xi)|}{|x_k - \xi|}
+\]
+qui tend vers $g'(\xi)$ lorsque $k$ tend vers l'infini.
+
+\medskip
+
+{\bf Exercice 3.3}
+
+\begin{enumerate}
+    \item Lorsque $x \rightarrow 0+$:
+    \begin{eqnarray*}
+    \log_2 (1/x) & \rightarrow & +\infty\\
+    (\log_2 (1/x))^{\frac{1}{\alpha}} & \rightarrow & +\infty
+    \end{eqnarray*}
+
+    Et on voit alors que la limite de $g$ en $0+$ est $0$. On a alors $g$ qui est continue sur $[0,1]$.
+
+\item On vérifie directement que $g$ est croissante sur $[0,1]$.
+
+\item Le seul point fixe de $g$ est $0$. En effet, on a
+\[
+g(0) = 0, \quad g(x) < x.
+\]
+On obtient la deuxième relation en partant de l'inégalité $\log_2 (1/x) < 1 + \log_2 (1/x)$.
+
+\item Il suffit de supposer qu'au rang $k$, on a $x_k = 2^{-k^\alpha} > 0$ et on calcule $x_{k+1}$:
+\begin{eqnarray*}
+x_{k+1} & = & g(x_k)\\
+& = & 2^{-(1+\log_2(1/x_k)^{\frac{1}{\alpha}})^\alpha}\\
+& = & 2^{-(1+\log_2(2^{k^\alpha})^{\frac{1}{\alpha}})^\alpha}\\
+& = & 2^{-(1+k)^\alpha},
+\end{eqnarray*}
+ce qui permet de conclure: la suite $(x_k)$ converge donc vers $0$, unique point fixe de $g$.
+
+\item On calcule:
+\[
+\frac{x_{k+1}}{x_k} = 2^{-(1+k)^\alpha + k^\alpha }
+ = 2^{\left (1 -\left (1+\frac{1}{k} \right )^\alpha \right ) k^\alpha}
+\]
+et on utilise l'équivalent
+\[
+1 -\left (1+\frac{1}{k} \right)^\alpha \sim -\frac{\alpha}{k} 
+\]
+pour conclure
+\[
+\frac{x_{k+1}}{x_k} \sim 2^{-\alpha k^{\alpha-1}}
+\]
+et en déduire que si $\alpha < 1$, alors la limite est 1 (convergence sous-linéaire), si $\alpha = 1$, la limite est $\frac12$ (convergence linéaire), et si $\alpha > 1$, la limite est 0 (convergence super-linéaire).
+
+{\bf Bonus:} On peut regarder concrètement les différences de comportement sous-linéaire/linéaire/super-linéaire en calculant explicitement les premiers termes de la suite $x_k$. Le programme Octave qui permet cela est donné ci-dessous:
+
+\begin{verbatim}
+% Suite x_k de l'exercice 3.3
+
+alpha1 = 2;
+alpha2 = 1;
+alpha3 = 0.5;
+
+k = 1:10;
+
+xk = [ 2.^(-k.^alpha1)' 2.^(-k.^alpha2)' 2.^(-k.^alpha3)' ]
+\end{verbatim}
+
+On obtient alors pour les premières valeurs $x_0,\ldots,x_9$:
+
+\begin{verbatim}
+   alpha = 2    alpha = 1    alpha = 0.5
+
+   5.0000e-01   5.0000e-01   5.0000e-01
+   6.2500e-02   2.5000e-01   3.7521e-01
+   1.9531e-03   1.2500e-01   3.0102e-01
+   1.5259e-05   6.2500e-02   2.5000e-01
+   2.9802e-08   3.1250e-02   2.1226e-01
+   1.4552e-11   1.5625e-02   1.8308e-01
+   1.7764e-15   7.8125e-03   1.5979e-01
+   5.4210e-20   3.9062e-03   1.4079e-01
+   4.1359e-25   1.9531e-03   1.2500e-01
+   7.8886e-31   9.7656e-04   1.1170e-01
+\end{verbatim}
+
+Le comportement super-linéaire se manifeste bien pour $\alpha=2$ où la convergence de $(x_k)$ vers le point fixe $\xi = 0$ est extr\^emement rapide. Pour $\alpha=1$, on retrouve exactement le comportement linéaire, avec le facteur $\frac12$ qui donne le ratio entre deux itérations successives. Pour $\alpha=0.5$, le comportement se manifeste effectivement par une convergence très lente.
+
+\end{enumerate}
+
+{\bf Exercice 3.4 (correction esquissée)}
+
+Déjà, on montre que $g$ est ``dilatante" dans un voisinage $I_\delta$ de $\xi$, de la même façon qu'à l'exercice 3.2: on a donc l'existence de $L>1$ tel que pour tout $x$ et tout $y$ dans $I_\delta$:
+\[
+|g(x)-g(y)| \geq L |x-y| \qquad (*)
+\]
+Ensuite considérons la suite $(x_k)$, et plaçons nous dans le cas de figure où $\xi$ n'est pas atteint après un nombre fini d'itérations. Supposons qu'à une itération donnée $k_0$, $x_{k_0}$ appartienne à $I_\delta$. Alors compte-tenu de $(*)$ il y aura un rang $k > k_0$ tel que $|x_k - \xi | > \delta$.
+
+Donc il existe $\delta > 0$ tel que pour tout $k_0$, il existe $k\geq k_0$ qui vérifie $x_k \notin I_\delta$: la suite ($x_k$) ne converge pas vers $\xi$.
+
+\medskip
+
+{\bf Exercice 3.4 (correction détaillée)}
+
+\smallskip
+
+{\bf Etape 1:} montrons que $g$ est `dilatante'.
+
+\smallskip
+
+Comme pour l'exercice 3.1, on choisit
+
+\[
+\varepsilon = \frac12 (|g'(\xi)| - 1), \qquad L = \frac12 ( |g'(\xi)| + 1 ).
+\]
+L'hypothèse $|g'(\xi)|>1$ nous assure alors que $\varepsilon > 0$ et $L>1$.
+
+La continuité de $g'$ en $\xi$ nous permet alors d'affirmer qu'il existe $\delta > 0$ tel que pour tout $x$ dans $I_\delta = [ \xi - \delta ; \xi + \delta ] \subset I$, nous avons:
+\[
+|g'(x) - g'(\xi)| \leq \varepsilon.
+\]
+Alors pour $x \in I_\delta$, nous appliquons l'inégalité triangulaire:
+\[
+|g'(\xi)| \leq |g'(\xi) - g'(x)| + |g'(x)|,
+\]
+ce qui donne la minoration:
+\[
+|g'(x)| \geq |g'(\xi)| - |g'(\xi) - g'(x)| \geq |g'(\xi)| - \varepsilon = L.
+\]
+Résumons:
+\[
+|g'(x)| \geq  L > 1, \qquad \forall x \in I_\delta.
+\]
+Le Théorème des accroissements finis nous permet alors de conclure que pour tout $x$ et tout $y$ dans $I_\delta$:
+\[
+|g(x)-g(y)| \geq L |x-y| \qquad (*)
+\]
+
+\smallskip
+
+{\bf Etape 2:} on va montrer que toute suite de point fixe qui n'atteint pas $\xi$ en un nombre fini d'itérations ne converge jamais vers $\xi$.
+
+\smallskip
+
+Supposons que la suite $(x_k)$ donnée dans l'énoncé n'atteint jamais $\xi$ en un nombre fini d'itérations.
+
+\smallskip
+
+On peut déjà traiter un premier cas où chaque terme $x_k$ n'appartient pas à $I_\delta$, pour toutes les valeurs de $k$: dans ce cas on a bien vérifié que la suite $(x_k)$ ne converge pas vers $\xi$. 
+
+\smallskip
+
+Maintenant, on va supposer qu'à une itération donnée $k_0 \geq 0$, $x_{k_0}$ appartienne à $I_\delta$. Alors compte-tenu de $(*)$ il y aura un rang $k > k_0$ tel que $|x_k - \xi | > \delta$.
+
+
+On peut s'en assurer avec un raisonnement par l'absurde: si ce n'était pas le cas, on aurait, pour tout $k \geq k_0$, $|x_k - \xi| \leq \delta$, ce qui signifie que $x_k \in I_\delta$. On peut alors appliquer $(*)$, et une récurrence immédiate donne, pour tout $k \geq k_0$:
+\[
+|x_{k} -\xi | \geq L^{k-k_0} |x_{k_0} - \xi|.
+\]
+Comme on est dans le cas où $x_{k_0} \neq \xi$, et comme $L>1$, cela signifie que $|x_{k} -\xi |$ tend vers l'infini, ce qui est contradictoire avec l'hypothèse $x_k \in I_\delta$.
+
+\medskip
+
+Récapitulons et reformulons alors ce qu'on vient de montrer : 
+
+\smallskip
+
+Il existe $\delta > 0$ tel que pour tout $k_0$, il existe $k\geq k_0$ qui vérifie $|x_k - \xi | > \delta$.
+
+\smallskip
+
+C'est exactement la négation de la définition de la convergence d'une suite vers la limite finie $\xi$. On a donc bien que la la suite ($x_k$) ne converge pas vers $\xi$.
+
+\medskip
+
+{\bf Exercice 3.5}
+
+\begin{enumerate}
+    \item En résolvant $x^2 - 2x + c = 0$, on trouve tous les points fixes de $g$.
+    On a
+    \[
+    \Delta = 4 ( 1 - c )
+    \]
+    et si $c<1$, on a deux points fixes
+    \[
+    \xi_1 = 1 - \sqrt{1-c}, \quad
+    \xi_2 = 1 + \sqrt{1-c}.
+    \]
+    Si $c=1$, $1$ est le seul point fixe, et si $c>1$, il n'y a pas de point fixe.
+    
+    \item --
+    
+    \item D'abord calculons $g'(x)=x$. On a
+    \[
+    |g'(\xi_2)| = |\xi_2| > 1
+    \]
+    ce qui montre que $\xi_2$ est instable.
+    
+    \item On a d'un côté $g'(\xi_1) < 1$ pour $c<1$ et
+    \[
+    g'(\xi_1) = 1 - \sqrt{1-c} > -1
+    \]
+    pour $\sqrt{1-c}<2$ et donc $(1-c)<4$: il faut donc que $c>-3$ pour que $\xi_1$ soit stable.
+    
+    \item On a
+    \[
+    x_{k+1} - \xi_1 = g(x_k) - g(\xi_1) = \frac12(x_k^2 + c ) - \frac12(\xi_1^2 + c) = 
+    \frac12(x_k^2 - \xi^2_1 )
+    \]
+    d'où
+    \[
+    x_{k+1} - \xi_1 = \frac12 (x_k + \xi_1 )(x_k-\xi_1).
+    \]
+    Soit $\delta > 0$ tel que $0\leq x_0 < \xi_2 - \delta$.
+    Supposons que $0\leq x_k < \xi_2 - \delta$, alors
+    \[
+    0 \leq x_k + \xi_1 < \xi_2 + \xi_1 - \delta < 2 - \delta.
+    \]
+    Donc
+    \[
+    |x_{k+1} - \xi_1| \leq \frac12 |x_k + \xi_1 ||x_k-\xi_1| \leq \frac12(2-\delta) |x_k-\xi_1|.
+    \]
+    On a donc via une récurrence immédiate:
+    \[
+    |x_{k} - \xi_1| \leq \left (1-\frac\delta2 \right)^k |x_0-\xi_1|
+    \]
+    ce qui permet de conclure.
+    \item
+    La vitesse de convergence est donnée par
+    \[
+    g'(\xi_1) = 1 - \sqrt{1-c}
+    \]
+    et donc lorsque $c=0$ la convergence est sur-linéaire, et lorsque $c$ est proche de 1 la convergence est sous-linéaire.
+\end{enumerate}
+
+\newpage
+
+\section{TD 4}
+
+{\bf Exercice 4.1}
+
+Soit $g$ la fonction de point fixe associée à la méthode de relaxation.
+Compte-tenu des hypothèses sur $f$, $g$ est définie et continue dans un voisinage de $\xi$, et aussi dérivable et de dérivée continue dans un voisinage de $\xi$.
+Comme $g(x) = x - \lambda f(x)$, nous avons:
+\[
+g'(x) = 1 - \lambda f'(x).
+\]
+Pour pouvoir appliquer le Théorème 3 (Convergence pour un point fixe stable) vu au TD 3, ou Théorème d'Ostrowski, il faut,
+en $x=\xi$, vérifier $|g'(\xi)| < 1$, ce qui est équivalent à dire:
+\[
+-1 < g'(\xi) < 1.
+\]
+Reformulons cette condition:
+$$
+-1< 1  - \lambda f'(x) < 1
+$$
+et donc on obtient
+$$
+-2< - \lambda f'(x) < 0
+$$
+autrement dit
+\[
+0 < \lambda f'(\xi) < 2,
+\]
+ce qui est toujours possible en prenant $\lambda$ du même signe que $f'(\xi)$ et
+\[
+|\lambda| < 2/|f'(\xi)|.
+\]
+Donc pour $\lambda$ 'suffisamment petit' en valeur absolue (inférieur à la constante ci-dessus), et du bon signe, l'application du Théorème 3 nous garantit que la suite $(x_k)$ donnée par la méthode de relaxation (1) va converger vers le zéro $\xi$, pourvu que $x_0$ soit suffisamment proche de $\xi$.
+
+{\bf Remarque :} La vitesse de convergence ici est donnée par :
+\[
+|g'(\xi)| = | 1 - \lambda f'(\xi) |
+\]
+En particulier, on aura une convergence super-linéaire pour 
+\[
+\lambda = \frac{1}{f'(\xi)}
+\]
+et on aura une convergence sous-linéaire pour
+\[
+\lambda \simeq 0, \qquad \lambda \simeq \frac{2}{f'(\xi)}.
+\]
+Le résultat démontré dans l'exercice 3.4 permet aussi de voir que pour
+\[
+|\lambda| > 2/|f'(\xi)|,
+\]
+la suite de relaxation ne peut plus converger vers $\xi$.
+
+\medskip
+
+{\bf Exercice 4.2}
+
+\begin{enumerate}
+    \item En passant à la limite quand $k \rightarrow +\infty$ dans l'équation 
+    $$
+    x_{k+1} = x_k - \lambda(x_k)f(x_k),
+    $$
+    on aboutit a 
+    \[
+    \xi = \xi - \lambda(\xi) f(\xi).
+    \]
+    Comme $\lambda(\xi)\neq0$ alors nécessairement $f(\xi)=0$.
+    
+    \item 
+    On va supposer que $\lambda$ est dérivable dans un voisinage de $\xi$.
+    La vitesse de convergence asymptotique est donnée par $|g'(\xi)|$ (voir Exercice 3.2) et
+    \[
+    g'(\xi) = 1 - \lambda'(\xi) f(\xi) - \lambda(\xi) f'(\xi) = 1 -\lambda(\xi)f'(\xi),
+    \]
+    car $f(\xi)=0$.
+    
+    \item On voit que pour avoir une convergence super-linéaire, on peut prendre $\lambda(x) = 1/f'(x)$.
+\end{enumerate}
+
+{\bf Exercice 4.3}
+
+\begin{enumerate}
+    \item On écrit la formule de Taylor-Lagrange au point $x_k$ et à l'ordre 1: il existe $\eta_k \in I_\delta$ ($|\eta_k - \xi| \leq |x_k - \xi| \leq h \leq \delta$) qui vérifie
+    \[
+    f(\xi) = f(x_k + (\xi - x_k)) = f(x_k) + (\xi - x_k)f'(x_k) + \frac12 (\xi - x_k)^2 f''(\eta_k).
+    \]
+    On conclut avec l'égalité $f(\xi)=0$:
+    \[
+    0 = f(\xi)  = f(x_k) + (\xi - x_k)f'(x_k) + \frac12 (\xi - x_k)^2 f''(\eta_k).
+    \]
+    
+    
+    \item On utilise la définition de la suite donnée par la méthode de Newton:
+    \begin{eqnarray*}
+    \xi - x_{k+1} &=& \xi - (x_k - f(x_k)/f'(x_k) )\\
+    &=& \frac{(\xi-x_k)f'(x_k) + f(x_k)}{f'(x_k)},
+    \end{eqnarray*}
+    puis on reconnait au numérateur une partie de l'expression donnée à la question 1. 
+    On obtient bien alors:
+    \[
+    \xi - x_{k+1} = - \frac{(\xi - x_k)^2 f''(\eta_k)}{2 f'(x_k)}.
+    \]
+    Puis on majore cette dernière expression:
+    \[
+    | \xi - x_{k+1} | \leq \frac12 |\xi - x_k| \frac{|f''(\eta_k)|}{|f'(x_k)|} |\xi - x_k|.
+    \]
+    Puis on utilise $|\xi - x_k| \leq h$ et $\frac{|f''(\eta_k)|}{|f'(x_k)|} \leq A \leq 1/h$ pour conclure:
+    \[
+    | \xi - x_{k+1} | \leq \frac12 h \frac{1}{h} |\xi - x_k| \leq \frac12 |\xi - x_k|.
+    \]
+    \item On obtient le résultat voulu par récurrence immédiate:
+    
+    Au rang 1:
+    \[
+    | \xi - x_{1} |  \leq \frac12 |\xi - x_0| \leq \frac12 h.
+    \]
+
+    Au rang $k+1$:
+    \[
+    | \xi - x_{k+1} |  \leq \frac12 |\xi - x_k| \leq \frac12 2^{-k} h
+    \leq 2^{-(k+1)} h.
+    \]
+    
+    Et on en déduit qu'il y a convergence de $(x_k)$ vers $\xi$.
+    
+    \item Il faut partir de :
+     \[
+    \xi - x_{k+1} = - \frac{(\xi - x_k)^2 f''(\eta_k)}{2 f'(x_k)}.
+    \]
+    On peut transformer cette expression comme suit:
+     \[
+    \frac{\xi - x_{k+1}}{(\xi - x_k)^2} = - \frac{f''(\eta_k)}{2 f'(x_k)}.
+    \]
+    On prend ensuite les valeurs absolues:
+     \[
+    \left | \frac{\xi - x_{k+1}}{(\xi - x_k)^2} \right | = \frac12 \left |\frac{f''(\eta_k)}{f'(x_k)} \right |.
+    \]
+    A la limite quand $k$ tend vers l'infini, on a $x_k$ qui tend vers $\xi$, et $\eta_k$ aussi (car $|\eta_k-\xi|\leq|x_k -\xi|$). Comme $f'$ et $f''$ sont continues,
+    en passant à la limite, on obtient finalement $\mu = \frac12|f''(\xi)/f'(\xi)|$ qui est bien plus petit que $A/2$.
+    
+    \medskip
+
+    On vient ici de montrer le Théorème de Kantorovich, qui établi la convergence quadratique locale de la méthode de Newton.    
+\end{enumerate}
+
+{\bf Exercice 4.4}
+
+\medskip
+
+Supposons que $x_k \in J = [ \xi , X ]$. On a la relation suivante pour les itérations de Newton:
+\[
+x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}. 
+\]
+Cette relation est bien définie car $f'(x_k) > 0$, d'après l'énoncé.
+L'énoncé nous affirme de plus que $f'>0$ sur $J$, comme $f(\xi)=0$, cela signifie aussi que $f\geq0$ sur $J$. On déduit alors de la relation ci-dessus:
+\[
+x_{k+1} \leq x_k \qquad (P_1)
+\]
+Souvenons nous alors de la relation trouvée à l'exercice précédent :
+\[
+    \xi - x_{k+1} = - \frac{(\xi - x_k)^2 f''(\eta_k)}{2 f'(x_k)}.
+\]
+On a $\eta_k \in [\xi;x_k] \subset J$, donc $f''(\eta_k)> 0$. De plus $f'(x_k)>0$. Ces deux propriétés combinées permettent d'affirmer que
+\[
+    - \frac{(\xi - x_k)^2 f''(\eta_k)}{2 f'(x_k)} \leq 0 
+\]
+et donc
+\[
+    \xi - x_{k+1} \leq 0,
+\]
+autrement dit :
+\[
+\xi \leq  x_{k+1} \qquad (P_2)
+\]
+Reste à combiner $(P_1)$ et $(P_2)$. Ces deux propriétés, combinées à une récurrence immédiate (valable car $x_0 \in J$) permettent d'avoir, pour tout $k\geq0$:
+\[
+\xi \leq  x_{k+1} \leq x_k.
+\]
+On vient donc de montrer que la suite $(x_k)$ est décroissante et minorée. Elle converge donc vers une limite $x^*$.
+
+Comme $f$ et $f'$ sont continues sur $J$, on peut passer à la limite dans la relation de récurrence:
+\[
+x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}. 
+\]
+Cela donne:
+\[
+x^* = x^* - \frac{f(x^*)}{f'(x^*)}. 
+\]
+Comme $f'(x^*)>0$, ceci implique $f(x^*)=0$, or, comme $f(x)>0$ si $x>\xi$, on a alors nécessairement $x^*=\xi$.
+
+On obtient un taux quadratique de convergence exactement comme à l'exercice précédent.
+
+\medskip
+
+On a donc bien montré que pour tout $x_0 \in J$, la suite $(x_k)$ donnée par les itérées de Newton converge vers $\xi$, unique zéro de $f$ sur $J$.
+
+\medskip
+
+{\bf Exercice 4.5}
+
+\begin{enumerate}
+    \item Donnons déjà le programme Octave associé à la méthode de relaxation:
+
+{\footnotesize
+\begin{verbatim}
+% Relaxation pour le calcul de zéro
+
+% Format long
+format long;
+
+% Nombre d'itérations de relaxation
+N=20;
+
+% Paramètre de relaxation
+lambda=1e-1;
+
+% Valeur initiale
+xI = 0;
+
+% Fonction à considérer
+fun=inline('x^3+2*x+1','x');
+
+% Calcul du zéro via Octave
+zRef = fzero(fun,[-2,0]);
+
+disp("Zero calcule par Octave :"), disp(zRef), disp('***')
+
+% Calcul via relaxation
+xR = xI;
+for i=1:N 
+  disp([ i-1 , xR ])
+  xR = xR - lambda * fun(xR);
+end
+  
+disp("*** Valeur finale de xR :"), disp(xR)
+\end{verbatim}
+}
+
+Et faisons déjà un test pour $\lambda = 0.1$ (on donne sur la colonne de gauche l'itération $i$ et sur la colonne de droite la valeur de $x_i$ correspondante):
+
+{\footnotesize
+\begin{verbatim}
+   0    0
+   1   -0.100000000000000
+   2   -0.179900000000000
+   3   -0.243337771460100
+   ...
+   18  -0.450846888893672
+   19  -0.451513465729099
+   20  -0.452006019965466
+\end{verbatim}
+}
+
+La valeur précise du zéro (calculée avec la fonction dédiée d'Octave) est %Zero calcule par Octave :
+$$-0.453397651516404$$ On obtient donc au bout de 20 itérations une précision de 2 chiffres après la virgule.
+
+En augmentant la valeur de $\lambda$ jusqu'à $0.7$ environ, on obtient un comportement identique, mais avec une convergence plus rapide vers la solution. Par contre, pour $\lambda=0.8$, on obtient le comportement suivant :
+
+{\footnotesize
+\begin{verbatim}
+   0   0
+   1  -0.800000000000000
+   2   0.0896000000000001
+   3  -0.854335458508800
+   4   0.211457369600640
+   5  -0.934438542693973
+   6   0.413406116828508
+   7  -1.10456608148935
+   8   0.940854667322071
+   9  -2.03079409051181
+   10  7.11867480910851
+   11 -293.6653058752566
+   12  2.02605705193333e+07
+   ...
+\end{verbatim}
+}
+
+On se rend compte que la méthode ne converge plus du tout.
+
+D'un autre côté, si on prend $\lambda = 0.001$, on obtient:
+
+{\footnotesize
+\begin{verbatim}
+   0   0
+   1  -0.00100000000000000
+   2  -0.00199799999900000
+   ...
+   19 -0.0186618172987305
+   20 -0.0196244871649046
+\end{verbatim}
+}
+
+On se rapproche (symboliquement ...) de la valeur attendue, mais avec une lenteur extrême : en 20 itérations, nous n'avons même pas une approximation à la première décimale.
+
+{\bf En conclusion :} on retrouve bien ici le comportement théorique attendu et prédit à l'Exercice 4.1, autrement dit que la méthode converge à condition que $\lambda$ soit suffisamment petit. On voit de plus que la méthode de relaxation est susceptible de diverger pour des valeurs trop grandes de $\lambda$, autrement dit la condition "$\lambda$ suffisamment petit", en plus d'être suffisante, semble aussi nécessaire. On voit également que, d'un point de vue pratique, choisir $\lambda$ trop petit permet, certes, d'assurer la convergence de la méthode, mais ne permet pas d'aboutir à une approximation acceptable même au bout de 20 itérations.
+
+Bref, une des difficultés pratiques associée à la méthode de relaxation est qu'il est toujours délicat de bien choisir $\lambda$.
+
+\medskip
+
+{\bf Remarque :} un calcul approché de la dérivée de $f$ en $\alpha$ donne
+\[
+f'(\alpha) \simeq  2.61670829120177
+\]
+ce qui permet d'obtenir une borne théorique pour le choix de $\lambda$. En effet, on doit avoir, d'après l'Exercice 4.1:
+\[
+0 \leq \lambda \leq \frac{2}{f'(\alpha)}
+\]
+avec $2/f'(\alpha) \simeq 0.77$. Noter que d'après les résultats (Exercice 3.1 et Exercice 3.4) du TD3, on doit avoir convergence de la méthode pour $\lambda$ inférieur à ce seuil (pour $x_0$ suffisamment proche de $\alpha$), \emph{et} divergence de la méthode pour $\lambda$ supérieur à ce seuil. C'est effectivement ce qu'on observe ici en pratique.
+
+{\bf Remarque (bis) :} remarquer qu'en plus, on aurait pu étudier l'influence du choix de la valeur initiale $x_0$.
+
+\item Donnons déjà le programme Octave associé à la méthode de Newton :
+
+{\footnotesize 
+\begin{verbatim}
+% Newton pour le calcul de zéro
+
+% Format long
+format long;
+
+% Nombre d'itérations de Newton
+N=5;
+
+% Valeur initiale
+xI = 0;
+
+% Fonction à considérer
+fun=inline('x^3+2*x+1','x');
+% Derivee de la fonction
+fprime=inline('3*x^2+2','x');
+
+% Calcul du zéro via Octave
+zRef = fzero(fun,[-2,0]);
+
+disp("Zero calcule par Octave :"), disp(zRef), disp('***')
+
+% Calcul via Newton
+xR  = xI;
+xRt = [ xR ];
+cvFact = 0;
+for i=1:N 
+  disp([ i-1 , xR, cvFact ])
+  xR = xR - fun(xR)/fprime(xR);
+  xRt = [ xRt xR ];
+  cvFact = abs(xRt(i+1) - zRef)/abs((xRt(i) - zRef)^2);
+end
+  
+disp("*** Valeur finale de xR :"), disp(xR)
+\end{verbatim}
+}
+
+On obtient le résultat suivant (première colonne : indice de l'itération $i$ ; deuxième colonne : valeur de $x_i$ ; troisième colonne : taux de convergence quadratique empirique ):
+
+\begin{verbatim}
+   0   0                   0
+   1  -0.500000000000000   0.226698825758202
+   2  -0.454545454545455   0.528508236915050
+   3  -0.453398336679094   0.520066611476640
+   4  -0.453397651516648   0.519817033317573
+*** Valeur finale de xR :
+-0.453397651516404
+***
+\end{verbatim}
+
+On aboutit en seulement 5 itérations à un résultat aussi précis que la machine est capable de les délivrer : 15 chiffres significatifs exacts après la virgule. C'est incomparablement mieux que la méthode de relaxation.
+
+\item On vérifie bien, via le calcul du taux de convergence empirique, qu'on a une convergence quadratique, avec un taux de convergence associé d'environ 0.52.
+
+En effet, si on appelle 
+\[
+e_k = | x_k - \xi |
+\]
+l'erreur d'approximation au rang $k$. On a vu à l'exercice 4.3 que la quantité
+\[
+\frac{e_{k+1}}{e_{k}^2}
+\]
+tendait vers une limite finie (c'est ça, la vitesse de convergence quadratique).
+
+\end{enumerate}
+
+{\bf Exercice 4.6}
+
+On trouve approximativement: $r\simeq 0.06140241153618$.
+
+\newpage
+
+\section{TD 5}
+
+{\bf Exercice 5.1}
+
+\begin{enumerate}
+    \item Il suffit de construire explicitement les polynômes souhaités ($L_0,\ldots,L_n$). Soit $k$ un entier compris entre $0$ et $n$. On remarque déjà que le polynôme
+    \[
+    (x - x_0) ( x - x_1) \ldots (x - x_{k-1}) (x - x_{k+1}) \ldots (x - x_n)
+    \]
+    est un polynôme de degré $n$ qui s'annule pour tous les points $x_i$ tels que $i$ est différent de $k$. Pour vérifier la condition $L_k(x_k)=1$, il suffit alors de prendre:
+    \[
+    L_k(x) = \frac{(x - x_0) ( x - x_1) \ldots (x - x_{k-1}) (x - x_{k+1}) \ldots (x - x_n)}{(x_k - x_0) ( x_k - x_1) \ldots (x_k - x_{k-1}) (x_k - x_{k+1}) \ldots (x_k - x_n)}.
+    \]
+    On vérifie bien que le dénominateur ne s'annule pas, car les réels $x_i$ sont tous distincts.
+    
+    \item Le polynôme 
+    \[
+    p_n(x) = \sum_{k=0}^n y_k L_k(x)
+    \]
+    est bien un polynôme de degré maximal $n$. De plus, il 
+    vérifie bien la condition (4). En effet
+    \[
+    p_n(x_i) = \sum_{k=0}^n y_k L_k(x_i) = y_i L_i(x_i) = y_i.
+    \]
+    Donc : 
+    \[
+    p_n(x_i)=y_i, \qquad i=0,\ldots,n.
+    \]
+    
+    \item Prenons deux polyn\^omes $q_n$ et $p_n$ qui vérifient la condition (4). Alors le polynôme $p_n-q_n$ admet exactement $n+1$ racines distinctes. Comme c'est un polynôme de degré $n$, il s'agit alors nécessairement du polynôme nul. En conséquence :
+    \[
+    p_n = q_n.
+    \]
+    
+    \item Lorsque $n=0$, le problème d'interpolation de Lagrange se réduit à savoir s'il existe un unique polynôme $p_0$ de degré maximal $0$ dont le graphe associé passe par un point de coordonnées $(x_0,y_0)$. Il suffit alors de prendre: $p_0 = y_0$.
+\end{enumerate}
+
+{\bf Remarque :} si on regarde les choses du point de vue de l'algèbre linéaire, on a montré alors que $(L_k)$ est une base de l'espace vectoriel $\mathcal{P}_n$.
+
+\medskip
+
+Soit maintenant, $\mathcal{L}(\mathcal{P}_n;\mathbb{R})$, l'espace vectoriel dual de $\mathcal{P}_n$ (espace vectoriel des formes linéaires sur $\mathcal{P}_n$), et soit
+$$
+\psi_j : p \rightarrow p(x_j),
+$$
+alors $(\psi_j)$ est une base de $\mathcal{L}(\mathcal{P}_n;\mathbb{R})$, et c'est la base duale de $(L_k)$.
+
+\medskip
+
+Introduisons finalement
+\[
+\Psi : \mathcal{P}_n \rightarrow \mathbb{R}^{n+1}
+\]
+définie par
+\[
+\Psi(p) = ( p(x_0), \ldots , p(x_n) ).
+\]
+On a montré que $\Psi$ est injective, donc bijective.
+
+\bigskip
+
+{\bf Exercice 5.2}
+
+On explicite d'abord dans ce cas particulier les polynômes de la base de Lagrange, ici de degré 2 :
+\[
+L_0(x) = \frac12 x ( x - 1 ), \qquad
+L_1(x) = 1 - x^2, \qquad
+L_2(x) = \frac12 x ( x + 1 ).
+\]
+Il suffit ensuite d'écrire :
+\[
+p_2 (x) = e^{-1} \frac12 x(x-1) + e^0(1-x^2) + e^1 \frac12 x(x+1).
+\]
+En ré-ordonnant les termes et en simplifiant, on obtient finalement :
+\[
+p_2 (x) = 1 + (\sinh{1}) x + (\cosh{1} - 1) x^2.
+\]
+
+{\bf Exercice 5.3}
+
+Soit 
+\[
+\varphi(t) = f(t) - p_n(t) - \frac{f(x)-p_n(x)}{\pi_{n+1}(x)} \pi_{n+1} (t).
+\]
+
+\begin{enumerate}
+    \item La fonction $\varphi$ est bien définie sur l'intervalle $[a,b]$ car $\pi_{n+1}(x)$ ne s'annule jamais ($x$ est distinct de tous les $x_i$) et c'est alors une combinaison linéaire d'une fonction $f$, bien définie par hypothèse, et de polynômes.
+    
+    \item La fonction $\varphi$ s'annule en tous les points $x_i$, $i=0,\ldots,n$, car $f(x_i)=p_n(x_i)$ et $\pi_{n+1}(x_i) = 0$. Donc:
+    \[
+    \varphi(x_i) = f(x_i) - p_n(x_i) - \frac{f(x)-p_n(x)}{\pi_{n+1}(x)} \pi_{n+1} (x_i) = 0.
+    \]
+    De plus, elle s'annule aussi pour $t=x$ :
+    \begin{eqnarray*}
+    && \varphi(x) \\&=& f(x) - p_n(x) - \frac{f(x)-p_n(x)}{\pi_{n+1}(x)} \pi_{n+1} (x)\\
+    &=& f(x) - p_n(x) - ( f(x) - p_n(x) ) = 0.
+    \end{eqnarray*}
+    En conséquence, $\varphi$ s'annule en $n+2$ points sur l'intervalle $[a,b]$: par application du Théorème de Rolle, sa dérivée $\varphi'$ s'annule en $n+1$ points (on vérifie, bien sûr, que $\varphi$ est bien continue sur $[a,b]$, dérivable sur $]a,b[$ de dérivée continue).
+    
+    \item Si $n=0$, on a $p_0 = f(x_0)$, et il suffit d'appliquer le Théorème des Accroissements finis entre $x$ et $x_0$: il existe $\xi \in ]a,b[$ tel que 
+    \[
+    f(x) = f(x_0) + f'(\xi) ( x - x_0 ),
+    \]
+    et on conclut en observant que $\pi_1(x) = (x - x_0)$:
+    \[
+    f(x) = p_0(x) + f'(\xi) \pi_1(x),
+    \]
+    
+    \item Dans le cas $n\geq1$ :
+    \begin{enumerate}
+        \item En répétant $n$ fois l'argument de la question 2, on en déduit que la dérivée $n+1$-ème de $\varphi$ s'annule une fois sur $]a;b[$, ce qui permet de conclure: il existe $\xi \in ]a,b[$ tel que
+        \[
+        \varphi^{(n+1)}(\xi) = 0.
+        \]
+        
+        \item Explicitons la dérivée $n+1$-ème de $\varphi$:
+        \[
+        \varphi^{(n+1)} (t) = f^{(n+1)}(t) - \frac{f(x)-p_n(x)}{\pi_{n+1}(x)} \pi_{n+1}^{(n+1)} (t),
+        \]
+        car $p_n$ est un polynôme de degré maximal $n$, dont la dérivée $n+1$-ème est nulle. On a de plus :
+        \[
+        \pi_{n+1}^{(n+1)} (t) = (n+1)!
+        \]
+        car $\pi_{n+1}$ est un polynôme de degré $n+1$ et le coefficient devant le terme de degré maximal ($x^{n+1}$) est $1$.
+        En combinant ces deux résultats, et en prenant $t=\xi$, on aboutit alors au résultat souhaité:
+        \[
+        0 = 
+        \varphi^{(n+1)} (\xi) = f^{(n+1)}(\xi) - \frac{f(x)-p_n(x)}{\pi_{n+1}(x)} (n+1) !.
+        \]
+        
+    \end{enumerate}
+    
+    \item L'égalité souhaitée est une conséquence directe des questions 3 (pour $n=0$) et 4 (pour $n\geq1$).
+    En effet, pour $n=0$, on a 
+    \[
+    f(x) = p_0(x) + f'(\xi) \pi_1(x),
+    \]
+    Donc
+    \[
+    f(x) - p_0(x) = f'(\xi) \pi_1(x),
+    \]
+    ce qui est bien l'égalité que l'on veut pour $n=0$.
+    Pour $n \geq 1$, on a
+    \[
+        0 = 
+         f^{(n+1)}(\xi) - \frac{f(x)-p_n(x)}{\pi_{n+1}(x)} (n+1) !
+    \]
+    et donc
+    \[
+         f^{(n+1)}(\xi) = \frac{f(x)-p_n(x)}{\pi_{n+1}(x)} (n+1) !
+    \]
+    et puis
+    \[
+         \frac{\pi_{n+1}(x)}{(n+1) !}
+         f^{(n+1)}(\xi) = f(x)-p_n(x).
+    \]
+    Ce qui est bien l'égalité souhaitée :
+    \[
+         f(x)-p_n(x) = \frac{\pi_{n+1}(x)}{(n+1) !}
+         f^{(n+1)}(\xi).
+    \]
+    
+    \item Il suffit de majorer la dérivée $n+1$-ème de $f$ (elle est bornée car cette dérivée est supposée continue). 
+    \[
+         |f(x)-p_n(x)| \leq \frac{|\pi_{n+1}(x)|}{(n+1) !}
+         \max_{a< t <b} |f^{(n+1)} (t)|.
+    \]
+        On a alors l'inégalité souhaitée avec
+    \[
+    M_{n+1} = \max_{a< t <b} |f^{(n+1)} (t)|.
+    \]
+\end{enumerate}
+
+{\bf Remarque :} en toute généralité, on ne peut pas montrer que le terme de droite dans l'expression ci-dessus tend vers $0$ quand $n$ devient grand. Il y a même des fonctions pour lesquelles ce n'est pas le cas (phénomène de Runge), par exemple:
+\[
+f(x) = \frac{1}{1+x^2}.
+\]
+
+\newpage
+
+\section{TD 6}
+
+{\bf Exercice 6.1}
+
+\begin{enumerate}
+    \item Le calcul est facile car on connaît la primitive de l'exponentielle (qui est elle-même !):
+    \[
+    \int_0^1 e^x \mathrm{d}x = [ e^x ]_0^1 = e^1 - e^0 
+    = e - 1 \simeq 1.71828182845905.
+    \]
+    De même, on connait la primitive du cosinus, ce qui permet d'avoir :
+    \[
+    \int_0^\pi \cos(x) \mathrm{d}x = \left [ \sin(x) \right ]_0^\pi = \sin(\pi) - \sin(0) = 0 - 0 = 0. 
+    \]
+    
+    \item Il n'y a pas de technique connue pour déterminer ces intégrales, en particulier pas de primitives.
+    
+    \item Il n'y a pas de formule analytique connue pour la primitive ici (!), ni de technique connue pour déterminer la valeur de l'intégrale.
+    
+\end{enumerate}
+
+{\bf Exercice 6.2}
+
+\begin{enumerate}
+    \item Il suffit d'injecter d'abord formule d'interpolation pour $p_1$ :
+    \[
+    \int_a^b p_1(x) \mathrm{d}x =
+    \int_a^b \left ( L_0(x) f(a) + L_1(x) f(b) \right ) \mathrm{d}x. % =
+    %f(a) \int_a^b L_0(x) \mathrm{d}x + f(b) \int_a^b L_1(x) \mathrm{d}x.
+    \]
+    Puis d'utiliser la linéarité de l'intégrale, et on obtient :
+    \[
+    \int_a^b p_1(x) \mathrm{d}x =
+    %\int_a^b \left ( L_0(x) f(a) + L_1(x) f(b) \right ) \mathrm{d}x =
+    f(a) \int_a^b L_0(x) \mathrm{d}x + f(b) \int_a^b L_1(x) \mathrm{d}x.
+    \]
+    Reste alors à calculer :
+    \[
+    \int_a^b L_0(x) \mathrm{d}x = \frac12(b-a).
+    \]
+    Cela correspond tout simplement à l'aire d'un triangle rectangle : la fonction $L_0$ est une fonction affine, et l'aire sous la courbe correspondante est l'aire du triangle rectangle de base $(b-a)$ et de hauteur 1. Le même résultat est obtenu pour l'autre intégrale, ce qui permet d'obtenir la formule souhaitée :
+    \[
+    \int_a^b p_1(x) \mathrm{d}x =
+    %\int_a^b \left ( L_0(x) f(a) + L_1(x) f(b) \right ) \mathrm{d}x =
+    \frac12 p_1(a) + \frac12 p_1(b).
+    \]
+    
+    \item On utilise la formule (5) :
+    
+    Pour la première intégrale, cela donne : 
+    \[
+    \int_0^1 e^x \mathrm{d}x \simeq 
+    \frac12 ( e^0 + e^1 ) = \frac12 ( 1 + e ).
+    \]
+    Et on obtient la valeur approchée :
+    \[
+    \int_0^1 e^x \mathrm{d}x \simeq 1.85914091422952.
+    \]
+    Ce qui correspond à une erreur de : $1.40859085770477.10^{-1}$.
+    
+    Pour la deuxième intégrale on obtient, de la même façon :
+    \[
+    \int_0^\pi \cos(x) \mathrm{d}x 
+    \simeq \frac12 (\cos(0) + \cos(\pi)) = 0. 
+    \]
+    Ce qui correspond à une erreur de  $0$ (!).
+
+Pour la troisième intégrale, on a :
+    \[
+    \int_0^1 e^{x^2} \mathrm{d}x 
+    \simeq \frac12 ( e^0 + e^{1^2} )
+    \simeq 1.85914091422952.
+    \]
+Et pour la quatrième :
+    \[
+    \int_0^\pi \cos(x^2) \mathrm{d}x \simeq 
+    \frac12 ( \cos(0) + \cos(\pi^2) )
+    \simeq
+    0.152861476018906. 
+    \]
+
+\end{enumerate}
+
+{\bf Exercice 6.3}
+
+\begin{enumerate}
+    \item Calculons :
+    \begin{eqnarray*}
+    & & \int_a^b p_2(x) \mathrm{d}x\\
+    & = &
+    %\int_a^b \left ( L_0(x) f(a) + L_1(x) f(b) \right ) \mathrm{d}x =
+    f(a) \int_a^b L_0(x) \mathrm{d}x 
+    + f(m) \int_a^b L_1(x) \mathrm{d}x
+    + f(b) \int_a^b L_2(x) \mathrm{d}x \\
+    &=& \frac{(b-a)}{6} f(a)
+    + \frac{4(b-a)}{6} f(m)
+    + \frac{(b-a)}{6} f(b).
+    \end{eqnarray*}
+    ce qui est le résultat attendu.
+    
+    Pour le calcul des intégrales, on peut faire via changement de variable. Par exemple pour la première, on a :
+    \[
+    \int_a^b L_0(x) \mathrm{d}x
+    = \frac{(b-a)}{2}
+    \int_{-1}^1 \widetilde L_0 ( t) \mathrm{d}t 
+    \]
+    en utilisant le changement de variable
+    \[
+    x = m + \frac{(b-a)}{2} t,
+    \]
+    et avec la notation $\widetilde L_0 ( t) = L_0 ( m + \frac{(b-a)}{2} t ) $.
+    Et puis
+    \[
+    \int_{-1}^1 \widetilde L_0 ( t) \mathrm{d}t 
+    =
+    \frac12 \int_{-1}^1 (t^2 - t) \mathrm{d}t = \frac13.
+    \]
+    Ce qui donne bien la valeur $\frac{(b-a)}{6}$ pour le premier terme. On peut faire de même pour les deux autres intégrales.
+    
+    \item Avec la formule (6) on obtient :
+
+    Pour la première intégrale :
+    \[
+    \int_0^1 e^x \mathrm{d}x 
+    \simeq
+    \frac16 e^0 + \frac46 e^{\frac12} + \frac16 e^1
+    \simeq 1.71886115187659.
+    \]
+    Ce qui correspond à une erreur de : $5.79323417547961.10^{-4}$.
+    
+    Pour la deuxième on procède à l'identique et on obtient :
+    \[
+    \int_0^\pi \cos(x) \mathrm{d}x \simeq 1.11022302462516.10^{-16}. 
+    \]
+    Ce qui correspond à une erreur de : $1.11022302462516.10^{-16}$.
+
+
+    Et puis pour la troisième : 
+    \[
+    \int_0^1 e^{x^2} \mathrm{d}x \simeq 1.47573058253500.
+    \]
+    Et enfin pour la quatrième : 
+    \[
+    \int_0^\pi \cos(x^2) \mathrm{d}x \simeq -1.585212535427892. 
+    \]
+
+\end{enumerate}
+
+{\bf Exercice 6.4}
+
+\begin{enumerate}
+    \item Il suffit d'écrire $p_n$ dans la base de Lagrange :
+    \[
+    p_n = \sum_{k=0}^n f(x_k) L_k,
+    \]
+    puis de calculer :
+    \[
+        \int_a^b p_n(x) \mathrm{d}x = 
+        \int_a^b \left ( \sum_{k=0}^n f(x_k) L_k(x) \right ) \mathrm{d}x =
+        \sum_{k=0}^n \left ( \int_a^b L_k(x) \mathrm{d}x \right ) f(x_k) 
+    \]
+    et on obtient bien la formule
+    \[
+    \int_a^b p_n(x) \mathrm{d}x =
+    \sum_{k=0}^n w_k f(x_k)
+    \]
+    avec
+    \[
+    w_k = \int_a^b L_k(x) \mathrm{d}x.
+    \]
+    \item La majoration est obtenue directement à partir de l'estimation sur l'inter\-polée de Lagrange de l'exercice 5.3.
+    En effet, en utilisant la question 1, on peut reformuler l'erreur de quadrature comme suit :
+    \[
+    E_n (f) = \int_a^b f(x) \mathrm{d}x - \int_a^b p_n(x) \mathrm{d}x
+    = \int_a^b (f(x) - p_n(x)) \mathrm{d}x.
+    \]
+    Puis on majore l'expression en valeur absolue et on utilise l'estimation de l'exercice 5.3 :
+    \[
+    | E_n (f) | % = \int_a^b f(x) \mathrm{d}x - \int_a^b p_n(x) \mathrm{d}x
+    \leq \int_a^b |f(x) - p_n(x)| \mathrm{d}x
+    \leq \int_a^b \left ( \frac{M_{n+1}}{(n+1)!} | \pi_{n+1}(x) | \right ) \mathrm{d}x.
+    \]
+    On obtient bien, finalement :
+    \[
+    | E_n (f) | % = \int_a^b f(x) \mathrm{d}x - \int_a^b p_n(x) \mathrm{d}x
+    %\leq \int_a^b |f(x) - p_n(x)| \mathrm{d}x
+    \leq \frac{M_{n+1}}{(n+1)!} \int_a^b  | \pi_{n+1}(x) | \mathrm{d}x.
+    \]
+    \item Il suffit d'estimer
+    \[
+    \frac{M_2}{2!} \int_a^b | \pi_2(x) | \mathrm{d}x
+    \]
+    Et donc, en particulier :
+    \[
+    \int_a^b | \pi_2(x) | \mathrm{d}x
+    = \int_a^b | ( x - a ) ( x - b) | \mathrm{d}x
+    = - \int_a^b ( x - a ) ( x - b) \mathrm{d}x
+    \]
+    où on a utilisé le fait que l'expression à intégrer est tout le temps négative sur l'intervalle $[a,b]$.
+    On refait le coup du changement de variable, et on introduit 
+    \[
+    x = m + \ell t,
+    \]
+    avec $m=\frac{a+b}{2}$ et $\ell=\frac{b-a}{2}$.
+    Ceci permet d'écrire :
+    \[
+    \int_a^b | \pi_2(x) | \mathrm{d}x
+    = - \ell \int_{-1}^1 ( m + \ell t - a ) ( m + \ell t - b) \mathrm{d}t
+     = - \ell^3 \int_{-1}^1 ( 1 + t ) ( -1 +  t ) \mathrm{d}t
+    \]
+    où on a utilisé $m-a=\ell$ et $b-m=\ell$. Reste à terminer le calcul :
+    \[
+    \int_{-1}^1 ( 1 + t ) ( -1 +  t ) \mathrm{d}t
+    =
+     \int_{-1}^1 ( -1 + t^2 ) \mathrm{d}t
+    = 
+     \left [ -t + \frac{t^3}{3}\right ]_{-1}^1
+    \]
+    et donc
+    \[
+    \int_{-1}^1 ( 1 + t ) ( -1 +  t ) \mathrm{d}t
+    =
+     ( -1 + \frac13 ) - ( 1 - \frac13 )
+    = 
+      -2 + \frac23 = - \frac43.
+    \]
+    Ainsi, on a déjà :
+    \[
+    \int_a^b | \pi_2(x) | \mathrm{d}x
+     = - \ell^3 \left ( - \frac43 \right )
+     = \frac{4 \ell^3}{3}
+     = \frac{4 (b-a)^3}{3 \times 8}
+     = \frac{(b-a)^3}{6}.
+    \]
+    Et on obtient finalement :
+    \[
+    \frac{M_2}{2!} \int_a^b | \pi_2(x) | \mathrm{d}x
+    = \frac{M_2}{12} (b-a)^3.
+    \]
+    \item De même, un calcul un peu long, mais très divertissant, permet d'aboutir à l'égalité ci-dessous :
+    \[
+    \frac{M_3}{3!} \int_a^b | \pi_3(x) | \mathrm{d}x
+    = \frac{M_3}{192} (b-a)^4.
+    \]
+    En effet, estimons 
+    \[
+    \int_a^b | \pi_3(x) | \mathrm{d}x
+    = 
+    \int_a^b | ( x - a ) ( x - m ) ( x - b) | \mathrm{d}x
+    \]
+    et après changement de variable
+    \[
+    \int_a^b | \pi_3(x) | \mathrm{d}x
+    = 
+    \ell 
+    \int_{-1}^1 | ( m + \ell t - a ) ( m + \ell t - m ) ( m + \ell t - b ) | \mathrm{d}t.
+    \]
+    On utilise ensuite, de nouveau, les relations $d=m-a=b-m$, et on a donc :
+    \[
+    \int_a^b | \pi_3(x) | \mathrm{d}x
+    = 
+    \ell^4 
+    \int_{-1}^1 | ( 1 +  t  ) t ( t - 1 ) | \mathrm{d}t.
+    \]
+    On termine le calcul en utilisant un argument de symétrie (parité), en levant la valeur absolue et par intégration directe :
+    \[
+    \int_{-1}^1 | ( 1 +  t  ) t ( t - 1 ) | \mathrm{d}t
+    = 
+    2 \int_{0}^1 ( 1 +  t  ) t ( 1 - t )  \mathrm{d}t = \frac12.
+    \]
+    Pour trouver la primitive, on a utilisé $( 1 +  t  ) t ( 1 - t ) = (1-t^2) t = t - t^3$.
+    Finalement :
+     \[
+    \int_a^b | \pi_3(x) | \mathrm{d}x
+    = 
+    \frac{\ell^4}2 = \frac{(b-a)^4}{2^5}
+    = \frac{(b-a)^4}{32}.
+    \]
+    Et donc
+    \[
+    \frac{M_3}{3!} \int_a^b | \pi_3(x) | \mathrm{d}x = 
+    \frac{M_3}{6 \times 32} (b-a)^4
+    = \frac{M_3}{192} (b-a)^4.
+    \]
+\end{enumerate}
+
+\newpage
+
+\section{TD 7}
+
+{\bf Exercice 7.1}
+
+La formule (7) s'obtient directement à l'aide de la formule (5) du TD 6 appliquée à chaque sous-intervalle, et en regroupant les termes identiques. En détails, cela donne d'abord :
+\[
+\int_a^b f(x) \mathrm{d}x = \sum_{i=0}^{m-1} \int_{x_i}^{x_{i+1}} f(x) \mathrm{d}x
+\]
+puis on approche sur chaque sous-intervalle :
+\[
+\int_{x_i}^{x_{i+1}} f(x) \mathrm{d}x \simeq \frac{x_{i+1}-x_i}{2} (f(x_i) + f(x_{i+1}))
+= \frac{h}{2} (f(x_i) + f(x_{i+1})).
+\]
+On obtient donc en sommant :
+\[
+\int_a^b f(x) \mathrm{d}x \simeq \frac{h}{2} \sum_{i=0}^{m-1} (f(x_i) + f(x_{i+1})).
+\]
+Si on détaille :
+\[
+\int_a^b f(x) \mathrm{d}x \simeq \frac{h}{2} 
+( f(x_0) + f(x_1)) + (f(x_1) + f(x_2)) + \ldots + (f(x_{m-1}) + f(x_m)).
+\]
+On s'aperçoit alors que tous les termes pour les indices $i=1$ à $i=m-1$ se regroupent deux par deux. Ce qui donne bien :
+\[
+\int_a^b f(x) \mathrm{d}x \simeq h
+( \frac12 f(x_0) + f(x_1) + \ldots + f(x_{m-1}) + \frac12 f(x_m)).
+\]
+\medskip
+
+{\bf Exercice 7.2}
+
+Pour la première intégrale :
+    \[
+    \int_0^1 e^x \mathrm{d}x.
+    \]
+On se souvient que la valeur exacte  est : $1.71828182845905$.
+
+Voici ce que donne la méthode des trapèzes (colonne 1 : nombre de subdivisions ; colonne 2 : valeur obtenue ; colonne 3 : erreur d'intégration).
+
+\begin{verbatim}
+1      1.85914091422952   1.40859085770477e-01   
+2      1.75393109246483   3.56492640057802e-02
+4      1.72722190455752   8.94007609847147e-03
+8      1.72051859216430   2.23676370525694e-03
+1000   1.71828197164920   1.43190149959338e-07
+\end{verbatim}
+
+De même pour :
+    \[
+    \int_0^\pi \cos(x) \mathrm{d}x.
+    \]
+On obtient :
+\begin{verbatim}
+1       0.00000000000000e+00   0.00000000000000e+00   
+2       1.11022302462516e-16   1.11022302462516e-16   
+4       0.00000000000000e+00   0.00000000000000e+00
+8       5.55111512312578e-17   5.55111512312578e-17    
+1000   -6.48027638494586e-15   6.48027638494586e-15
+\end{verbatim}
+
+Puis pour :
+    \[
+    \int_0^1 e^{x^2} \mathrm{d}x.
+    \]
+On a :
+\begin{verbatim}
+1      1.85914091422952   
+2      1.57158316545863   
+4      1.49067886169886
+8      1.46971227642967   
+1000   1.46265219895408
+\end{verbatim}
+
+Et enfin pour :
+    \[
+    \int_0^\pi \cos(x^2) \mathrm{d}x. 
+    \]
+On a :
+\begin{verbatim}
+1      0.152861476018906  
+2     -1.150694032566193   
+4      0.649760900266590
+8      0.602621301755942   
+1000   0.565695737289673
+\end{verbatim}
+
+{\bf Exercice 7.3}
+
+On obtient le résultat souhaité directement à l'aide de l'estimation obtenue à l'exercice 6.4, et par sommation. En effet, il suffit d'abord de reformuler $\mathcal{E}_1$, en remarquant :
+\[
+\mathcal{E}_1 = \int_a^b f(x) \mathrm{d}x - \sum_{i=0}^{m-1} \int_{x_i}^{x_{i+1}} p_1^i(x) \mathrm{d}x,
+\]
+où $p_1^i$ est le polynôme d'interpolation de Lagrange associé à l'intervalle $[x_i;x_{i+1}]$.
+Et donc en utilisant la relation de Chasles pour scinder la première intégrale :
+\[
+\mathcal{E}_1 = \sum_{i=0}^{m-1} \left (\int_{x_i}^{x_{i+1}} f(x) \mathrm{d}x - \int_{x_i}^{x_{i+1}} p_1^i(x) \mathrm{d}x \right ).
+\]
+On retrouve le terme d'erreur de quadrature présenté au TD 6, qu'on peut alors majorer. On utilise d'abord une inégalité triangulaire :
+\[
+| \mathcal{E}_1 | \leq  \sum_{i=0}^{m-1} \left  | \int_{x_i}^{x_{i+1}} f(x) \mathrm{d}x - \int_{x_i}^{x_{i+1}} p_1^i(x) \mathrm{d}x \right |.
+\]
+Et puis on applique la majoration de l'exercice 6.4 sur chaque sous-intervalle :
+\[
+| \mathcal{E}_1 | \leq  \sum_{i=0}^{m-1} \left  ( \frac{M_2^i}{12} (x_{i+1}-x_i)^3 \right ).
+\]
+On utilise ensuite l'égalité $x_{i+1}-x_i=h$ et on majore :
+\[
+M_2^i = \max_{\zeta \in [x_i;x_{i+1}]} |f''(\zeta)| \leq
+\max_{\zeta \in [a;b]} |f''(\zeta)|,
+\]
+cette dernière expression ne dépend plus alors de $i$, et on peut la sortir de la somme, et on obtient donc :
+\[
+| \mathcal{E}_1 | \leq  \left  ( \frac{1}{12} \max_{\zeta \in [a;b]} |f''(\zeta)|  \right ) \sum_{i=0}^{m-1} h^3.
+\]
+On peut finalement simplifier, en utilisant la relation $m h = b - a$ :
+\[
+| \mathcal{E}_1 | \leq  \left  ( \frac{1}{12} \max_{\zeta \in [a;b]} |f''(\zeta)|  \right ) m h^3
+= \frac{(b-a)^3}{12 m^2} \max_{\zeta \in [a;b]} |f''(\zeta)|. 
+\]
+Ce qui est la formule que l'on souhaite obtenir.
+
+\medskip
+
+On remarque pour terminer que ceci permet d'établir la convergence de la méthode des trapèzes : quand $m$ tend vers l'infini (ou $h$ tend vers $0$), la valeur approchée de l'intégrale tend vers la valeur exacte. En plus on voit que la convergence est quadratique : l'erreur de quadrature diminue en $m^2$ (elle est divisée par 4 si on divise $m$ par 2).
+
+\medskip
+
+{\bf Exercice 7.4}
+
+C'est une application directe de la formule (6) du TD 6 (on procède exactement comme à l'exercice 7.1).
+
+\medskip
+
+{\bf Exercice 7.5}
+
+Pour la première intégrale,
+    \[
+    \int_0^1 e^x \mathrm{d}x.
+    \]
+On obtient avec Simpson :    
+\begin{verbatim}
+1      1.71886115187659   5.79323417547961e-04   
+2      1.71831884192175   3.70134627019070e-05   
+4      1.71828415469990   2.32624085172439e-06   
+8      1.71828197405189   1.45592846445552e-07   
+1000   1.71828182845901   3.19744231092045e-14
+\end{verbatim}
+
+Pour
+    \[
+    \int_0^\pi \cos(x) \mathrm{d}x.
+    \]
+On obtient ensuite :
+\begin{verbatim}
+1      1.11022302462516e-16   1.11022302462516e-16   
+2      5.55111512312578e-17   5.55111512312578e-17   
+4      8.32667268468867e-17   8.32667268468867e-17
+8      1.52655665885959e-16   1.52655665885959e-16   
+1000   6.81898114363033e-14   6.81898114363033e-14
+\end{verbatim}
+
+Pour :
+    \[
+    \int_0^1 e^{x^2} \mathrm{d}x.
+    \]
+On obtient également :
+\begin{verbatim}
+1      1.47573058253500   
+2      1.46371076044560   
+4      1.46272341467327
+8      1.46265632138942   
+1000   1.46265174590715
+\end{verbatim}
+
+Pour : 
+    \[
+    \int_0^\pi \cos(x^2) \mathrm{d}x. 
+    \]
+On obtient finalement :
+\begin{verbatim}
+1    -1.585212535427892   
+2     1.249912544544184   
+4     0.586908102252393
+8     0.565164272233738   
+1000  0.565693513604310
+\end{verbatim}
+
+{\bf Exercice 7.6}
+
+On obtient le résultat souhaité directement à l'aide de l'estimation obtenue à l'exercice 6.4, et par sommation. On va détailler en reprenant exactement le même raisonnement que dans l'exercice 7.3.
+
+\medskip
+
+Il suffit d'abord de reformuler $\mathcal{E}_2$, en remarquant :
+\[
+\mathcal{E}_2 = \int_a^b f(x) \mathrm{d}x - \sum_{i=0}^{m-1} \int_{x_i}^{x_{i+1}} p_2^i(x) \mathrm{d}x,
+\]
+où $p_2^i$ est le polynôme d'interpolation de Lagrange, de degré 2 cette fois, associé à l'intervalle $[x_i;x_{i+1}]$.
+Et donc en utilisant la relation de Chasles pour scinder la première intégrale :
+\[
+\mathcal{E}_2 = \sum_{i=0}^{m-1} \left (\int_{x_i}^{x_{i+1}} f(x) \mathrm{d}x - \int_{x_i}^{x_{i+1}} p_2^i(x) \mathrm{d}x \right ).
+\]
+On retrouve le terme d'erreur de quadrature présenté au TD 6, qu'on peut alors majorer. On utilise d'abord une inégalité triangulaire :
+\[
+| \mathcal{E}_2 | \leq  \sum_{i=0}^{m-1} \left  | \int_{x_i}^{x_{i+1}} f(x) \mathrm{d}x - \int_{x_i}^{x_{i+1}} p_2^i(x) \mathrm{d}x \right |.
+\]
+Et puis on applique la majoration de l'exercice 6.4 sur chaque sous-intervalle :
+\[
+| \mathcal{E}_2 | \leq  \sum_{i=0}^{m-1} \left  ( \frac{M_3^i}{192} (x_{i+1}-x_i)^4 \right ).
+\]
+On utilise ensuite l'égalité $x_{i+1}-x_i=h$ et on majore :
+\[
+M_3^i = \max_{\zeta \in [x_i;x_{i+1}]} |f^{(3)}(\zeta)| \leq
+\max_{\zeta \in [a;b]} |f^{(3)}(\zeta)|,
+\]
+cette dernière expression ne dépend plus alors de $i$, et on peut la sortir de la somme, et on obtient donc :
+\[
+| \mathcal{E}_2 | \leq  \left  ( \frac{1}{192} \max_{\zeta \in [a;b]} |f^{(3)}(\zeta)|  \right ) \sum_{i=0}^{m-1} h^4.
+\]
+On peut finalement simplifier, en utilisant la relation $m h = b - a$ :
+\[
+| \mathcal{E}_2 | \leq  \left  ( \frac{1}{192} \max_{\zeta \in [a;b]} |f^{(3)}(\zeta)|  \right ) m h^4
+= \frac{(b-a)^4}{192 m^3} \max_{\zeta \in [a;b]} |f^{(3)}(\zeta)|. 
+\]
+Ce qui est la formule que l'on souhaite obtenir.
+
+\medskip
+
+On remarque pour terminer que ceci permet à nouveau d'établir la convergence de la méthode de Simpson : quand $m$ tend vers l'infini (ou $h$ tend vers $0$), la valeur approchée de l'intégrale tend vers la valeur exacte. En plus on voit que la convergence est cubique : l'erreur de quadrature diminue en $m^3$ (elle est divisée par 8 si on divise $m$ par 2).
+
+\medskip
+
+{\bf Suggestion finale :} essayez de voir si on retrouve ce comportement sur les exercices 7.2 et 7.5. Que remarque-t'on pour la méthode des trapèzes ? et pour la méthode de Simpson ? Que peut-on en conclure ?
+
+\end{document}
